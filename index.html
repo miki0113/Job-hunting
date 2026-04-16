@@ -37,9 +37,15 @@
         th {
             background-color: #eee;
         }
-        footer-link {
-            display: inline-block; /* 縦じゃなくて横に並べる */
-            margin: 10px 10px 0 10px; /* 上に10px、左右に10pxの隙間を作る */
+       .footer-link {
+            margin-top: 20px;   /* 表との間に少し隙間を作る */
+            text-align: center; /* 文字を中央に寄せる */
+        }
+        
+        /* リンク同士の横の隙間をあける設定 */
+        .footer-link a {
+            margin: 0 10px; 
+            text-decoration: none; /* 下線を消したければ（お好みで） */
         }
     </style>
 </head>
@@ -74,13 +80,9 @@
             </tr>
         </table>
 
-        <p class="footer-link">
-            <a href="https://www.atgp.jp/">atGP</a>
-        </p>
-        <p class="footer-link">
-            <a href="https://www.clover-navi.com/">クローバーナビ</a>
-        </p>
-        <p class="footer-link">
+     <p class="footer-link">
+            <a href="https://www.atgp.jp/">atGP</a>　
+            <a href="https://www.clover-navi.com/">クローバーナビ</a>　
             <a href="https://doda.jp/challenge/">dodaチャレンジ</a>
         </p>
     </div>
