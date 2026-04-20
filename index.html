@@ -16,7 +16,7 @@
         }
         .content-box {
             text-align: center;
-            max-width: 640px;
+            max-width: 800px;   /* 表が広がるので、全体の最大幅も少し広げました */
             padding: 20px;
         }
         .intro-text {
@@ -37,25 +37,25 @@
         th {
             background-color: #eee;
         }
-       .footer-link {
-            margin-top: 20px;   /* 表との間に少し隙間を作る */
-            text-align: center; /* 文字を中央に寄せる */
-        }
         
-        /* リンク同士の横の隙間をあける設定 */
+        /* 【ここを追加！】3つ目の列（通勤時間）を広くする */
+        th:nth-child(3), td:nth-child(3) {
+            width: 230px; 
+        }
+
+        .footer-link {
+            margin-top: 20px;
+            text-align: center;
+        }
         .footer-link a {
-            margin: 0 10px; 
-            text-decoration: none; /* 下線を消したければ（お好みで） */
+            margin: 0 10px;
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
-
     <div class="content-box">
-        <p class="intro-text">
-            就活で気になった企業リスト
-        </p>
-
+        <p class="intro-text">就活で気になった企業リスト</p>
         <table>
             <tr>
                 <th>番号</th>
@@ -80,21 +80,21 @@
             </tr>
             <tr>
                 <td>3</td>
-                <td>株式会社　千葉興業銀行</a><br>ハローワーク
+                <td>
+                    株式会社　千葉興業銀行<br>
+                    ハローワーク
                 </td>
                 <td>JR西千葉駅（１時間5分ぐらい）<br>京成西登戸駅（１時間10分ぐらい）</td>
                 <td></td>
             </tr>
         </table>
 
-    <p class="footer-link">
-    <a href="https://www.atgp.jp/" target="_blank" rel="noopener noreferrer">atGP</a>　
-    <a href="https://www.clover-navi.com/" target="_blank" rel="noopener noreferrer">クローバーナビ</a>　
-    <a href="https://doda.jp/challenge/" target="_blank" rel="noopener noreferrer">dodaチャレンジ</a>
-    <a href="https://kyushoku.hellowork.mhlw.go.jp/kyushoku/GEAA040010.do?action=initDisp&screenId=GEAA040010"target="_blank" rel="noopener noreferrer">ハローワーク</a>
-</p>
+        <p class="footer-link">
+            <a href="https://www.atgp.jp/" target="_blank" rel="noopener noreferrer">atGP</a>
+            <a href="https://www.clover-navi.com/" target="_blank" rel="noopener noreferrer">クローバーナビ</a>
+            <a href="https://doda.jp/challenge/" target="_blank" rel="noopener noreferrer">dodaチャレンジ</a>
+            <a href="https://kyushoku.hellowork.mhlw.go.jp/kyushoku/GEAA040010.do?action=initDisp&screenId=GEAA040010" target="_blank" rel="noopener noreferrer">ハローワーク</a>
+        </p>
     </div>
-
 </body>
 </html>
-
