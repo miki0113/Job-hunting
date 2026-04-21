@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>就活メモ</title>
     <style>
+        /* ページ全体の設定 */
         body {
             display: flex;
             justify-content: center;
@@ -14,84 +15,115 @@
             font-family: sans-serif;
             line-height: 1.6;
         }
+
+        /* 全体を包む箱の設定（1000pxに広げました） */
         .content-box {
             text-align: center;
-            max-width: 800px;   /* 表が広がるので、全体の最大幅も少し広げました */
+            max-width: 1000px; 
             padding: 20px;
         }
+
+        /* 導入テキスト */
         .intro-text {
             font-size: 16px;
             color: #333;
             margin-bottom: 20px;
         }
+
+        /* 表の基本スタイル */
         table {
             margin: 0 auto;
             border-collapse: collapse;
             width: 100%;
             background-color: #fff;
         }
+
         th, td {
             border: 1px solid #999;
             padding: 10px;
+            word-break: break-all; /* 長い文字が枠を突き抜けないように設定 */
         }
+
         th {
             background-color: #eee;
         }
+
+        /* --- 各列の幅の調整 --- */
         
-    /* 3つ目の列（通勤時間）の設定 */
+        /* 1. 番号の列（狭く） */
+        th:nth-child(1), td:nth-child(1) {
+            width: 50px;
+        }
+
+        /* 2. 企業名の列（幅を指定しないことで、余ったスペースをたっぷり使わせる） */
+
+        /* 3. 通勤時間の列（しっかり確保） */
         th:nth-child(3), td:nth-child(3) {
-            width: 270px; 
+            width: 230px;
         }
 
-        /* 【ここを追加！】4つ目の列（メモ）を広くする */
+        /* 4. メモの列（長く確保） */
         th:nth-child(4), td:nth-child(4) {
-            width: 250px; /* お好みの長さに調整してください */
+            width: 300px;
         }
 
+        /* 表の下のリンク集の設定 */
         .footer-link {
             margin-top: 20px;
             text-align: center;
         }
+
         .footer-link a {
             margin: 0 10px;
             text-decoration: none;
+            color: #0066cc;
+        }
+
+        .footer-link a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
+
     <div class="content-box">
         <p class="intro-text">就活で気になった企業リスト</p>
+
         <table>
-            <tr>
-                <th>番号</th>
-                <th>企業名（サイト名）</th>
-                <th>通勤時間（最寄り駅）</th>
-                <th>メモ</th>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>三郷市役所</td>
-                <td>三郷駅（武蔵野線の場合）</td>
-                <td>終</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>
-                    <a href="https://job-search.litalico.co.jp/companies/116?index=area" target="_blank" rel="noopener noreferrer">ＭＳ&AＤグランアシスタンス株式会社</a><br>
-                    イントラネット
-                </td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>
-                    株式会社　千葉興業銀行<br>
-                    ハローワーク
-                </td>
-                <td>JR西千葉駅（１時間5分ぐらい）<br>京成西登戸駅（１時間10分ぐらい）</td>
-                <td>紹介期限：令和8年6月30日</td>
-            </tr>
+            <thead>
+                <tr>
+                    <th>番号</th>
+                    <th>企業名（サイト名）</th>
+                    <th>通勤時間（最寄り駅）</th>
+                    <th>メモ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>三郷市役所</td>
+                    <td>三郷駅（武蔵野線の場合）</td>
+                    <td>終</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>
+                        <a href="https://job-search.litalico.co.jp/companies/116?index=area" target="_blank" rel="noopener noreferrer">ＭＳ&AＤグランアシスタンス株式会社</a><br>
+                        イントラネット
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>
+                        株式会社　千葉興業銀行<br>
+                        ハローワーク
+                    </td>
+                    <td>JR西千葉駅（１時間5分ぐらい）<br>京成西登戸駅（１時間10分ぐらい）</td>
+                    <td>紹介期限：令和8年6月30日</td>
+                </tr>
+            </tbody>
         </table>
 
         <p class="footer-link">
@@ -101,5 +133,6 @@
             <a href="https://kyushoku.hellowork.mhlw.go.jp/kyushoku/GEAA040010.do?action=initDisp&screenId=GEAA040010" target="_blank" rel="noopener noreferrer">ハローワーク</a>
         </p>
     </div>
+
 </body>
 </html>
