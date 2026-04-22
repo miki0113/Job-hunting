@@ -16,7 +16,7 @@
             line-height: 1.6;
         }
 
-        /* 全体を包む箱の設定（1000pxに広げました） */
+        /* 全体を包む箱の設定（横幅を1120pxに設定） */
         .content-box {
             text-align: center;
             max-width: 1120px; 
@@ -30,7 +30,7 @@
             margin-bottom: 20px;
         }
 
-        /* 表の基本スタイル */
+        /* 表のスタイル */
         table {
             margin: 0 auto;
             border-collapse: collapse;
@@ -41,33 +41,19 @@
         th, td {
             border: 1px solid #999;
             padding: 10px;
-            word-break: break-all; /* 長い文字が枠を突き抜けないように設定 */
+            word-break: break-all;
         }
 
         th {
             background-color: #eee;
         }
 
-        /* --- 各列の幅の調整 --- */
-        
-        /* 1. 番号の列（狭く） */
-        th:nth-child(1), td:nth-child(1) {
-            width: 50px;
-        }
+        /* 各列の幅の調整 */
+        th:nth-child(1), td:nth-child(1) { width: 50px; }  /* 番号 */
+        th:nth-child(3), td:nth-child(3) { width: 350px; } /* 通勤時間 */
+        th:nth-child(4), td:nth-child(4) { width: 300px; } /* メモ */
 
-        /* 2. 企業名の列（幅を指定しないことで、余ったスペースをたっぷり使わせる） */
-
-        /* 3. 通勤時間の列（しっかり確保） */
-        th:nth-child(3), td:nth-child(3) {
-            width: 350px;
-        }
-
-        /* 4. メモの列（長く確保） */
-        th:nth-child(4), td:nth-child(4) {
-            width: 300px;
-        }
-
-        /* 表の下のリンク集の設定 */
+        /* 表の下のリンク集 */
         .footer-link {
             margin-top: 20px;
             text-align: center;
@@ -81,6 +67,16 @@
 
         .footer-link a:hover {
             text-decoration: underline;
+        }
+
+        /* リンク集のさらに下のメモ欄 */
+        .extra-memo {
+            margin-top: 40px;    /* リンク集との間に隙間を作る */
+            text-align: left;    /* メモは読みやすく左寄せ */
+            padding: 20px;
+            background-color: #fff;
+            border: 1px dashed #999; /* 点線の枠 */
+            border-radius: 8px;
         }
     </style>
 </head>
@@ -141,6 +137,14 @@
             <a href="https://doda.jp/challenge/" target="_blank" rel="noopener noreferrer">dodaチャレンジ</a>
             <a href="https://kyushoku.hellowork.mhlw.go.jp/kyushoku/GEAA040010.do?action=initDisp&screenId=GEAA040010" target="_blank" rel="noopener noreferrer">ハローワーク</a>
         </p>
+
+        <div class="extra-memo">
+            <strong style="font-size: 1.1em;">■ 追記メモ</strong><br>
+            ここに自由にメモを書き込めます。<br>
+            ・ハローワークの紹介状を忘れないこと<br>
+            ・履歴書の準備状況を確認する
+        </div>
+
     </div>
 
 </body>
