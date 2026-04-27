@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>就活メモ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>就活メモ</title>
     <style>
         /* ページ全体の設定 */
         body {
@@ -16,25 +16,26 @@
             line-height: 1.6;
         }
 
-        /* 全体を包む箱の設定 */
         .content-box {
             text-align: center;
             max-width: 1120px; 
-            padding: 20px;
+            width: 95%; /* スマホで左右に少し隙間を作る */
+            padding: 20px 10px;
         }
 
-        /* 導入テキスト */
-        .intro-text {
-            font-size: 16px;
-            color: #333;
+        /* 表を横スクロールさせるための設定 */
+        .table-container {
+            width: 100%;
+            overflow-x: auto; /* はみ出したら横に流せるようにする */
+            -webkit-overflow-scrolling: touch;
             margin-bottom: 20px;
         }
 
-        /* 表のスタイル */
         table {
             margin: 0 auto;
             border-collapse: collapse;
             width: 100%;
+            min-width: 800px; /* スマホでも表の形を維持するため最低幅を決める */
             background-color: #fff;
         }
 
@@ -44,32 +45,25 @@
             word-break: break-all;
         }
 
-        th {
-            background-color: #eee;
-        }
+        th { background-color: #eee; }
 
-        /* 各列の幅の調整 */
-        th:nth-child(1), td:nth-child(1) { width: 50px; }  /* 番号 */
-        th:nth-child(3), td:nth-child(3) { width: 450px; } /* 通勤時間：さらに広げました */
-        th:nth-child(4), td:nth-child(4) { width: 300px; } /* メモ */
+        /* 各列の幅（PC用） */
+        th:nth-child(1), td:nth-child(1) { width: 50px; }
+        th:nth-child(3), td:nth-child(3) { width: 450px; } 
+        th:nth-child(4), td:nth-child(4) { width: 300px; }
 
-        /* 表の下のリンク集 */
         .footer-link {
             margin-top: 20px;
             text-align: center;
         }
 
         .footer-link a {
-            margin: 0 10px;
+            margin: 5px 10px; /* スマホで縦に並んだ時用に上下も少しあける */
+            display: inline-block;
             text-decoration: none;
             color: #0066cc;
         }
 
-        .footer-link a:hover {
-            text-decoration: underline;
-        }
-
-        /* リンク集のさらに下のメモ欄 */
         .extra-memo {
             margin-top: 40px;
             text-align: left;
@@ -78,62 +72,82 @@
             border: 1px dashed #999;
             border-radius: 8px;
         }
+
+        /* --- スマホ用の微調整 --- */
+        @media screen and (max-width: 768px) {
+            body {
+                align-items: flex-start; /* スマホでは上から表示 */
+                padding-top: 20px;
+            }
+            .content-box {
+                width: 100%;
+                padding: 10px;
+            }
+            .intro-text {
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="content-box">
         <p class="intro-text">就活で気になった企業リスト</p>
-        <table>
-            <thead>
-                <tr>
-                    <th>番号</th>
-                    <th>企業名（サイト名）</th>
-                    <th>通勤時間（最寄り駅）</th>
-                    <th>メモ</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>三郷市役所</td>
-                    <td>三郷駅（武蔵野線の場合）</td>
-                    <td>終</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>
-                        <a href="https://job-search.litalico.co.jp/companies/116?index=area" target="_blank" rel="noopener noreferrer">ＭＳ&AＤグランアシスタンス株式会社</a><br>
-                        イントラネット
-                    </td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>松井産業 株式会社<br>ハローワーク</td>
-                    <td>新三郷駅（そこからバスに乗り継ぎあり　1時間6分ぐらい）</td>
-                    <td>紹介期限：令和8年5月31日<br><a href="index2.html">追加メモはこちら</a></td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td><br></td>
-                    <td></td>
-                    <td>紹介期限：令和8年6月30日<br><a href="index2.html">追加メモはこちら</a></td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td><br></td>
-                    <td></td>
-                    <td>紹介期限：令和8年5月31日</td>
-                </tr>
-            </tbody>
-        </table>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>番号</th>
+                        <th>企業名（サイト名）</th>
+                        <th>通勤時間（最寄り駅）</th>
+                        <th>メモ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>三郷市役所</td>
+                        <td>三郷駅（武蔵野線の場合）</td>
+                        <td>終</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>
+                            <a href="https://job-search.litalico.co.jp/companies/116?index=area" target="_blank" rel="noopener noreferrer">ＭＳ&AＤグランアシスタンス株式会社</a><br>
+                            イントラネット
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>松井産業 株式会社<br>ハローワーク</td>
+                        <td>新三郷駅（そこからバスに乗り継ぎあり　1時間6分ぐらい）</td>
+                        <td>紹介期限：令和8年5月31日<br><a href="index2.html">追加メモはこちら</a></td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td><br></td>
+                        <td></td>
+                        <td>紹介期限：令和8年6月30日<br><a href="index2.html">追加メモはこちら</a></td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td><br></td>
+                        <td></td>
+                        <td>紹介期限：令和8年5月31日</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
         <p class="footer-link">
             <a href="https://www.atgp.jp/" target="_blank" rel="noopener noreferrer">atGP</a>
             <a href="https://www.clover-navi.com/" target="_blank" rel="noopener noreferrer">クローバーナビ</a>
             <a href="https://doda.jp/challenge/" target="_blank" rel="noopener noreferrer">dodaチャレンジ</a>
             <a href="https://kyushoku.hellowork.mhlw.go.jp/kyushoku/GEAA040010.do?action=initDisp&screenId=GEAA040010" target="_blank" rel="noopener noreferrer">ハローワーク</a>
         </p>
+
         <div class="extra-memo">
             <strong style="font-size: 1.1em;">■ 追記メモ</strong><br>
             <br>
