@@ -30,7 +30,7 @@
             margin-bottom: 20px;
         }
 
-        /* 横スクロール用の枠：スマホでの崩れを防止 */
+        /* 表の横スクロール枠 */
         .table-container {
             width: 100%;
             overflow-x: auto; 
@@ -43,7 +43,6 @@
         table {
             border-collapse: collapse;
             width: 100%;
-            /* 1行表示を維持するため、表全体の最低幅をしっかり確保 */
             min-width: 1100px; 
         }
 
@@ -51,7 +50,6 @@
             border: 1px solid #999;
             padding: 10px;
             text-align: left;
-            /* 基本的にすべてのセルで「勝手な改行」を禁止する */
             white-space: nowrap; 
         }
 
@@ -60,23 +58,36 @@
             text-align: center;
         }
 
-        /* 列の幅指定（PCでの見た目用） */
         th:nth-child(1), td:nth-child(1) { width: 50px; text-align: center; } 
         th:nth-child(2), td:nth-child(2) { width: 350px; } 
-        th:nth-child(3), td:nth-child(3) { width: 500px; } /* 通勤時間はさらに余裕を持たせました */
+        th:nth-child(3), td:nth-child(3) { width: 500px; } 
         th:nth-child(4), td:nth-child(4) { width: 200px; } 
 
+        /* --- 【修正】リンク集を一列に固定する設定 --- */
+        .footer-link-container {
+            width: 100%;
+            overflow-x: auto;         /* はみ出したらスライド可能に */
+            white-space: nowrap;      /* 中身を絶対に改行させない */
+            -webkit-overflow-scrolling: touch;
+            padding: 10px 0;
+            margin-top: 10px;
+        }
+
         .footer-link {
+            display: inline-block;    /* 必要な幅だけ広がるようにする */
+            min-width: 100%;          /* PCでは中央寄せを保つため */
             text-align: center;
         }
+
         .footer-link a {
-            margin: 0 10px;
+            margin: 0 15px;           /* リンク同士の隙間を少し広めに */
             text-decoration: none;
             color: #0066cc;
-            display: inline-block;
+            display: inline-block;    /* リンクが1のかたまりとして扱われる */
         }
+
         .extra-memo {
-            margin-top: 40px;
+            margin-top: 30px;
             text-align: left;
             padding: 20px;
             background-color: #fff;
@@ -87,6 +98,7 @@
         @media screen and (max-width: 768px) {
             body { align-items: flex-start; padding-top: 20px; }
             .content-box { width: 100%; padding: 10px; }
+            .footer-link { text-align: left; } /* スマホでは左から並べてスライドしやすく */
         }
     </style>
 </head>
@@ -142,12 +154,14 @@
             </table>
         </div>
 
-        <p class="footer-link">
-            <a href="https://www.atgp.jp/" target="_blank" rel="noopener noreferrer">atGP</a>
-            <a href="https://www.clover-navi.com/" target="_blank" rel="noopener noreferrer">クローバーナビ</a>
-            <a href="https://doda.jp/challenge/" target="_blank" rel="noopener noreferrer">dodaチャレンジ</a>
-            <a href="https://kyushoku.hellowork.mhlw.go.jp/kyushoku/GEAA040010.do?action=initDisp&screenId=GEAA040010" target="_blank" rel="noopener noreferrer">ハローワーク</a>
-        </p>
+        <div class="footer-link-container">
+            <p class="footer-link">
+                <a href="https://www.atgp.jp/" target="_blank" rel="noopener noreferrer">atGP</a>
+                <a href="https://www.clover-navi.com/" target="_blank" rel="noopener noreferrer">クローバーナビ</a>
+                <a href="https://doda.jp/challenge/" target="_blank" rel="noopener noreferrer">dodaチャレンジ</a>
+                <a href="https://kyushoku.hellowork.mhlw.go.jp/kyushoku/GEAA040010.do?action=initDisp&screenId=GEAA040010" target="_blank" rel="noopener noreferrer">ハローワーク</a>
+            </p>
+        </div>
 
         <div class="extra-memo">
             <strong style="font-size: 1.1em;">■ 追記メモ</strong><br>
