@@ -16,7 +16,7 @@
             line-height: 1.6;
         }
 
-        /* 全体を包む箱の設定（横幅を1120pxに設定） */
+        /* 全体を包む箱の設定 */
         .content-box {
             text-align: center;
             max-width: 1120px; 
@@ -50,7 +50,7 @@
 
         /* 各列の幅の調整 */
         th:nth-child(1), td:nth-child(1) { width: 50px; }  /* 番号 */
-        th:nth-child(3), td:nth-child(3) { width: 350px; } /* 通勤時間 */
+        th:nth-child(3), td:nth-child(3) { width: 450px; } /* 通勤時間：さらに広げました */
         th:nth-child(4), td:nth-child(4) { width: 300px; } /* メモ */
 
         /* 表の下のリンク集 */
@@ -71,20 +71,18 @@
 
         /* リンク集のさらに下のメモ欄 */
         .extra-memo {
-            margin-top: 40px;    /* リンク集との間に隙間を作る */
-            text-align: left;    /* メモは読みやすく左寄せ */
+            margin-top: 40px;
+            text-align: left;
             padding: 20px;
             background-color: #fff;
-            border: 1px dashed #999; /* 点線の枠 */
+            border: 1px dashed #999;
             border-radius: 8px;
         }
     </style>
 </head>
 <body>
-
     <div class="content-box">
         <p class="intro-text">就活で気になった企業リスト</p>
-
         <table>
             <thead>
                 <tr>
@@ -112,49 +110,36 @@
                 </tr>
                 <tr>
                     <td>3</td>
-                    <td>松井産業 株式会社
-                        <br>
-                        ハローワーク
-                    </td>
+                    <td>松井産業 株式会社<br>ハローワーク</td>
                     <td>新三郷駅（そこからバスに乗り継ぎあり　1時間6分ぐらい）</td>
                     <td>紹介期限：令和8年5月31日<br><a href="index2.html">追加メモはこちら</a></td>
                 </tr>
                 <tr>
                     <td>4</td>
-                    <td>
-                        <br>
-                       
-                    </td>
+                    <td><br></td>
                     <td></td>
                     <td>紹介期限：令和8年6月30日<br><a href="index2.html">追加メモはこちら</a></td>
                 </tr>
                 <tr>
                     <td>5</td>
-                    <td>
-                        <br>
-                        
-                    </td>
+                    <td><br></td>
                     <td></td>
                     <td>紹介期限：令和8年5月31日</td>
                 </tr>
             </tbody>
         </table>
-
         <p class="footer-link">
             <a href="https://www.atgp.jp/" target="_blank" rel="noopener noreferrer">atGP</a>
             <a href="https://www.clover-navi.com/" target="_blank" rel="noopener noreferrer">クローバーナビ</a>
             <a href="https://doda.jp/challenge/" target="_blank" rel="noopener noreferrer">dodaチャレンジ</a>
             <a href="https://kyushoku.hellowork.mhlw.go.jp/kyushoku/GEAA040010.do?action=initDisp&screenId=GEAA040010" target="_blank" rel="noopener noreferrer">ハローワーク</a>
         </p>
-
         <div class="extra-memo">
             <strong style="font-size: 1.1em;">■ 追記メモ</strong><br>
             <br>
             ・履歴書の添削依頼をスタッフさんに提出済み（4/23）<br>
             ・今回のリストに関しては見つけたものを並べただけであり優先順位を付けたものではない
         </div>
-
     </div>
-
 </body>
 </html>
