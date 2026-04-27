@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>就活メモ</title>
     <style>
-        /* 基本設定（PC/共通） */
+        /* 基本設定 */
         body {
             display: flex;
             justify-content: center;
@@ -14,14 +14,14 @@
             margin: 0;
             background-color: #f9f9f9;
             font-family: sans-serif;
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
         .content-box {
             text-align: center;
             max-width: 1120px; 
             width: 95%;
-            padding: 20px 10px;
+            padding: 20px;
         }
 
         .intro-text {
@@ -30,70 +30,63 @@
             margin-bottom: 20px;
         }
 
-        /* 表の設定 */
+        /* 横スクロール用の枠：スマホでの崩れを防止 */
+        .table-container {
+            width: 100%;
+            overflow-x: auto; 
+            -webkit-overflow-scrolling: touch; 
+            background-color: #fff;
+            border: 1px solid #999;
+            margin-bottom: 20px;
+        }
+
         table {
-            margin: 0 auto;
             border-collapse: collapse;
             width: 100%;
-            background-color: #fff;
-            table-layout: fixed; /* これを入れると枠を突き抜けなくなります */
+            /* 1行表示を維持するため、表全体の最低幅をしっかり確保 */
+            min-width: 1100px; 
         }
 
         th, td {
             border: 1px solid #999;
-            padding: 8px;
-            word-break: break-all;
-            font-size: 14px;
+            padding: 10px;
+            text-align: left;
+            /* 基本的にすべてのセルで「勝手な改行」を禁止する */
+            white-space: nowrap; 
         }
 
-        th { background-color: #eee; }
+        th {
+            background-color: #eee;
+            text-align: center;
+        }
 
-        /* 列の幅（PC用） */
-        th:nth-child(1), td:nth-child(1) { width: 40px; }  /* 番号 */
-        th:nth-child(2), td:nth-child(2) { width: auto; }  /* 企業名（余白を埋める） */
-        th:nth-child(3), td:nth-child(3) { width: 350px; } /* 通勤時間 */
-        th:nth-child(4), td:nth-child(4) { width: 250px; } /* メモ */
+        /* 列の幅指定（PCでの見た目用） */
+        th:nth-child(1), td:nth-child(1) { width: 50px; text-align: center; } 
+        th:nth-child(2), td:nth-child(2) { width: 350px; } 
+        th:nth-child(3), td:nth-child(3) { width: 500px; } /* 通勤時間はさらに余裕を持たせました */
+        th:nth-child(4), td:nth-child(4) { width: 200px; } 
 
         .footer-link {
-            margin-top: 20px;
+            text-align: center;
         }
         .footer-link a {
-            margin: 5px 10px;
-            display: inline-block;
+            margin: 0 10px;
             text-decoration: none;
             color: #0066cc;
+            display: inline-block;
         }
-
         .extra-memo {
-            margin-top: 30px;
+            margin-top: 40px;
             text-align: left;
-            padding: 15px;
+            padding: 20px;
             background-color: #fff;
             border: 1px dashed #999;
             border-radius: 8px;
-            font-size: 14px;
         }
 
-        /* --- スマホ専用の設定（画面幅が768px以下の時） --- */
         @media screen and (max-width: 768px) {
-            body {
-                display: block; /* 中央寄せを解除して上から表示 */
-                padding: 10px;
-            }
-            .content-box {
-                width: 100%;
-                padding: 0;
-            }
-            /* スマホでは列の幅を自動（おまかせ）にする */
-            th:nth-child(1), td:nth-child(1) { width: 30px; } 
-            th:nth-child(3), td:nth-child(3) { width: 35% !important; } 
-            th:nth-child(4), td:nth-child(4) { width: 30% !important; }
-            
-            th, td {
-                padding: 5px;
-                font-size: 11px; /* 文字を小さくして収める */
-            }
-            .intro-text { font-size: 14px; }
+            body { align-items: flex-start; padding-top: 20px; }
+            .content-box { width: 100%; padding: 10px; }
         }
     </style>
 </head>
@@ -101,51 +94,53 @@
     <div class="content-box">
         <p class="intro-text">就活で気になった企業リスト</p>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>企業名</th>
-                    <th>通勤時間</th>
-                    <th>メモ</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>三郷市役所</td>
-                    <td>三郷駅（武蔵野線）</td>
-                    <td>終</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>
-                        <a href="https://job-search.litalico.co.jp/companies/116?index=area" target="_blank" rel="noopener noreferrer">ＭＳ&AＤグランアシスタンス</a><br>
-                        イントラネット
-                    </td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>松井産業<br>ハローワーク</td>
-                    <td>新三郷駅（バスあり 1時間6分）</td>
-                    <td>紹介期限：R8/5/31<br><a href="index2.html">詳細</a></td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td><br></td>
-                    <td></td>
-                    <td>紹介期限：R8/6/30<br><a href="index2.html">詳細</a></td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td><br></td>
-                    <td></td>
-                    <td>紹介期限：R8/5/31</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>番号</th>
+                        <th>企業名（サイト名）</th>
+                        <th>通勤時間（最寄り駅）</th>
+                        <th>メモ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>三郷市役所</td>
+                        <td>三郷駅（武蔵野線の場合）</td>
+                        <td>終</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>
+                            <a href="https://job-search.litalico.co.jp/companies/116?index=area" target="_blank" rel="noopener noreferrer">ＭＳ&AＤグランアシスタンス株式会社</a><br>
+                            イントラネット
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>松井産業 株式会社<br>ハローワーク</td>
+                        <td>新三郷駅（そこからバスに乗り継ぎあり　1時間6分ぐらい）</td>
+                        <td>紹介期限：令和8年5月31日<br><a href="index2.html">追加メモはこちら</a></td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td><br></td>
+                        <td></td>
+                        <td>紹介期限：令和8年6月30日<br><a href="index2.html">追加メモはこちら</a></td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td><br></td>
+                        <td></td>
+                        <td>紹介期限：令和8年5月31日</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
         <p class="footer-link">
             <a href="https://www.atgp.jp/" target="_blank" rel="noopener noreferrer">atGP</a>
@@ -155,7 +150,8 @@
         </p>
 
         <div class="extra-memo">
-            <strong>■ 追記メモ</strong><br>
+            <strong style="font-size: 1.1em;">■ 追記メモ</strong><br>
+            <br>
             ・履歴書の添削依頼をスタッフさんに提出済み（4/23）<br>
             ・今回のリストに関しては見つけたものを並べただけであり優先順位を付けたものではない
         </div>
