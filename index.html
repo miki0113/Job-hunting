@@ -49,46 +49,49 @@
         th, td {
             border: 1px solid #999;
             padding: 10px;
-            text-align: left;
             white-space: nowrap; 
+            /* 【修正】すべてのセルを中央揃えに設定 */
+            text-align: center; 
+            vertical-align: middle;
         }
 
         th {
             background-color: #eee;
-            text-align: center;
         }
 
-        th:nth-child(1), td:nth-child(1) { width: 50px; text-align: center; } 
+        /* 各列の幅設定 */
+        th:nth-child(1), td:nth-child(1) { width: 50px; } 
         th:nth-child(2), td:nth-child(2) { width: 350px; } 
         th:nth-child(3), td:nth-child(3) { width: 500px; } 
         th:nth-child(4), td:nth-child(4) { width: 200px; } 
 
-        /* --- 【修正】リンク集を一列に固定する設定 --- */
+        /* リンク集の設定（スマホでも一列） */
         .footer-link-container {
             width: 100%;
-            overflow-x: auto;         /* はみ出したらスライド可能に */
-            white-space: nowrap;      /* 中身を絶対に改行させない */
+            overflow-x: auto;
+            white-space: nowrap;
             -webkit-overflow-scrolling: touch;
             padding: 10px 0;
             margin-top: 10px;
         }
 
         .footer-link {
-            display: inline-block;    /* 必要な幅だけ広がるようにする */
-            min-width: 100%;          /* PCでは中央寄せを保つため */
+            display: inline-block;
+            min-width: 100%;
             text-align: center;
         }
 
         .footer-link a {
-            margin: 0 15px;           /* リンク同士の隙間を少し広めに */
+            margin: 0 15px;
             text-decoration: none;
             color: #0066cc;
-            display: inline-block;    /* リンクが1のかたまりとして扱われる */
+            display: inline-block;
         }
 
+        /* 追記メモ欄 */
         .extra-memo {
             margin-top: 30px;
-            text-align: left;
+            text-align: left; /* ここは文章なので左寄せのままにしています */
             padding: 20px;
             background-color: #fff;
             border: 1px dashed #999;
@@ -98,7 +101,7 @@
         @media screen and (max-width: 768px) {
             body { align-items: flex-start; padding-top: 20px; }
             .content-box { width: 100%; padding: 10px; }
-            .footer-link { text-align: left; } /* スマホでは左から並べてスライドしやすく */
+            .footer-link { text-align: left; } 
         }
     </style>
 </head>
@@ -171,4 +174,5 @@
         </div>
     </div>
 </body>
+</html></body>
 </html>
