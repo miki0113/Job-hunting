@@ -3,102 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>就活管理メモ</title>
+    <title>就活メモ - 書類管理システム</title>
     <style>
-        body { font-family: sans-serif; background-color: #f4f4f4; padding: 20px; display: flex; justify-content: center; }
-        .container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); width: 100%; max-width: 900px; }
-        h2 { text-align: center; color: #333; }
+        body { font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif; background-color: #f0f2f5; padding: 20px; display: flex; justify-content: center; }
+        .container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 1000px; }
+        h2 { text-align: center; color: #1a73e8; margin-bottom: 25px; }
         
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #fff; }
-        th, td { border: 1px solid #ccc; padding: 12px; text-align: center; }
-        th { background-color: #eee; }
+        table { width: 100%; border-collapse: collapse; background: #fff; table-layout: fixed; }
+        th, td { border: 1px solid #dee2e6; padding: 15px; text-align: left; vertical-align: middle; }
+        th { background-color: #f8f9fa; color: #495057; font-weight: bold; text-align: center; }
 
-        /* ボタンとセレクトボックスのスタイル */
-        .file-box { display: flex; flex-direction: column; gap: 8px; align-items: center; min-width: 180px; }
-        .btn { width: 100%; padding: 8px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 12px; transition: 0.2s; }
-        
-        .btn-up { background-color: #28a745; color: white; }
-        .btn-up:hover { background-color: #218838; }
-        
-        .btn-dl { background-color: #007bff; color: white; }
-        .btn-dl:hover { background-color: #0056b3; }
+        /* 書類管理セルのデザイン */
+        .file-box { display: flex; flex-direction: column; gap: 8px; }
+        .btn { padding: 10px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 13px; transition: 0.3s; width: 100%; }
+        .btn-up { background-color: #34a853; color: white; }
+        .btn-up:hover { background-color: #2d8e47; }
+        .btn-dl { background-color: #1a73e8; color: white; }
+        .btn-dl:hover { background-color: #1557b0; }
 
-        .file-select { width: 100%; padding: 6px; border: 1px solid #ccc; border-radius: 4px; font-size: 12px; }
-        .status-msg { font-size: 11px; color: #666; height: 15px; }
+        .file-select { width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 6px; font-size: 13px; background-color: #fff; }
+        .status-msg { font-size: 11px; color: #d93025; min-height: 16px; font-weight: bold; }
 
-        @media screen and (max-width: 600px) {
+        /* スマホ対応（レスポンシブ） */
+        @media screen and (max-width: 768px) {
             table, thead, tbody, th, td, tr { display: block; }
             th { display: none; }
-            tr { margin-bottom: 15px; border: 1px solid #ccc; padding: 10px; }
-            td { border: none; text-align: left; padding: 5px; }
-            td:before { content: attr(data-label); font-weight: bold; display: block; margin-bottom: 5px; color: #555; }
+            tr { margin-bottom: 20px; border: 2px solid #1a73e8; border-radius: 10px; overflow: hidden; }
+            td { border: none; position: relative; padding-left: 40%; }
+            td:before { content: attr(data-label); position: absolute; left: 15px; font-weight: bold; color: #1a73e8; }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>就活書類 管理リスト</h2>
+    <h2>就活状況 ＆ 書類管理</h2>
     
     <table>
         <thead>
             <tr>
-                <th>企業名</th>
-                <th>書類管理（アップロード ＆ 選択DL）</th>
-                <th>メモ</th>
+                <th style="width: 20%;">企業名</th>
+                <th style="width: 45%;">書類管理（Word/PDFなど）</th>
+                <th style="width: 35%;">メモ・状況</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="job-table-body">
             <tr>
-                <td data-label="企業名">（企業名を入力）</td>
+                <td data-label="企業名"><strong>三陽機器株式会社</strong></td>
                 <td data-label="書類管理">
                     <div class="file-box">
-                        <input type="file" id="file-input-1" style="display:none;" onchange="handleUpload(this, 'msg-1', 'sel-1')">
-                        <button class="btn btn-up" onclick="document.getElementById('file-input-1').click()">📤 書類をアップロード</button>
+                        <input type="file" id="file-1" style="display:none;" onchange="handleUpload(this, 'msg-1')">
+                        <button class="btn btn-up" onclick="document.getElementById('file-1').click()">📤 書類をアップロード</button>
                         <div id="msg-1" class="status-msg"></div>
-
-                        <hr style="width:100%; border:0; border-top:1px solid #eee; margin:5px 0;">
-
-                        <select id="sel-1" class="file-select">
-                            <option value="">-- 保存済みファイル --</option>
-                        </select>
+                        <select id="sel-1" class="file-select"><option value="">-- 保存済みファイルから選択 --</option></select>
                         <button class="btn btn-dl" onclick="handleDownload('sel-1')">📥 選択してダウンロード</button>
                     </div>
                 </td>
-                <td data-label="メモ">（メモを入力）</td>
+                <td data-label="メモ">
+                    ・4/30応募済<br>
+                    ・返信待ち
+                </td>
             </tr>
-        </tbody>
+
+            <tr>
+                <td data-label="企業名"><strong>MS&ADグループ</strong></td>
+                <td data-label="書類管理">
+                    <div class="file-box">
+                        <input type="file" id="file-2" style="display:none;" onchange="handleUpload(this, 'msg-2')">
+                        <button class="btn btn-up" onclick="document.getElementById('file-2').click()">📤 書類をアップロード</button>
+                        <div id="msg-2" class="status-msg"></div>
+                        <select id="sel-2" class="file-select"><option value="">-- 保存済みファイルから選択 --</option></select>
+                        <button class="btn btn-dl" onclick="handleDownload('sel-2')">📥 選択してダウンロード</button>
+                    </div>
+                </td>
+                <td data-label="メモ">イントラネット確認</td>
+            </tr>
+
+            </tbody>
     </table>
 </div>
 
 <script>
-    // ページを開いた時にファイル一覧を取得
-    window.onload = refreshLists;
+    // ページ起動時に全プルダウンを更新
+    window.onload = refreshAllLists;
 
-    async function refreshLists() {
+    async function refreshAllLists() {
         try {
             const res = await fetch('/api/list');
             const data = await res.json();
             const selectors = document.querySelectorAll('.file-select');
             
             selectors.forEach(sel => {
-                sel.innerHTML = '<option value="">-- 保存済みファイル --</option>';
+                sel.innerHTML = '<option value="">-- 保存済みファイルから選択 --</option>';
                 data.blobs.forEach(blob => {
                     const opt = document.createElement('option');
                     opt.value = blob.url;
-                    opt.innerText = blob.pathname;
+                    // ファイル名だけを表示
+                    opt.innerText = decodeURIComponent(blob.pathname);
                     sel.appendChild(opt);
                 });
             });
-        } catch (e) { console.error("一覧取得エラー", e); }
+        } catch (e) { console.error("一覧取得に失敗しました", e); }
     }
 
-    async function handleUpload(input, msgId, selId) {
+    async function handleUpload(input, msgId) {
         const file = input.files[0];
         if (!file) return;
 
         const msg = document.getElementById(msgId);
-        msg.innerText = "送信中...";
+        msg.style.color = "#f4b400";
+        msg.innerText = "同期中...";
         
         try {
             const res = await fetch(`/api/upload?filename=${encodeURIComponent(file.name)}`, {
@@ -106,13 +120,14 @@
                 body: file,
             });
             if (res.ok) {
-                msg.innerText = "✅ 保存完了！";
-                await refreshLists(); // プルダウンを更新
+                msg.style.color = "#34a853";
+                msg.innerText = "✅ 同期完了！";
+                await refreshAllLists(); // 全てのプルダウンを最新にする
             } else {
-                msg.innerText = "❌ 失敗";
+                msg.innerText = "❌ 保存失敗";
             }
         } catch (e) {
-            msg.innerText = "❌ エラー";
+            msg.innerText = "❌ 通信エラー";
         }
     }
 
@@ -121,7 +136,7 @@
         if (url) {
             window.open(url, '_blank');
         } else {
-            alert("ファイルを選択してください");
+            alert("ダウンロードしたいファイルを選択してください");
         }
     }
 </script>
