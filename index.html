@@ -5,25 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>就活で気になった企業リスト</title>
     <style>
-        body { font-family: sans-serif; background-color: #f4f4f4; padding: 20px; }
-        .container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); width: 100%; max-width: 1000px; margin: auto; }
+        body { font-family: sans-serif; background-color: #f4f4f4; padding: 20px; margin: 0; }
+        .container { 
+            background: white; padding: 20px; border-radius: 8px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+            width: 100%; max-width: 1100px; margin: auto;
+            box-sizing: border-box; 
+        }
         h2 { text-align: center; color: #333; font-size: 14px; margin-bottom: 20px; }
         
-        /* テーブル：スクショ通り */
-        table { width: 100%; border-collapse: collapse; background: #fff; margin-bottom: 10px; }
-        th, td { border: 1px solid #999; padding: 8px; text-align: center; font-size: 12px; }
+        /* 表を横に動かせるようにする設定 */
+        .table-scroll-container {
+            width: 100%;
+            overflow-x: auto; /* 横移動を可能にする */
+            -webkit-overflow-scrolling: touch;
+            margin-bottom: 15px;
+        }
+        table { 
+            width: 100%; 
+            min-width: 900px; /* 表が狭くなりすぎないよう固定幅を持たせる（これでスクロールが発生） */
+            border-collapse: collapse; 
+            background: #fff; 
+        }
+        th, td { border: 1px solid #999; padding: 10px; text-align: center; font-size: 12px; }
         th { background-color: #eee; }
 
-        .footer-links { text-align: center; font-size: 12px; margin-bottom: 25px; color: #0000ee; }
+        /* 青いリンク集 */
+        .footer-links { text-align: center; font-size: 12px; margin: 25px 0; }
+        .footer-links a { color: #0000ee; text-decoration: none; margin: 0 10px; }
 
-        /* 追記メモ：スクショ通り */
+        /* 追記メモ */
         .memo-area { border: 1px dashed #999; padding: 15px; font-size: 12px; margin-bottom: 40px; }
 
-        /* 書類同期エリア（全体の一番下） */
+        /* 書類同期エリア（画面の最下部） */
         .sync-section { 
-            border-top: 2px solid #ccc; 
-            padding-top: 25px; 
-            text-align: center;
+            border-top: 1px solid #ccc; padding-top: 25px; margin-top: 40px; text-align: center; 
         }
         .file-controls { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
         .btn { padding: 6px 12px; border: 1px solid #999; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 12px; background: #fff; }
@@ -36,30 +52,35 @@
 <div class="container">
     <h2>就活で気になった企業リスト</h2>
 
-    <table>
-        <thead>
-            <tr>
-                <th style="width: 10%;">番号</th>
-                <th style="width: 30%;">企業名（サイト名）</th>
-                <th style="width: 30%;">通勤時間（最寄り駅）</th>
-                <th style="width: 30%;">メモ</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td>1</td><td>三郷市役所</td><td>三郷駅（武蔵野線の場合）</td><td>終</td></tr>
-            <tr><td>2</td><td><a href="#">MS&ADグランアシスタンス株式会社</a><br>イントラネット</td><td></td><td></td></tr>
-            <tr><td>3</td><td><a href="#">東京都ビジネスサービス株式会社</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年5月31日<br><a href="#">まとめ資料はこちら</a></td></tr>
-            <tr><td>4</td><td><a href="#">医療法人 弘仁会 板倉病院</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年5月31日<br><a href="#">まとめ資料はこちら</a></td></tr>
-            <tr><td>5</td><td><a href="#">ベンチャーサポート社会保険労務士法人</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年6月30日</td></tr>
-            <tr><td>6</td><td><a href="#">株式会社 日警保安 東京事業部</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年6月30日<br><a href="#">まとめ資料はこちら</a></td></tr>
-            <tr><td>7</td><td><a href="#">株式会社 ハンデックス 仙台支店</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年6月30日<br><a href="#">まとめ資料はこちら</a></td></tr>
-            <tr><td>8</td><td></td><td></td><td>紹介期限：令和8年6月30日<br><a href="#">追加メモはこちら</a></td></tr>
-            <tr><td>9</td><td></td><td></td><td>紹介期限：令和8年5月31日</td></tr>
-        </tbody>
-    </table>
+    <div class="table-scroll-container">
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 60px;">番号</th>
+                    <th style="width: 300px;">企業名（サイト名）</th>
+                    <th style="width: 220px;">通勤時間（最寄り駅）</th>
+                    <th style="width: 320px;">メモ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>三郷市役所</td><td>三郷駅（武蔵野線の場合）</td><td>終</td></tr>
+                <tr><td>2</td><td><a href="#">MS&ADグランアシスタンス株式会社</a><br>イントラネット</td><td></td><td></td></tr>
+                <tr><td>3</td><td><a href="#">東京都ビジネスサービス株式会社</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年5月31日<br><a href="#">まとめ資料はこちら</a></td></tr>
+                <tr><td>4</td><td><a href="#">医療法人 弘仁会 板倉病院</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年5月31日<br><a href="#">まとめ資料はこちら</a></td></tr>
+                <tr><td>5</td><td><a href="#">ベンチャーサポート社会保険労務士法人</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年6月30日</td></tr>
+                <tr><td>6</td><td><a href="#">株式会社 日警保安 東京事業部</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年6月30日<br><a href="#">まとめ資料はこちら</a></td></tr>
+                <tr><td>7</td><td><a href="#">株式会社 ハンデックス 仙台支店</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年6月30日<br><a href="#">まとめ資料はこちら</a></td></tr>
+                <tr><td>8</td><td></td><td></td><td>紹介期限：令和8年6月30日<br><a href="#">追加メモはこちら</a></td></tr>
+                <tr><td>9</td><td></td><td></td><td>紹介期限：令和8年5月31日</td></tr>
+            </tbody>
+        </table>
+    </div>
 
     <div class="footer-links">
-        atGP &nbsp;&nbsp; クローバーナビ &nbsp;&nbsp; dodaチャレンジ &nbsp;&nbsp; ハローワーク
+        <a href="#">atGP</a>
+        <a href="#">クローバーナビ</a>
+        <a href="#">dodaチャレンジ</a>
+        <a href="#">ハローワーク</a>
     </div>
 
     <div class="memo-area">
@@ -84,7 +105,6 @@
 
 <script>
     window.onload = refreshFileList;
-
     async function refreshFileList() {
         try {
             const res = await fetch('/api/list');
@@ -99,7 +119,6 @@
             });
         } catch (e) { console.error(e); }
     }
-
     async function handleUpload(input) {
         const file = input.files[0];
         if (!file) return;
@@ -116,7 +135,6 @@
             } else { msg.innerText = "❌ 失敗"; }
         } catch (e) { msg.innerText = "❌ エラー"; }
     }
-
     function handleDownload() {
         const url = document.getElementById('common-select').value;
         if (url) { window.open(url, '_blank'); }
