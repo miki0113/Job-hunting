@@ -1,21 +1,18 @@
 import { put } from '@vercel/blob';
 
 export default async function handler(request) {
+  if (request.method !== 'POST') {
+    return new Response('Method Not Allowed', { status: 405 });
+  }
+
   try {
     const { searchParams } = new URL(request.url, `http://${request.headers.host}`);
     const filename = searchParams.get('filename');
-    const file = await request.body;
-
-    // 設定されているトークンを片っ端から試す設定です
-    const token = process.env.MY_BLOB_READ_WRITE_TOKEN || process.env.BLOB_READ_WRITE_TOKEN;
-
-    if (!token) {
-      return new Response("【設定エラー】Vercelの設定画面でトークンが登録されていません。", { status: 500 });
-    }
-
-    const blob = await put(filename, file, {
+    
+    // ボディを直接 stream として流し込むことで、サイズ制限を回避しやすくします
+    const blob = await put(filename, request.body, {
       access: 'public',
-      token: token,
+      token: process.env.MY_BLOB_READ_WRITE_TOKEN,
     });
 
     return new Response(JSON.stringify(blob), {
@@ -23,7 +20,13 @@ export default async function handler(request) {
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (error) {
-    // もしここでエラーが出たら、その理由を正直に画面に返します
-    return new Response(`【実行エラー】${error.message}`, { status: 500 });
+    return new Response(`Error: ${error.message}`, { status: 500 });
   }
 }
+
+// 413エラーを防ぐための魔法の設定
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
