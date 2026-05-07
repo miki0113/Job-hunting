@@ -101,9 +101,13 @@
         msg.style.color = "#0000ee";
         msg.innerText = "同期中...";
         try {
+            // ここが修正箇所：環境変数の名前を MY_... に合わせました
             const res = await fetch(`/api/upload?filename=${encodeURIComponent(file.name)}`, {
                 method: 'POST',
                 body: file,
+                headers: {
+                    'Authorization': `Bearer ${process.env.MY_BLOB_READ_WRITE_TOKEN}`
+                }
             });
             if (res.ok) {
                 msg.style.color = "#28a745";
