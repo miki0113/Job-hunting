@@ -24,7 +24,7 @@
 <body>
 
 <div class="container">
-    <h2>就活メモ</h2>
+    <h2>就活で気になった企業リスト</h2>
 
     <div class="table-scroll">
         <table>
@@ -101,7 +101,6 @@
         msg.style.color = "#0000ee";
         msg.innerText = "同期中...";
         try {
-            // エラー原因だったリクエスト方法を修正しました
             const res = await fetch(`/api/upload?filename=${encodeURIComponent(file.name)}`, {
                 method: 'POST',
                 body: file,
@@ -111,7 +110,6 @@
                 msg.innerText = "✅ 同期完了しました";
                 await refreshFileList();
             } else {
-                const detail = await res.text();
                 msg.style.color = "#d93025";
                 msg.innerText = `❌ エラー: ${res.status}`;
             }
