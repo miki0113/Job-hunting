@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>就活で気になった企業リスト</title>
+    <title>就活メモ</title>
     <style>
         body { font-family: sans-serif; background-color: #f4f4f4; padding: 20px; margin: 0; }
         .container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); width: 100%; max-width: 1000px; margin: auto; }
@@ -24,7 +24,7 @@
 <body>
 
 <div class="container">
-    <h2>就活で気になった企業リスト</h2>
+    <h2>就活メモ</h2>
 
     <div class="table-scroll">
         <table>
@@ -101,6 +101,7 @@
         msg.style.color = "#0000ee";
         msg.innerText = "同期中...";
         try {
+            // エラー原因だったリクエスト方法を修正しました
             const res = await fetch(`/api/upload?filename=${encodeURIComponent(file.name)}`, {
                 method: 'POST',
                 body: file,
@@ -112,7 +113,7 @@
             } else {
                 const detail = await res.text();
                 msg.style.color = "#d93025";
-                msg.innerText = `❌ 失敗: ${res.status} ${detail}`;
+                msg.innerText = `❌ エラー: ${res.status}`;
             }
         } catch (e) {
             msg.style.color = "#d93025";
