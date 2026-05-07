@@ -8,22 +8,17 @@
         body { font-family: sans-serif; background-color: #f4f4f4; padding: 20px; margin: 0; }
         .container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); width: 100%; max-width: 1000px; margin: auto; }
         h2 { text-align: center; color: #333; font-size: 14px; margin-bottom: 20px; }
-        
-        /* 表の横スクロール設定 */
         .table-scroll { width: 100%; overflow-x: auto; margin-bottom: 10px; border-bottom: 1px solid #ccc; }
         table { width: 100%; min-width: 800px; border-collapse: collapse; background: #fff; }
         th, td { border: 1px solid #999; padding: 8px; text-align: center; font-size: 12px; }
         th { background-color: #eee; }
-
         .footer-links { text-align: center; font-size: 12px; margin: 20px 0; color: #0000ee; }
         .memo-area { border: 1px dashed #999; padding: 15px; font-size: 12px; margin-bottom: 40px; }
-
-        /* 同期ボタンエリア */
         .sync-section { border-top: 1px solid #ccc; padding-top: 25px; text-align: center; }
         .file-controls { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
         .btn { padding: 6px 12px; border: 1px solid #999; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 12px; background: #fff; }
         .file-select { padding: 5px; font-size: 12px; min-width: 220px; border: 1px solid #999; }
-        .status-msg { font-size: 12px; margin-top: 5px; color: #d93025; font-weight: bold; }
+        .status-msg { font-size: 12px; margin-top: 5px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -43,13 +38,13 @@
             </thead>
             <tbody>
                 <tr><td>1</td><td>三郷市役所</td><td>三郷駅（武蔵野線の場合）</td><td>終</td></tr>
-                <tr><td>2</td><td><a href="#">MS&ADグランアシスタンス株式会社</a><br>イントラネット</td><td></td><td></td></tr>
-                <tr><td>3</td><td><a href="#">東京都ビジネスサービス株式会社</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年5月31日<br><a href="#">まとめ資料はこちら</a></td></tr>
-                <tr><td>4</td><td><a href="#">医療法人 弘仁会 板倉病院</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年5月31日<br><a href="#">まとめ資料はこちら</a></td></tr>
-                <tr><td>5</td><td><a href="#">ベンチャーサポート社会保険労務士法人</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年6月30日</td></tr>
-                <tr><td>6</td><td><a href="#">株式会社 日警保安 東京事業部</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年6月30日<br><a href="#">まとめ資料はこちら</a></td></tr>
-                <tr><td>7</td><td><a href="#">株式会社 ハンデックス 仙台支店</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年6月30日<br><a href="#">まとめ資料はこちら</a></td></tr>
-                <tr><td>8</td><td></td><td></td><td>紹介期限：令和8年6月30日<br><a href="#">追加メモはこちら</a></td></tr>
+                <tr><td>2</td><td><a href="#" target="_blank">MS&ADグランアシスタンス株式会社</a><br>イントラネット</td><td></td><td></td></tr>
+                <tr><td>3</td><td><a href="#" target="_blank">東京都ビジネスサービス株式会社</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年5月31日<br><a href="#" target="_blank">まとめ資料はこちら</a></td></tr>
+                <tr><td>4</td><td><a href="#" target="_blank">医療法人 弘仁会 板倉病院</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年5月31日<br><a href="#" target="_blank">まとめ資料はこちら</a></td></tr>
+                <tr><td>5</td><td><a href="#" target="_blank">ベンチャーサポート社会保険労務士法人</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年6月30日</td></tr>
+                <tr><td>6</td><td><a href="#" target="_blank">株式会社 日警保安 東京事業部</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年6月30日<br><a href="#" target="_blank">まとめ資料はこちら</a></td></tr>
+                <tr><td>7</td><td><a href="#" target="_blank">株式会社 ハンデックス 仙台支店</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年6月30日<br><a href="#" target="_blank">まとめ資料はこちら</a></td></tr>
+                <tr><td>8</td><td></td><td></td><td>紹介期限：令和8年6月30日<br><a href="#" target="_blank">追加メモはこちら</a></td></tr>
                 <tr><td>9</td><td></td><td></td><td>紹介期限：令和8年5月31日</td></tr>
             </tbody>
         </table>
@@ -80,47 +75,58 @@
 </div>
 
 <script>
-    // ページを開いた時にリストを更新
+    // ページロード時にファイルリストを取得
     window.onload = refreshFileList;
 
     async function refreshFileList() {
         try {
-            // URLを「/api/list」から「api/list」に少し変えて、より確実に
-            const res = await fetch('api/list');
+            const res = await fetch('/api/list'); // 先頭にスラッシュを追加して絶対パスに
             if (!res.ok) return;
             const data = await res.json();
             const sel = document.getElementById('common-select');
+            
             sel.innerHTML = '<option value="">-- 保存済みファイルを選択 --</option>';
-            data.blobs.forEach(blob => {
+            
+            // Vercel Blobのレスポンス形式（blobs配列）に対応
+            const blobs = data.blobs || data; 
+            blobs.forEach(blob => {
                 const opt = document.createElement('option');
                 opt.value = blob.url;
                 opt.innerText = decodeURIComponent(blob.pathname);
                 sel.appendChild(opt);
             });
-        } catch (e) { console.error(e); }
+        } catch (e) { console.error("リスト取得エラー:", e); }
     }
 
     async function handleUpload(input) {
         const file = input.files[0];
         if (!file) return;
+
         const msg = document.getElementById('status-msg');
+        msg.style.color = "#0000ee";
         msg.innerText = "同期中...";
-        
+                
         try {
-            // ここが一番重要：アップロード先をVercelの仕組みに合わせました
-            const res = await fetch(`api/upload?filename=${encodeURIComponent(file.name)}`, {
+            // Vercel Blob APIを呼び出し
+            const res = await fetch(`/api/upload?filename=${encodeURIComponent(file.name)}`, {
                 method: 'POST',
                 body: file,
             });
-            
+                        
             if (res.ok) {
+                msg.style.color = "#28a745";
                 msg.innerText = "✅ 同期完了しました";
                 await refreshFileList();
             } else {
-                msg.innerText = "❌ 失敗（連携を確認してください）";
+                const errText = await res.text();
+                msg.style.color = "#d93025";
+                msg.innerText = "❌ 失敗（Vercelの連携設定を確認してください）";
+                console.error("アップロード失敗:", errText);
             }
         } catch (e) {
-            msg.innerText = "❌ エラーが発生しました";
+            msg.style.color = "#d93025";
+            msg.innerText = "❌ システムエラーが発生しました";
+            console.error(e);
         }
     }
 
