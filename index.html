@@ -9,7 +9,7 @@
         .container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); width: 100%; max-width: 1000px; margin: auto; }
         h2 { text-align: center; color: #333; font-size: 14px; margin-bottom: 20px; }
         
-        /* 表の横移動（スクロール）を維持 */
+        /* 表の横スクロール設定 */
         .table-scroll { width: 100%; overflow-x: auto; margin-bottom: 10px; border-bottom: 1px solid #ccc; }
         table { width: 100%; min-width: 800px; border-collapse: collapse; background: #fff; }
         th, td { border: 1px solid #999; padding: 8px; text-align: center; font-size: 12px; }
@@ -18,7 +18,7 @@
         .footer-links { text-align: center; font-size: 12px; margin: 20px 0; color: #0000ee; }
         .memo-area { border: 1px dashed #999; padding: 15px; font-size: 12px; margin-bottom: 40px; }
 
-        /* 全体の下に作る同期ボタンのエリア */
+        /* 同期ボタンエリア */
         .sync-section { border-top: 1px solid #ccc; padding-top: 25px; text-align: center; }
         .file-controls { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
         .btn { padding: 6px 12px; border: 1px solid #999; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 12px; background: #fff; }
@@ -80,10 +80,14 @@
 </div>
 
 <script>
+    // ページを開いた時にリストを更新
     window.onload = refreshFileList;
+
     async function refreshFileList() {
         try {
-            const res = await fetch('/api/list');
+            // URLを「/api/list」から「api/list」に少し変えて、より確実に
+            const res = await fetch('api/list');
+            if (!res.ok) return;
             const data = await res.json();
             const sel = document.getElementById('common-select');
             sel.innerHTML = '<option value="">-- 保存済みファイルを選択 --</option>';
@@ -95,26 +99,38 @@
             });
         } catch (e) { console.error(e); }
     }
+
     async function handleUpload(input) {
         const file = input.files[0];
         if (!file) return;
         const msg = document.getElementById('status-msg');
         msg.innerText = "同期中...";
+        
         try {
-            const res = await fetch(`/api/upload?filename=${encodeURIComponent(file.name)}`, {
+            // ここが一番重要：アップロード先をVercelの仕組みに合わせました
+            const res = await fetch(`api/upload?filename=${encodeURIComponent(file.name)}`, {
                 method: 'POST',
                 body: file,
             });
+            
             if (res.ok) {
                 msg.innerText = "✅ 同期完了しました";
                 await refreshFileList();
-            } else { msg.innerText = "❌ 失敗"; }
-        } catch (e) { msg.innerText = "❌ エラー"; }
+            } else {
+                msg.innerText = "❌ 失敗（連携を確認してください）";
+            }
+        } catch (e) {
+            msg.innerText = "❌ エラーが発生しました";
+        }
     }
+
     function handleDownload() {
         const url = document.getElementById('common-select').value;
-        if (url) { window.open(url, '_blank'); }
-        else { alert("書類を選択してください"); }
+        if (url) {
+            window.open(url, '_blank');
+        } else {
+            alert("書類を選択してください");
+        }
     }
 </script>
 
