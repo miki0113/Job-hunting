@@ -8,8 +8,8 @@ export default async function handler(request) {
   try {
     const { searchParams } = new URL(request.url, `http://${request.headers.host}`);
     const filename = searchParams.get('filename');
-    
-    // ボディを直接 stream として流し込むことで、サイズ制限を回避しやすくします
+
+    // ボディを直接流し込むことで、Vercelの標準制限を回避します
     const blob = await put(filename, request.body, {
       access: 'public',
       token: process.env.MY_BLOB_READ_WRITE_TOKEN,
@@ -24,7 +24,7 @@ export default async function handler(request) {
   }
 }
 
-// 413エラーを防ぐための魔法の設定
+// これが重要！413エラー（サイズ制限）を解除する設定です
 export const config = {
   api: {
     bodyParser: false,
