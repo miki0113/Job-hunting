@@ -2,15 +2,15 @@ import { put } from '@vercel/blob';
 
 export default async function handler(request) {
   try {
-    const file = await request.body;
     const { searchParams } = new URL(request.url, `http://${request.headers.host}`);
     const filename = searchParams.get('filename');
+    const file = await request.body;
 
-    // MY_ があればそれを使い、なければ古い方を使う「二段構え」にしました
+    // 設定されているトークンを片っ端から試す設定です
     const token = process.env.MY_BLOB_READ_WRITE_TOKEN || process.env.BLOB_READ_WRITE_TOKEN;
 
     if (!token) {
-      return new Response("トークンが見つかりません。設定を確認してください。", { status: 500 });
+      return new Response("【設定エラー】Vercelの設定画面でトークンが登録されていません。", { status: 500 });
     }
 
     const blob = await put(filename, file, {
@@ -19,9 +19,11 @@ export default async function handler(request) {
     });
 
     return new Response(JSON.stringify(blob), {
+      status: 200,
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (error) {
-    return new Response(`Error: ${error.message}`, { status: 500 });
+    // もしここでエラーが出たら、その理由を正直に画面に返します
+    return new Response(`【実行エラー】${error.message}`, { status: 500 });
   }
 }
