@@ -38,8 +38,26 @@
             </thead>
             <tbody>
                 <tr><td>1</td><td>三郷市役所</td><td>三郷駅</td><td>終</td></tr>
-                </tbody>
+                <tr><td>2</td><td>株式会社日本ケアサプライ</td><td>新松戸駅</td><td></td></tr>
+                <tr><td>3</td><td>株式会社アスパーク</td><td>船橋駅</td><td>ハローワーク</td></tr>
+                <tr><td>4</td><td>株式会社エイジェック</td><td>柏駅</td><td>ハローワーク</td></tr>
+                <tr><td>5</td><td>ベンチャーサポート社会保険労務士法人</td><td>柏駅</td><td>ハローワーク</td></tr>
+                <tr><td>6</td><td>株式会社 日警保安 東京事業部</td><td>柏駅</td><td>ハローワーク</td></tr>
+                <tr><td>7</td><td>株式会社 ハンデックス 仙台支店</td><td>柏駅</td><td>ハローワーク</td></tr>
+                <tr><td>8</td><td></td><td></td><td></td></tr>
+                <tr><td>9</td><td></td><td></td><td></td></tr>
+            </tbody>
         </table>
+    </div>
+
+    <div class="footer-links">
+        atGP &nbsp; クローバーナビ &nbsp; dodaチャレンジ &nbsp; ハローワーク
+    </div>
+
+    <div class="memo-area">
+        <strong>■ 追記メモ</strong><br><br>
+        ・履歴書の添削依頼をスタッフさんに提出済み (4/23)<br>
+        ・今回のリストに関しては見つけたものを並べただけであり優先順位を付けたものではない
     </div>
 
     <div class="sync-section">
@@ -97,7 +115,6 @@
             } else {
                 const errorDetail = await res.text();
                 msg.style.color = "#d93025";
-                // ここで詳細な理由を表示します！
                 msg.innerText = `❌ 失敗: ${res.status} ${errorDetail}`;
             }
         } catch (e) {
