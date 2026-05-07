@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>就活リスト - 同期機能付き</title>
+    <title>就活で気になった企業リスト</title>
     <style>
         body { font-family: sans-serif; background-color: #f4f4f4; padding: 20px; margin: 0; }
         .container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); width: 100%; max-width: 1000px; margin: auto; }
@@ -31,32 +31,32 @@
             <thead>
                 <tr>
                     <th style="width: 10%;">番号</th>
-                    <th style="width: 30%;">企業名</th>
-                    <th style="width: 30%;">通勤・最寄り駅</th>
+                    <th style="width: 30%;">企業名（サイト名）</th>
+                    <th style="width: 30%;">通勤時間（最寄り駅）</th>
                     <th style="width: 30%;">メモ</th>
                 </tr>
             </thead>
             <tbody>
-                <tr><td>1</td><td>三郷市役所</td><td>三郷駅</td><td>終</td></tr>
-                <tr><td>2</td><td>株式会社日本ケアサプライ</td><td>新松戸駅</td><td></td></tr>
-                <tr><td>3</td><td>株式会社アスパーク</td><td>船橋駅</td><td>ハローワーク</td></tr>
-                <tr><td>4</td><td>株式会社エイジェック</td><td>柏駅</td><td>ハローワーク</td></tr>
-                <tr><td>5</td><td>ベンチャーサポート社会保険労務士法人</td><td>柏駅</td><td>ハローワーク</td></tr>
-                <tr><td>6</td><td>株式会社 日警保安 東京事業部</td><td>柏駅</td><td>ハローワーク</td></tr>
-                <tr><td>7</td><td>株式会社 ハンデックス 仙台支店</td><td>柏駅</td><td>ハローワーク</td></tr>
-                <tr><td>8</td><td></td><td></td><td></td></tr>
-                <tr><td>9</td><td></td><td></td><td></td></tr>
+                <tr><td>1</td><td>三郷市役所</td><td>三郷駅（武蔵野線の場合）</td><td>終</td></tr>
+                <tr><td>2</td><td><a href="#" target="_blank">MS&ADグランアシスタンス株式会社</a><br>イントラネット</td><td></td><td></td></tr>
+                <tr><td>3</td><td><a href="#" target="_blank">東京都ビジネスサービス株式会社</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年5月31日<br><a href="#" target="_blank">まとめ資料はこちら</a></td></tr>
+                <tr><td>4</td><td><a href="#" target="_blank">医療法人 弘仁会 板倉病院</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年5月31日<br><a href="#" target="_blank">まとめ資料はこちら</a></td></tr>
+                <tr><td>5</td><td><a href="#" target="_blank">ベンチャーサポート社会保険労務士法人</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年6月30日</td></tr>
+                <tr><td>6</td><td><a href="#" target="_blank">株式会社 日警保安 東京事業部</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年6月30日<br><a href="#" target="_blank">まとめ資料はこちら</a></td></tr>
+                <tr><td>7</td><td><a href="#" target="_blank">株式会社 ハンデックス 仙台支店</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年6月30日<br><a href="#" target="_blank">まとめ資料はこちら</a></td></tr>
+                <tr><td>8</td><td></td><td></td><td>紹介期限：令和8年6月30日<br><a href="#" target="_blank">追加メモはこちら</a></td></tr>
+                <tr><td>9</td><td></td><td></td><td>紹介期限：令和8年5月31日</td></tr>
             </tbody>
         </table>
     </div>
 
     <div class="footer-links">
-        atGP &nbsp; クローバーナビ &nbsp; dodaチャレンジ &nbsp; ハローワーク
+        atGP &nbsp;&nbsp; クローバーナビ &nbsp;&nbsp; dodaチャレンジ &nbsp;&nbsp; ハローワーク
     </div>
 
     <div class="memo-area">
         <strong>■ 追記メモ</strong><br><br>
-        ・履歴書の添削依頼をスタッフさんに提出済み (4/23)<br>
+        ・履歴書の添削依頼をスタッフさんに提出済み（4/23）<br>
         ・今回のリストに関しては見つけたものを並べただけであり優先順位を付けたものではない
     </div>
 
@@ -80,10 +80,10 @@
     async function refreshFileList() {
         try {
             const res = await fetch('/api/list');
+            if (!res.ok) return;
             const data = await res.json();
             const sel = document.getElementById('common-select');
             sel.innerHTML = '<option value="">-- 保存済みファイルを選択 --</option>';
-            
             const list = data.blobs || [];
             list.forEach(blob => {
                 const opt = document.createElement('option');
@@ -97,25 +97,22 @@
     async function handleUpload(input) {
         const file = input.files[0];
         if (!file) return;
-
         const msg = document.getElementById('status-msg');
         msg.style.color = "#0000ee";
         msg.innerText = "同期中...";
-                
         try {
             const res = await fetch(`/api/upload?filename=${encodeURIComponent(file.name)}`, {
                 method: 'POST',
                 body: file,
             });
-                        
             if (res.ok) {
                 msg.style.color = "#28a745";
                 msg.innerText = "✅ 同期完了しました";
                 await refreshFileList();
             } else {
-                const errorDetail = await res.text();
+                const detail = await res.text();
                 msg.style.color = "#d93025";
-                msg.innerText = `❌ 失敗: ${res.status} ${errorDetail}`;
+                msg.innerText = `❌ 失敗: ${res.status} ${detail}`;
             }
         } catch (e) {
             msg.style.color = "#d93025";
@@ -126,7 +123,7 @@
     function handleDownload() {
         const url = document.getElementById('common-select').value;
         if (url) window.open(url, '_blank');
-        else alert("ファイルを選択してください");
+        else alert("書類を選択してください");
     }
 </script>
 </body>
