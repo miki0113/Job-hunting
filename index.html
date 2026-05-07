@@ -3,198 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>就活メモ</title>
+    <title>就活管理メモ</title>
     <style>
-        /* 基本設定 */
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            background-color: #f9f9f9;
-            font-family: sans-serif;
-            line-height: 1.6;
-        }
+        body { font-family: sans-serif; background-color: #f4f4f4; padding: 20px; display: flex; justify-content: center; }
+        .container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); width: 100%; max-width: 900px; }
+        h2 { text-align: center; color: #333; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #fff; }
+        th, td { border: 1px solid #ccc; padding: 12px; text-align: center; }
+        th { background-color: #eee; }
 
-        .content-box {
-            text-align: center;
-            max-width: 1120px; 
-            width: 95%;
-            padding: 20px;
-        }
+        /* ボタンとセレクトボックスのスタイル */
+        .file-box { display: flex; flex-direction: column; gap: 8px; align-items: center; min-width: 180px; }
+        .btn { width: 100%; padding: 8px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 12px; transition: 0.2s; }
+        
+        .btn-up { background-color: #28a745; color: white; }
+        .btn-up:hover { background-color: #218838; }
+        
+        .btn-dl { background-color: #007bff; color: white; }
+        .btn-dl:hover { background-color: #0056b3; }
 
-        .intro-text {
-            font-size: 16px;
-            color: #333;
-            margin-bottom: 20px;
-        }
+        .file-select { width: 100%; padding: 6px; border: 1px solid #ccc; border-radius: 4px; font-size: 12px; }
+        .status-msg { font-size: 11px; color: #666; height: 15px; }
 
-        /* 表の横スクロール枠 */
-        .table-container {
-            width: 100%;
-            overflow-x: auto; 
-            -webkit-overflow-scrolling: touch; 
-            background-color: #fff;
-            border: 1px solid #999;
-            margin-bottom: 20px;
-        }
-
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            min-width: 1100px; 
-        }
-
-        th, td {
-            border: 1px solid #999;
-            padding: 10px;
-            white-space: nowrap; 
-            text-align: center; 
-            vertical-align: middle;
-        }
-
-        th {
-            background-color: #eee;
-        }
-
-        /* 各列の幅設定 */
-        th:nth-child(1), td:nth-child(1) { width: 50px; } 
-        th:nth-child(2), td:nth-child(2) { width: 350px; } 
-        th:nth-child(3), td:nth-child(3) { width: 500px; } 
-        th:nth-child(4), td:nth-child(4) { width: 200px; } 
-
-        /* リンク集の設定（スマホでも一列） */
-        .footer-link-container {
-            width: 100%;
-            overflow-x: auto;
-            white-space: nowrap;
-            -webkit-overflow-scrolling: touch;
-            padding: 10px 0;
-            margin-top: 10px;
-        }
-
-        .footer-link {
-            display: inline-block;
-            min-width: 100%;
-            text-align: center;
-        }
-
-        .footer-link a {
-            margin: 0 15px;
-            text-decoration: none;
-            color: #0066cc;
-            display: inline-block;
-        }
-
-        /* 追記メモ欄 */
-        .extra-memo {
-            margin-top: 30px;
-            text-align: left;
-            padding: 20px;
-            background-color: #fff;
-            border: 1px dashed #999;
-            border-radius: 8px;
-        }
-
-        @media screen and (max-width: 768px) {
-            body { align-items: flex-start; padding-top: 20px; }
-            .content-box { width: 100%; padding: 10px; }
-            .footer-link { text-align: left; } 
+        @media screen and (max-width: 600px) {
+            table, thead, tbody, th, td, tr { display: block; }
+            th { display: none; }
+            tr { margin-bottom: 15px; border: 1px solid #ccc; padding: 10px; }
+            td { border: none; text-align: left; padding: 5px; }
+            td:before { content: attr(data-label); font-weight: bold; display: block; margin-bottom: 5px; color: #555; }
         }
     </style>
 </head>
 <body>
-    <div class="content-box">
-        <p class="intro-text">就活で気になった企業リスト</p>
 
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>番号</th>
-                        <th>企業名（サイト名）</th>
-                        <th>通勤時間（最寄り駅）</th>
-                        <th>メモ</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>三郷市役所</td>
-                        <td>三郷駅（武蔵野線の場合）</td>
-                        <td>終</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>
-                            <a href="https://job-search.litalico.co.jp/companies/116?index=area" target="_blank" rel="noopener noreferrer">ＭＳ&AＤグランアシスタンス株式会社</a><br>
-                            イントラネット
-                        </td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td><a href="PDF/RAFAA23501020260429093314595295115887684169088.pdf" target="_blank" rel="noopener noreferrer">東京都ビジネスサービス株式会社</a><br>ハローワーク</td>
-                        <td></td>
-                        <td>紹介期限：令和8年5月31日<br><a href="index2.html">追加メモはこちら</a></td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td><a href="PDF/RAFAA23501020260429093254877621008202362889814.pdf" target="_blank" rel="noopener noreferrer">医療法人 弘仁会 板倉病院</a><br>ハローワーク</td>
-                        <td></td>
-                        <td>紹介期限：令和8年5月31日<br><a href="PDF/医療法人 弘仁会 板倉病院.pdf" target="_blank" rel="noopener noreferrer">まとめた資料はこちら</a></td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td><a href="PDF/RAFAA235010202604290932380861669092556543138702.pdf" target="_blank" rel="noopener noreferrer">ベンチャーサポート社会保険労務士法人</a><br>ハローワーク</td>
-                        <td></td>
-                        <td>紹介期限：令和8年6月30日</td>
-                    </tr>
-                    <tr>
-                        <td>6</td>
-                        <td><a href="PDF/RAFAA235010202604290932048538810908074250214855.pdf" target="_blank" rel="noopener noreferrer">株式会社 日警保安 東京事業部</a><br>ハローワーク</td>
-                        <td></td>
-                        <td>紹介期限：令和8年6月30日<br><a href="PDF/株式会社 日警保安 東京事業部.pdf" target="_blank" rel="noopener noreferrer">まとめた資料はこちら</a></td>
-                    </tr>
-                    <tr>
-                        <td>7</td>
-                        <td><a href="PDF/RAFAA235010202605061009399703247084278534433893.pdf" target="_blank" rel="noopener noreferrer">株式会社 ハンデックス 仙台支店 </a><br>ハローワーク</td>
-                        <td></td>
-                        <td>紹介期限：令和8年6月30日<br><a href="" target="_blank" rel="noopener noreferrer">まとめた資料はこちら</a></td>
-                    </tr>
-                    <tr>
-                        <td>8</td>
-                        <td><br></td>
-                        <td></td>
-                        <td>紹介期限：令和8年6月30日<br><a href="index2.html">追加メモはこちら</a></td>
-                    </tr>
-                    <tr>
-                        <td>9</td>
-                        <td><br></td>
-                        <td></td>
-                        <td>紹介期限：令和8年5月31日</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+<div class="container">
+    <h2>就活書類 管理リスト</h2>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>企業名</th>
+                <th>書類管理（アップロード ＆ 選択DL）</th>
+                <th>メモ</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td data-label="企業名">（企業名を入力）</td>
+                <td data-label="書類管理">
+                    <div class="file-box">
+                        <input type="file" id="file-input-1" style="display:none;" onchange="handleUpload(this, 'msg-1', 'sel-1')">
+                        <button class="btn btn-up" onclick="document.getElementById('file-input-1').click()">📤 書類をアップロード</button>
+                        <div id="msg-1" class="status-msg"></div>
 
-        <div class="footer-link-container">
-            <p class="footer-link">
-                <a href="https://www.atgp.jp/" target="_blank" rel="noopener noreferrer">atGP</a>
-                <a href="https://www.clover-navi.com/" target="_blank" rel="noopener noreferrer">クローバーナビ</a>
-                <a href="https://doda.jp/challenge/" target="_blank" rel="noopener noreferrer">dodaチャレンジ</a>
-                <a href="https://kyushoku.hellowork.mhlw.go.jp/kyushoku/GEAA040010.do?action=initDisp&screenId=GEAA040010" target="_blank" rel="noopener noreferrer">ハローワーク</a>
-            </p>
-        </div>
+                        <hr style="width:100%; border:0; border-top:1px solid #eee; margin:5px 0;">
 
-        <div class="extra-memo">
-            <strong style="font-size: 1.1em;">■ 追記メモ</strong><br>
-            <br>
-            ・履歴書の添削依頼をスタッフさんに提出済み（4/23）<br>
-            ・今回のリストに関しては見つけたものを並べただけであり優先順位を付けたものではない
-        </div>
-    </div>
+                        <select id="sel-1" class="file-select">
+                            <option value="">-- 保存済みファイル --</option>
+                        </select>
+                        <button class="btn btn-dl" onclick="handleDownload('sel-1')">📥 選択してダウンロード</button>
+                    </div>
+                </td>
+                <td data-label="メモ">（メモを入力）</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // ページを開いた時にファイル一覧を取得
+    window.onload = refreshLists;
+
+    async function refreshLists() {
+        try {
+            const res = await fetch('/api/list');
+            const data = await res.json();
+            const selectors = document.querySelectorAll('.file-select');
+            
+            selectors.forEach(sel => {
+                sel.innerHTML = '<option value="">-- 保存済みファイル --</option>';
+                data.blobs.forEach(blob => {
+                    const opt = document.createElement('option');
+                    opt.value = blob.url;
+                    opt.innerText = blob.pathname;
+                    sel.appendChild(opt);
+                });
+            });
+        } catch (e) { console.error("一覧取得エラー", e); }
+    }
+
+    async function handleUpload(input, msgId, selId) {
+        const file = input.files[0];
+        if (!file) return;
+
+        const msg = document.getElementById(msgId);
+        msg.innerText = "送信中...";
+        
+        try {
+            const res = await fetch(`/api/upload?filename=${encodeURIComponent(file.name)}`, {
+                method: 'POST',
+                body: file,
+            });
+            if (res.ok) {
+                msg.innerText = "✅ 保存完了！";
+                await refreshLists(); // プルダウンを更新
+            } else {
+                msg.innerText = "❌ 失敗";
+            }
+        } catch (e) {
+            msg.innerText = "❌ エラー";
+        }
+    }
+
+    function handleDownload(selId) {
+        const url = document.getElementById(selId).value;
+        if (url) {
+            window.open(url, '_blank');
+        } else {
+            alert("ファイルを選択してください");
+        }
+    }
+</script>
+
 </body>
 </html>
