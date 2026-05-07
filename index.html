@@ -9,28 +9,26 @@
         .container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); width: 100%; max-width: 1000px; margin: auto; }
         h2 { text-align: center; color: #333; font-size: 14px; margin-bottom: 20px; }
         
-        /* 共通書類管理エリア */
-        .common-files { 
-            background: #fff; 
-            padding: 15px; 
-            border-radius: 8px; 
-            margin-bottom: 20px; 
-            border: 2px solid #ccc;
-            text-align: center;
-        }
-        .file-controls { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
-
-        table { width: 100%; border-collapse: collapse; background: #fff; margin-bottom: 20px; }
+        /* テーブル：スクショ通り */
+        table { width: 100%; border-collapse: collapse; background: #fff; margin-bottom: 10px; }
         th, td { border: 1px solid #999; padding: 8px; text-align: center; font-size: 12px; }
         th { background-color: #eee; }
 
-        .btn { padding: 6px 12px; border: 1px solid #999; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 12px; background: #f9f9f9; }
-        .btn:hover { background: #eee; }
-        .file-select { padding: 5px; font-size: 12px; min-width: 200px; border: 1px solid #999; }
-        .status-msg { font-size: 12px; margin-top: 5px; color: #d93025; min-height: 15px; }
+        .footer-links { text-align: center; font-size: 12px; margin-bottom: 25px; color: #0000ee; }
 
-        .footer-links { text-align: center; font-size: 12px; margin-top: 20px; color: #0000ee; }
-        .memo-area { border: 1px dashed #999; padding: 15px; margin-top: 30px; font-size: 12px; }
+        /* 追記メモ：スクショ通り */
+        .memo-area { border: 1px dashed #999; padding: 15px; font-size: 12px; margin-bottom: 40px; }
+
+        /* 書類同期エリア（全体の一番下） */
+        .sync-section { 
+            border-top: 2px solid #ccc; 
+            padding-top: 25px; 
+            text-align: center;
+        }
+        .file-controls { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+        .btn { padding: 6px 12px; border: 1px solid #999; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 12px; background: #fff; }
+        .file-select { padding: 5px; font-size: 12px; min-width: 220px; border: 1px solid #999; }
+        .status-msg { font-size: 12px; margin-top: 5px; color: #d93025; font-weight: bold; min-height: 15px; }
     </style>
 </head>
 <body>
@@ -38,21 +36,6 @@
 <div class="container">
     <h2>就活で気になった企業リスト</h2>
 
-    <div class="common-files">
-        <strong>■ 提出書類 同期（履歴書・職務経歴書）</strong>
-        <div class="file-controls">
-            <input type="file" id="common-upload" style="display:none;" onchange="handleUpload(this)">
-            <button class="btn" onclick="document.getElementById('common-upload').click()">📤 ファイルをUP</button>
-            
-            <select id="common-select" class="file-select">
-                <option value="">-- 保存済みファイルを選択 --</option>
-            </select>
-            
-            <button class="btn" onclick="handleDownload()">📥 ダウンロード</button>
-        </div>
-        <div id="status-msg" class="status-msg"></div>
-    </div>
-    
     <table>
         <thead>
             <tr>
@@ -63,60 +46,15 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td data-label="番号">1</td>
-                <td data-label="企業名">三郷市役所</td>
-                <td data-label="通勤時間">三郷駅（武蔵野線の場合）</td>
-                <td data-label="メモ">終</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td><a href="#">MS&ADグランアシスタンス株式会社</a><br>イントラネット</td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td><a href="#">東京都ビジネスサービス株式会社</a><br>ハローワーク</td>
-                <td></td>
-                <td>紹介期限：令和8年5月31日<br><a href="#">まとめ資料はこちら</a></td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td><a href="#">医療法人 弘仁会 板倉病院</a><br>ハローワーク</td>
-                <td></td>
-                <td>紹介期限：令和8年5月31日<br><a href="#">まとめ資料はこちら</a></td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td><a href="#">ベンチャーサポート社会保険労務士法人</a><br>ハローワーク</td>
-                <td></td>
-                <td>紹介期限：令和8年6月30日</td>
-            </tr>
-            <tr>
-                <td>6</td>
-                <td><a href="#">株式会社 日警保安 東京事業部</a><br>ハローワーク</td>
-                <td></td>
-                <td>紹介期限：令和8年6月30日<br><a href="#">まとめ資料はこちら</a></td>
-            </tr>
-            <tr>
-                <td>7</td>
-                <td><a href="#">株式会社 ハンデックス 仙台支店</a><br>ハローワーク</td>
-                <td></td>
-                <td>紹介期限：令和8年6月30日<br><a href="#">まとめ資料はこちら</a></td>
-            </tr>
-            <tr>
-                <td>8</td>
-                <td></td>
-                <td></td>
-                <td>紹介期限：令和8年6月30日<br><a href="#">追加メモはこちら</a></td>
-            </tr>
-            <tr>
-                <td>9</td>
-                <td></td>
-                <td></td>
-                <td>紹介期限：令和8年5月31日</td>
-            </tr>
+            <tr><td>1</td><td>三郷市役所</td><td>三郷駅（武蔵野線の場合）</td><td>終</td></tr>
+            <tr><td>2</td><td><a href="#">MS&ADグランアシスタンス株式会社</a><br>イントラネット</td><td></td><td></td></tr>
+            <tr><td>3</td><td><a href="#">東京都ビジネスサービス株式会社</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年5月31日<br><a href="#">まとめ資料はこちら</a></td></tr>
+            <tr><td>4</td><td><a href="#">医療法人 弘仁会 板倉病院</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年5月31日<br><a href="#">まとめ資料はこちら</a></td></tr>
+            <tr><td>5</td><td><a href="#">ベンチャーサポート社会保険労務士法人</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年6月30日</td></tr>
+            <tr><td>6</td><td><a href="#">株式会社 日警保安 東京事業部</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年6月30日<br><a href="#">まとめ資料はこちら</a></td></tr>
+            <tr><td>7</td><td><a href="#">株式会社 ハンデックス 仙台支店</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年6月30日<br><a href="#">まとめ資料はこちら</a></td></tr>
+            <tr><td>8</td><td></td><td></td><td>紹介期限：令和8年6月30日<br><a href="#">追加メモはこちら</a></td></tr>
+            <tr><td>9</td><td></td><td></td><td>紹介期限：令和8年5月31日</td></tr>
         </tbody>
     </table>
 
@@ -128,6 +66,19 @@
         <strong>■ 追記メモ</strong><br><br>
         ・履歴書の添削依頼をスタッフさんに提出済み（4/23）<br>
         ・今回のリストに関しては見つけたものを並べただけであり優先順位を付けたものではない
+    </div>
+
+    <div class="sync-section">
+        <strong>■ 提出書類 同期（履歴書・職務経歴書）</strong>
+        <div class="file-controls">
+            <input type="file" id="common-upload" style="display:none;" onchange="handleUpload(this)">
+            <button class="btn" onclick="document.getElementById('common-upload').click()">📤 ファイルをUP</button>
+            <select id="common-select" class="file-select">
+                <option value="">-- 保存済みファイルを選択 --</option>
+            </select>
+            <button class="btn" onclick="handleDownload()">📥 ダウンロード</button>
+        </div>
+        <div id="status-msg" class="status-msg"></div>
     </div>
 </div>
 
