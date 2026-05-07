@@ -6,45 +6,24 @@
     <title>就活で気になった企業リスト</title>
     <style>
         body { font-family: sans-serif; background-color: #f4f4f4; padding: 20px; margin: 0; }
-        .container { 
-            background: white; padding: 20px; border-radius: 8px; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
-            width: 100%; max-width: 1100px; margin: auto;
-            box-sizing: border-box; 
-        }
+        .container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); width: 100%; max-width: 1000px; margin: auto; }
         h2 { text-align: center; color: #333; font-size: 14px; margin-bottom: 20px; }
         
-        /* 表を横に動かせるようにする設定 */
-        .table-scroll-container {
-            width: 100%;
-            overflow-x: auto; /* 横移動を可能にする */
-            -webkit-overflow-scrolling: touch;
-            margin-bottom: 15px;
-        }
-        table { 
-            width: 100%; 
-            min-width: 900px; /* 表が狭くなりすぎないよう固定幅を持たせる（これでスクロールが発生） */
-            border-collapse: collapse; 
-            background: #fff; 
-        }
-        th, td { border: 1px solid #999; padding: 10px; text-align: center; font-size: 12px; }
+        /* 表の横移動（スクロール）を維持 */
+        .table-scroll { width: 100%; overflow-x: auto; margin-bottom: 10px; border-bottom: 1px solid #ccc; }
+        table { width: 100%; min-width: 800px; border-collapse: collapse; background: #fff; }
+        th, td { border: 1px solid #999; padding: 8px; text-align: center; font-size: 12px; }
         th { background-color: #eee; }
 
-        /* 青いリンク集 */
-        .footer-links { text-align: center; font-size: 12px; margin: 25px 0; }
-        .footer-links a { color: #0000ee; text-decoration: none; margin: 0 10px; }
-
-        /* 追記メモ */
+        .footer-links { text-align: center; font-size: 12px; margin: 20px 0; color: #0000ee; }
         .memo-area { border: 1px dashed #999; padding: 15px; font-size: 12px; margin-bottom: 40px; }
 
-        /* 書類同期エリア（画面の最下部） */
-        .sync-section { 
-            border-top: 1px solid #ccc; padding-top: 25px; margin-top: 40px; text-align: center; 
-        }
+        /* 全体の下に作る同期ボタンのエリア */
+        .sync-section { border-top: 1px solid #ccc; padding-top: 25px; text-align: center; }
         .file-controls { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
         .btn { padding: 6px 12px; border: 1px solid #999; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 12px; background: #fff; }
         .file-select { padding: 5px; font-size: 12px; min-width: 220px; border: 1px solid #999; }
-        .status-msg { font-size: 12px; margin-top: 5px; color: #d93025; font-weight: bold; min-height: 15px; }
+        .status-msg { font-size: 12px; margin-top: 5px; color: #d93025; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -52,14 +31,14 @@
 <div class="container">
     <h2>就活で気になった企業リスト</h2>
 
-    <div class="table-scroll-container">
+    <div class="table-scroll">
         <table>
             <thead>
                 <tr>
-                    <th style="width: 60px;">番号</th>
-                    <th style="width: 300px;">企業名（サイト名）</th>
-                    <th style="width: 220px;">通勤時間（最寄り駅）</th>
-                    <th style="width: 320px;">メモ</th>
+                    <th style="width: 10%;">番号</th>
+                    <th style="width: 30%;">企業名（サイト名）</th>
+                    <th style="width: 30%;">通勤時間（最寄り駅）</th>
+                    <th style="width: 30%;">メモ</th>
                 </tr>
             </thead>
             <tbody>
@@ -77,10 +56,7 @@
     </div>
 
     <div class="footer-links">
-        <a href="#">atGP</a>
-        <a href="#">クローバーナビ</a>
-        <a href="#">dodaチャレンジ</a>
-        <a href="#">ハローワーク</a>
+        atGP &nbsp;&nbsp; クローバーナビ &nbsp;&nbsp; dodaチャレンジ &nbsp;&nbsp; ハローワーク
     </div>
 
     <div class="memo-area">
