@@ -1,19 +1,15 @@
 const express = require('express');
-const multer = require('multer');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// 【修正】フォルダを新しく作らず、一時的な場所を使います
-const upload = multer({ dest: '/tmp/' });
-
+// 画面を表示するだけの基本機能
 app.use(express.static(__dirname));
 
-// アップロード窓口
-app.post('/upload', upload.single('file'), (req, res) => {
-  res.send('アップロード完了！');
+// ボタンを押してもエラーにならないための「空の窓口」
+app.post('/upload', (req, res) => {
+  res.send('現在はメンテナンス中です');
 });
 
-// 一旦エラーを避けるため、リストは空にします
 app.get('/api/list', (req, res) => {
   res.json([]);
 });
