@@ -1,0 +1,36 @@
+const express = require('express');
+const path = require('path');
+const fs = require('fs');
+const multer = require('multer');
+const app = express();
+const port = process.env.PORT || 3000;
+
+// PDFフォルダなどの保存先を「current」に対応させる
+const currentDir = path.join(__dirname);
+const pdfDir = path.join(currentDir, 'PDF');
+const uploadDir = path.join(currentDir, 'uploads');
+
+// フォルダがなければ作る
+[pdfDir, uploadDir].forEach(dir => {
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+});
+
+// 静的ファイルの配信設定
+app.use(express.static(currentDir));
+app.use('/PDF', express.static(pdfDir));
+
+// ファイル一覧取得API
+app.get('/api/list', (req, res) => {
+    fs.readdir(pdfDir, (err, files) => {
+        if (err) return res.status(500).json({ error: "フォルダが読めません" });
+        const fileList = files.filter(f => !f.startsWith('.')).map(f => ({
+            name: f,
+            url: `/PDF/${f}`
+        }));
+        res.json(fileList);
+    });
+});
+
+app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}`);
+});
