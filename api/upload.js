@@ -9,8 +9,10 @@ export default async function handler(request) {
     const { searchParams } = new URL(request.url, `http://${request.headers.host}`);
     const filename = searchParams.get('filename');
 
-    // PCから確実にトークンを読み込ませる設定です
-    const blob = await put(filename, request.body, {
+    // リクエストのbodyをそのまま渡すのではなく、一度「中身」をしっかり取り出します
+    const file = await request.body;
+
+    const blob = await put(filename, file, {
       access: 'public',
       token: process.env.MY_BLOB_READ_WRITE_TOKEN,
     });
@@ -20,12 +22,15 @@ export default async function handler(request) {
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (error) {
-    return new Response(`Error: ${error.message}`, { status: 500 });
+    return new Response(JSON.stringify({ error: error.message }), { 
+      status: 500,
+      headers: { 'Content-Type': 'application/json' }
+    });
   }
 }
 
 export const config = {
   api: {
-    bodyParser: false,
+    bodyParser: false, // 大きなファイルを扱うために必須の設定です
   },
 };
