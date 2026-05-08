@@ -4,32 +4,37 @@ const path = require('path');
 const fs = require('fs');
 const app = express();
 
-// ロリポップが嫌がらない「一時フォルダ」を保存先に使います
-const upload = multer({ dest: '/tmp/' });
+// Wordを保存するフォルダ「uploads」を自動で作る
+const uploadDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir);
+}
+
+// ファイル名をそのまま保存する設定
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => cb(null, uploadDir),
+    filename: (req, file, cb) => cb(null, file.originalname)
+});
+const upload = multer({ storage: storage });
 
 app.use(express.static(__dirname));
 
-// アップロードを受け付ける窓口
+// Wordアップロードの窓口
 app.post('/upload', upload.single('file'), (req, res) => {
-  if (!req.file) return res.status(400).send('ファイルがありません');
-  // 元のファイル名で保存し直す
-  const targetPath = path.join('/tmp/', req.file.originalname);
-  fs.renameSync(req.file.path, targetPath);
-  res.send('アップロード完了！');
+    if (!req.file) return res.status(400).send('No file');
+    res.send('Uploaded');
 });
 
-// 保存されたWordをリストに出す窓口
+// 保存されたWordの一覧を出す窓口
 app.get('/api/list', (req, res) => {
-  fs.readdir('/tmp/', (err, files) => {
-    if (err) return res.json([]);
-    const wordFiles = files.filter(f => f.endsWith('.docx') || f.endsWith('.doc'));
-    res.json(wordFiles.map(f => ({ name: f, url: `/download/${f}` })));
-  });
+    fs.readdir(uploadDir, (err, files) => {
+        if (err) return res.json([]);
+        const wordFiles = files.filter(f => f.endsWith('.docx') || f.endsWith('.doc'));
+        res.json(wordFiles.map(f => ({ name: f, url: `/uploads/${f}` })));
+    });
 });
 
-// ダウンロードする窓口
-app.get('/download/:name', (req, res) => {
-  res.download(path.join('/tmp/', req.params.name));
-});
+// アップロードしたファイルを表示・ダウンロード可能にする
+app.use('/uploads', express.static(uploadDir));
 
 app.listen(process.env.PORT || 3000);
