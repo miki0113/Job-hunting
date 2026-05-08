@@ -2,11 +2,8 @@ import { list } from '@vercel/blob';
 
 export default async function handler(request) {
   try {
-    // リスト取得側も、正しいトークンを使うように直します
-    const token = process.env.MY_BLOB_READ_WRITE_TOKEN || process.env.BLOB_READ_WRITE_TOKEN;
-
     const blobs = await list({
-      token: token
+      token: process.env.MY_BLOB_READ_WRITE_TOKEN
     });
 
     return new Response(JSON.stringify(blobs), {
