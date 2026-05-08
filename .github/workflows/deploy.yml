@@ -1,17 +1,3 @@
-name: Deploy to Lolipop
-
-on:
-  push:
-    branches:
-      - main
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
       - name: Deploy via SSH
         uses: appleboy/scp-action@master
         with:
@@ -21,3 +7,16 @@ jobs:
           source: "."
           target: "/var/app/current"
 
+      # ファイルを送った後に、サーバーでコマンドを実行する
+      - name: Post-deploy commands
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /var/app/current
+            npm install --production
+            # マネージドクラウドのプロセスを再起動（必要に応じて）
+            # もし反映されない場合は、ロリポップ管理画面から「再起動」するか
+            # 独自にpm2などを使っている場合はそのコマンドを書きます
