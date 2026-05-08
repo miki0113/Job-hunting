@@ -12,9 +12,11 @@ export default async function handler(request) {
 
   try {
     const { searchParams } = new URL(request.url, `http://${request.headers.host}`);
-    const filename = searchParams.get('filename');
+    
+    // 元のファイル名が長くても、タイムスタンプ（数字）を名前にして確実に保存させます
+    const shortName = `file-${Date.now()}.docx`;
 
-    const blob = await put(filename, request, {
+    const blob = await put(shortName, request, {
       access: 'public',
       token: process.env.BLOB_READ_WRITE_TOKEN,
     });
