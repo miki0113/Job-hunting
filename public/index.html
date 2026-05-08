@@ -84,11 +84,12 @@
             const data = await res.json();
             const sel = document.getElementById('common-select');
             sel.innerHTML = '<option value="">-- 保存済みファイルを選択 --</option>';
-            const list = data.blobs || [];
-            list.forEach(blob => {
+            
+            // ロリポップ（server.js）の形式に合わせて修正
+            data.forEach(file => {
                 const opt = document.createElement('option');
-                opt.value = blob.url;
-                opt.innerText = decodeURIComponent(blob.pathname);
+                opt.value = file.url;
+                opt.innerText = file.name;
                 sel.appendChild(opt);
             });
         } catch (e) { console.error("一覧取得エラー"); }
@@ -100,11 +101,15 @@
         const msg = document.getElementById('status-msg');
         msg.style.color = "#0000ee";
         msg.innerText = "同期中...";
+
+        const formData = new FormData();
+        formData.append('file', file);
+
         try {
-            // ここで api/upload を叩くように完全に統一しました
-            const res = await fetch(`/api/upload?filename=${encodeURIComponent(file.name)}`, {
+            // ロリポップのAPIに合わせた送り方に修正
+            const res = await fetch('/api/upload', {
                 method: 'POST',
-                body: file,
+                body: formData
             });
             if (res.ok) {
                 msg.style.color = "#28a745";
