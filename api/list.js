@@ -1,5 +1,10 @@
 import { list } from '@vercel/blob';
 
+// ここが魔法の一行です！東京で動くように指示します
+export const config = {
+  regions: ['hnd1'], 
+};
+
 export default async function handler() {
   try {
     const blobs = await list({
