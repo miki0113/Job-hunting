@@ -1,9 +1,8 @@
 import { put } from '@vercel/blob';
 
 export const config = {
-  api: {
-    bodyParser: false,
-  },
+  api: { bodyParser: false },
+  regions: ['hnd1'], // ここを追加！
 };
 
 export default async function handler(request) {
