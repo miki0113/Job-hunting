@@ -1,10 +1,11 @@
-const express = require('express');
-const app = express();
-
-// 画面を表示させるためだけの最小限の設定
-app.use(express.static(__dirname));
-
-const PORT = process.env.PORT || 80;
-app.listen(PORT, () => {
-  console.log('Server is running');
-});
+{
+  "name": "my-job-memo",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
