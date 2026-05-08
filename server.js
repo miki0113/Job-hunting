@@ -4,32 +4,58 @@ const path = require('path');
 const fs = require('fs');
 const app = express();
 
-// ロリポップが嫌がらない「一時フォルダ」を保存先に使います
-const upload = multer({ dest: '/tmp/' });
+// 保存先フォルダ（一時フォルダ）
+const uploadDir = '/tmp/';
+const upload = multer({ dest: uploadDir });
 
 app.use(express.static(__dirname));
 
-// アップロードを受け付ける窓口
-app.post('/upload', upload.single('file'), (req, res) => {
+// 1. アップロード窓口 (HTMLの /api/upload に合わせる)
+app.post('/api/upload', upload.single('file'), (req, res) => {
   if (!req.file) return res.status(400).send('ファイルがありません');
+  
   // 元のファイル名で保存し直す
-  const targetPath = path.join('/tmp/', req.file.originalname);
-  fs.renameSync(req.file.path, targetPath);
-  res.send('アップロード完了！');
+  const targetPath = path.join(uploadDir, req.file.originalname);
+  
+  try {
+    fs.renameSync(req.file.path, targetPath);
+    res.json({ message: 'Success' });
+  } catch (e) {
+    res.status(500).send('保存失敗');
+  }
 });
 
-// 保存されたWordをリストに出す窓口
+// 2. リスト取得窓口 (HTMLの /api/list に合わせる)
 app.get('/api/list', (req, res) => {
-  fs.readdir('/tmp/', (err, files) => {
+  fs.readdir(uploadDir, (err, files) => {
     if (err) return res.json([]);
-    const wordFiles = files.filter(f => f.endsWith('.docx') || f.endsWith('.doc'));
-    res.json(wordFiles.map(f => ({ name: f, url: `/download/${f}` })));
+    
+    // Word, PDF, 画像など就活で使いそうなファイルをリストに出す
+    const targetFiles = files.filter(f => 
+      f.endsWith('.docx') || f.endsWith('.doc') || 
+      f.endsWith('.pdf') || f.endsWith('.png') || f.endsWith('.jpg')
+    );
+    
+    // HTML側が期待する { name, url } の形式で返す
+    res.json(targetFiles.map(f => ({ 
+      name: f, 
+      url: `/download/${f}` 
+    })));
   });
 });
 
-// ダウンロードする窓口
+// 3. ダウンロード窓口
 app.get('/download/:name', (req, res) => {
-  res.download(path.join('/tmp/', req.params.name));
+  const filePath = path.join(uploadDir, req.params.name);
+  if (fs.existsSync(filePath)) {
+    res.download(filePath);
+  } else {
+    res.status(404).send('ファイルが見つかりません');
+  }
 });
 
-app.listen(process.env.PORT || 3000);
+// ポート設定（ロリポップ用）
+const PORT = process.env.PORT || 80;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
