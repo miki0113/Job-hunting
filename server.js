@@ -3,9 +3,11 @@ const path = require('path');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// index.htmlがある場所（一番上の階層）を指定するだけ
-app.use(express.static(__dirname));
+// index.htmlを直接表示するだけのシンプルな命令
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
 
 app.listen(port, () => {
-  console.log(`Server running`);
+  console.log('Server is running');
 });
