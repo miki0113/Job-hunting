@@ -3,7 +3,7 @@ import { list } from '@vercel/blob';
 export default async function handler() {
   try {
     const blobs = await list({
-      token: process.env.MY_BLOB_READ_WRITE_TOKEN
+      token: process.env.BLOB_READ_WRITE_TOKEN
     });
     return new Response(JSON.stringify(blobs), {
       status: 200,
