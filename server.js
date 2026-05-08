@@ -4,31 +4,31 @@ const fs = require('fs');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// 現在のディレクトリを基準にする
-const currentDir = __dirname;
+// 絶対パスで場所を特定する
+const currentDir = path.resolve(__dirname);
 const pdfDir = path.join(currentDir, 'PDF');
 
-// 1. 静的ファイルの配信（PDFフォルダなどを公開）
-app.use(express.static(currentDir));
-app.use('/PDF', express.static(pdfDir));
-
-// 2. トップページ（index.html）を確実に表示させる設定
+// index.htmlが存在するかチェックしてから表示する
 app.get('/', (req, res) => {
-    res.sendFile(path.join(currentDir, 'index.html'));
+    const indexPath = path.join(currentDir, 'index.html');
+    if (fs.existsSync(indexPath)) {
+        res.sendFile(indexPath);
+    } else {
+        res.status(404).send('index.htmlが見つかりません。現在の場所: ' + currentDir);
+    }
 });
 
-// 3. ファイル一覧取得API
+// PDFフォルダを公開
+app.use('/PDF', express.static(pdfDir));
+app.use(express.static(currentDir));
+
+// ファイル一覧API
 app.get('/api/list', (req, res) => {
-    if (!fs.existsSync(pdfDir)) {
-        return res.json([]);
-    }
+    if (!fs.existsSync(pdfDir)) return res.json([]);
     const files = fs.readdirSync(pdfDir).filter(f => !f.startsWith('.'));
-    res.json(files.map(f => ({
-        name: f,
-        url: `/PDF/${encodeURIComponent(f)}`
-    })));
+    res.json(files.map(f => ({ name: f, url: `/PDF/${encodeURIComponent(f)}` })));
 });
 
 app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
+    console.log(`Server started`);
 });
