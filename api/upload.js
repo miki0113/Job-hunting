@@ -15,10 +15,9 @@ export default async function handler(request) {
     const { searchParams } = new URL(request.url, `http://${request.headers.host}`);
     const filename = searchParams.get('filename');
 
-    // 読み込みを最短にする書き方に変更しました
     const blob = await put(filename, request, {
       access: 'public',
-      token: process.env.MY_BLOB_READ_WRITE_TOKEN,
+      token: process.env.BLOB_READ_WRITE_TOKEN,
     });
 
     return new Response(JSON.stringify(blob), {
