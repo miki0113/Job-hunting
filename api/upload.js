@@ -1,17 +1,18 @@
 import { put } from '@vercel/blob';
 
 export default async function handler(request) {
+  if (request.method !== 'POST') {
+    return new Response('Method Not Allowed', { status: 405 });
+  }
+
   try {
     const { searchParams } = new URL(request.url, `http://${request.headers.host}`);
     const filename = searchParams.get('filename');
-    const file = await request.body;
 
-    // MY_ の鍵だけを真っ直ぐ見に行くようにしました
-    const token = process.env.MY_BLOB_READ_WRITE_TOKEN;
-
-    const blob = await put(filename, file, {
+    // PCから確実にトークンを読み込ませる設定です
+    const blob = await put(filename, request.body, {
       access: 'public',
-      token: token,
+      token: process.env.MY_BLOB_READ_WRITE_TOKEN,
     });
 
     return new Response(JSON.stringify(blob), {
@@ -19,7 +20,12 @@ export default async function handler(request) {
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (error) {
-    // もしエラーが出ても、内容をハッキリ表示させます
     return new Response(`Error: ${error.message}`, { status: 500 });
   }
 }
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
