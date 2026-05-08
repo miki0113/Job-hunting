@@ -3,7 +3,7 @@ const path = require('path');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// PDFのことは考えず、index.htmlを表示するだけの以前の形に戻します
+// シンプルに現在のフォルダにあるファイルを表示する設定
 app.use(express.static(__dirname));
 
 app.listen(port, () => {
