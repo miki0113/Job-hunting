@@ -1,7 +1,6 @@
 {
   "name": "job-hunting-memo",
   "version": "1.0.0",
-  "description": "就活メモとファイル同期システム",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
