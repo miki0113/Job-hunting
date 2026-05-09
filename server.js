@@ -5,16 +5,10 @@ const multer = require('multer');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// 保存先フォルダを「作業ディレクトリ直下」に指定
-const uploadDir = './uploads';
-
-// 起動時にフォルダがあるか確認し、なければ作る（エラーが出ても無視して進む設定）
-try {
-    if (!fs.existsSync(uploadDir)) {
-        fs.mkdirSync(uploadDir);
-    }
-} catch (e) {
-    console.log("Folder check skipped");
+// 保存先フォルダ設定（エラー防止のためシンプルに）
+const uploadDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadDir)) {
+    try { fs.mkdirSync(uploadDir); } catch (e) {}
 }
 
 const storage = multer.diskStorage({
@@ -36,10 +30,10 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
 });
 
 app.get('/api/list', (req, res) => {
-    fs.readdir(uploadDir, (err, files) => {
-        if (err) return res.json([]);
+    try {
+        const files = fs.readdirSync(uploadDir);
         res.json(files.map(file => ({ name: file, url: `/uploads/${file}` })));
-    });
+    } catch (e) { res.json([]); }
 });
 
 app.listen(PORT, () => {
