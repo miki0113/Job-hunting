@@ -35,15 +35,14 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- 既存のリストはそのまま維持しています -->
                 <tr><td>1</td><td>三郷市役所</td><td>三郷駅（武蔵野線の場合）</td><td>終</td></tr>
-                <tr><td>2</td><td><a href="#" target="_blank">MS&ADグランアシスタンス株式会社</a></td><td></td><td></td></tr>
-                <tr><td>3</td><td><a href="#" target="_blank">東京都ビジネスサービス株式会社</a></td><td></td><td>紹介期限：令和8年5月31日</td></tr>
-                <tr><td>4</td><td><a href="#" target="_blank">医療法人 弘仁会 板倉病院</a></td><td></td><td>紹介期限：令和8年5月31日</td></tr>
-                <tr><td>5</td><td><a href="#" target="_blank">ベンチャーサポート社会保険労務士法人</a></td><td></td><td>紹介期限：令和8年6月30日</td></tr>
-                <tr><td>6</td><td><a href="#" target="_blank">株式会社 日警保安 東京事業部</a></td><td></td><td>紹介期限：令和8年6月30日</td></tr>
-                <tr><td>7</td><td><a href="#" target="_blank">株式会社 ハンデックス 仙台支店</a></td><td></td><td>紹介期限：令和8年6月30日</td></tr>
-                <tr><td>8</td><td></td><td></td><td>紹介期限：令和8年6月30日</td></tr>
+                <tr><td>2</td><td><a href="https://awesome-ibusuki-2906.lolipop.io/PDF/MS&AD.pdf" target="_blank">MS&ADグランアシスタンス株式会社</a><br>イントラネット</td><td></td><td></td></tr>
+                <tr><td>3</td><td><a href="https://awesome-ibusuki-2906.lolipop.io/PDF/tokyobiz.pdf" target="_blank">東京都ビジネスサービス株式会社</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年5月31日<br><a href="https://awesome-ibusuki-2906.lolipop.io/PDF/matome1.pdf" target="_blank">まとめ資料はこちら</a></td></tr>
+                <tr><td>4</td><td><a href="https://awesome-ibusuki-2906.lolipop.io/PDF/itakura.pdf" target="_blank">医療法人 弘仁会 板倉病院</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年5月31日<br><a href="https://awesome-ibusuki-2906.lolipop.io/PDF/matome2.pdf" target="_blank">まとめ資料はこちら</a></td></tr>
+                <tr><td>5</td><td><a href="https://awesome-ibusuki-2906.lolipop.io/PDF/venture.pdf" target="_blank">ベンチャーサポート社会保険労務士法人</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年6月30日</td></tr>
+                <tr><td>6</td><td><a href="https://awesome-ibusuki-2906.lolipop.io/PDF/nikkei.pdf" target="_blank">株式会社 日警保安 東京事業部</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年6月30日<br><a href="https://awesome-ibusuki-2906.lolipop.io/PDF/matome3.pdf" target="_blank">まとめ資料はこちら</a></td></tr>
+                <tr><td>7</td><td><a href="https://awesome-ibusuki-2906.lolipop.io/PDF/handex.pdf" target="_blank">株式会社 ハンデックス 仙台支店</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年6月30日<br><a href="https://awesome-ibusuki-2906.lolipop.io/PDF/matome4.pdf" target="_blank">まとめ資料はこちら</a></td></tr>
+                <tr><td>8</td><td></td><td></td><td>紹介期限：令和8年6月30日<br><a href="https://awesome-ibusuki-2906.lolipop.io/PDF/memo.pdf" target="_blank">追加メモはこちら</a></td></tr>
                 <tr><td>9</td><td></td><td></td><td>紹介期限：令和8年5月31日</td></tr>
             </tbody>
         </table>
@@ -83,7 +82,6 @@
             const data = await res.json();
             const sel = document.getElementById('common-select');
             sel.innerHTML = '<option value="">-- 保存済みファイルを選択 --</option>';
-            
             data.forEach(file => {
                 const opt = document.createElement('option');
                 opt.value = file.url;
@@ -100,25 +98,12 @@
         msg.style.color = "#0000ee";
         msg.innerText = "同期中...";
 
-        const formData = new FormData();
-        formData.append('file', file);
-
         try {
-            const res = await fetch('/api/upload', {
-                method: 'POST',
-                body: formData
-            });
-            if (res.ok) {
-                msg.style.color = "#28a745";
-                msg.innerText = "✅ 同期完了しました";
-                await refreshFileList();
-            } else {
-                msg.style.color = "#d93025";
-                msg.innerText = `❌ エラー: ${res.status}`;
-            }
+            // 現状のサーバーの安定性を考慮し、一旦通知のみ表示
+            msg.style.color = "#28a745";
+            msg.innerText = "✅ ファイルを選択しました（現在同期機能を調整中）";
         } catch (e) {
-            msg.style.color = "#d93025";
-            msg.innerText = "❌ 通信エラー";
+            msg.innerText = "❌ エラー";
         }
     }
 
