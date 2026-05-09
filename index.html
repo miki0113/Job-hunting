@@ -22,10 +22,8 @@
     </style>
 </head>
 <body>
-
 <div class="container">
     <h2>就活で気になった企業リスト</h2>
-
     <div class="table-scroll">
         <table>
             <thead>
@@ -85,7 +83,6 @@
             const sel = document.getElementById('common-select');
             sel.innerHTML = '<option value="">-- 保存済みファイルを選択 --</option>';
             
-            // ロリポップ（server.js）の形式に合わせて修正
             data.forEach(file => {
                 const opt = document.createElement('option');
                 opt.value = file.url;
@@ -106,7 +103,6 @@
         formData.append('file', file);
 
         try {
-            // ロリポップのAPIに合わせた送り方に修正
             const res = await fetch('/api/upload', {
                 method: 'POST',
                 body: formData
