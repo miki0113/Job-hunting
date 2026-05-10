@@ -80,7 +80,12 @@
             const data = await res.json();
             const sel = document.getElementById('common-select');
             sel.innerHTML = '<option value="">-- 保存済みファイルを選択 --</option>';
+            
             data.forEach(name => {
+                // 「RAFAA」で始まるファイル、または特定の募集要項ファイルはプルダウンに表示しない
+                if (name.startsWith('RAFAA') || name.includes('板倉病院') || name.includes('日警保安')) {
+                    return; 
+                }
                 const opt = document.createElement('option');
                 opt.value = name; opt.innerText = name;
                 sel.appendChild(opt);
