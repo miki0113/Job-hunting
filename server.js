@@ -4,9 +4,10 @@ const fs = require('fs');
 const path = require('path');
 const app = express();
 
-// 保存先の設定（RenderのDisk "/PDF" を使用）
+// 保存先の設定（RenderのDisk "/PDF" を最優先に使用）
 const saveDir = process.env.SAVE_DIR || path.join(__dirname, 'PDF');
 
+// フォルダがなければ自動作成
 if (!fs.existsSync(saveDir)) {
     fs.mkdirSync(saveDir, { recursive: true });
 }
@@ -14,13 +15,16 @@ if (!fs.existsSync(saveDir)) {
 // 静的ファイルの提供（index.htmlなどを表示できるようにする）
 app.use(express.static(__dirname));
 
+// アップロードの設定
 const storage = multer.diskStorage({
     destination: (req, file, cb) => cb(null, saveDir),
     filename: (req, file, cb) => cb(null, file.originalname)
 });
 const upload = multer({ storage: storage });
 
-// 1. ファイル一覧を返す（フロントエンドでこれを使います）
+// --- 各命令（ルート） ---
+
+// 1. ファイル一覧を取得してフロント（HTML）に返す
 app.get('/api/files', (req, res) => {
     fs.readdir(saveDir, (err, files) => {
         if (err) return res.status(500).json([]);
@@ -28,19 +32,25 @@ app.get('/api/files', (req, res) => {
     });
 });
 
-// 2. アップロード
+// 2. ファイルをアップロードする
 app.post('/upload', upload.single('pdfFile'), (req, res) => {
     res.redirect('/');
 });
 
-// 3. 削除（ゴミ箱機能の本体）
+// 3. ファイルを削除する（ゴミ箱機能の本体）
 app.delete('/delete/:filename', (req, res) => {
     const filePath = path.join(saveDir, req.params.filename);
     fs.unlink(filePath, (err) => {
-        if (err) return res.status(500).send("消せませんでした");
-        res.send("消去完了");
+        if (err) {
+            console.error(err);
+            return res.status(500).send("消せませんでした");
+        }
+        res.send("削除完了");
     });
 });
 
+// サーバーを起動
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Running on port ${PORT}`));
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
