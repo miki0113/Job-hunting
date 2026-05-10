@@ -18,8 +18,7 @@
         .file-controls { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
         .btn { padding: 6px 12px; border: 1px solid #999; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 12px; background: #fff; }
         .file-select { padding: 5px; font-size: 12px; min-width: 220px; border: 1px solid #999; }
-        /* 完了メッセージ用のスタイル */
-        #status-msg { font-size: 11px; color: #d00; margin-top: 5px; min-height: 1.2em; }
+        #status-msg { font-size: 11px; color: #d00; margin-top: 5px; min-height: 1.2em; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -38,20 +37,16 @@
             <tbody>
                 <tr><td>1</td><td>三郷市役所</td><td>三郷駅（武蔵野線の場合）</td><td>終</td></tr>
                 <tr><td>2</td><td><a href="https://job-search.litalico.co.jp/companies/116?index=area" target="_blank">MS&ADグランアシスタンス株式会社</a><br>イントラネット</td><td></td><td></td></tr>
-                <tr><td>3</td><td><a href="/PDF/RAFAA235010202604290932380861669092556543138702.pdf" target="_blank">東京都ビジネスサービス株式会社</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年5月31日</td></tr>
-                <tr><td>4</td><td><a href="/PDF/医療法人 弘仁会 板倉病院.pdf" target="_blank">医療法人 弘仁会 板倉病院</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年5月31日</td></tr>
-                <tr><td>5</td><td><a href="/PDF/RAFAA23501020260429093254877621008202362889814.pdf" target="_blank">ベンチャーサポート社会保険労務士法人</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年6月30日</td></tr>
-                <tr><td>6</td><td><a href="/PDF/株式会社 日警保安 東京事業部.pdf" target="_blank">株式会社 日警保安 東京事業部</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年6月30日</td></tr>
-                <tr><td>7</td><td><a href="/PDF/RAFAA235010202605061009399703247084278534433893.pdf" target="_blank">株式会社 ハンデックス 仙台支店</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年6月30日</td></tr>
-                <tr><td>8</td><td></td><td></td><td>紹介期限：令和8年6月30日</td></tr>
-                <tr><td>9</td><td></td><td></td><td>紹介期限：令和8年5月31日</td></tr>
+                <tr><td>3</td><td><a href="/master_files/RAFAA235010202604290932380861669092556543138702.pdf" target="_blank">東京都ビジネスサービス株式会社</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年5月31日</td></tr>
+                <tr><td>4</td><td><a href="/master_files/医療法人 弘仁会 板倉病院.pdf" target="_blank">医療法人 弘仁会 板倉病院</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年5月31日</td></tr>
+                <tr><td>5</td><td><a href="/master_files/RAFAA23501020260429093254877621008202362889814.pdf" target="_blank">ベンチャーサポート社会保険労務士法人</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年6月30日</td></tr>
+                <tr><td>6</td><td><a href="/master_files/株式会社 日警保安 東京事業部.pdf" target="_blank">株式会社 日警保安 東京事業部</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年6月30日</td></tr>
+                <tr><td>7</td><td><a href="/master_files/RAFAA235010202605061009399703247084278534433893.pdf" target="_blank">株式会社 ハンデックス 仙台支店</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年6月30日</td></tr>
             </tbody>
         </table>
     </div>
 
-    <div class="footer-links">
-        atGP &nbsp;&nbsp; クローバーナビ &nbsp;&nbsp; dodaチャレンジ &nbsp;&nbsp; ハローワーク
-    </div>
+    <div class="footer-links">atGP &nbsp;&nbsp; クローバーナビ &nbsp;&nbsp; dodaチャレンジ &nbsp;&nbsp; ハローワーク</div>
 
     <div class="memo-area">
         <strong>■ 追記メモ</strong><br><br>
@@ -62,8 +57,8 @@
     <div class="sync-section">
         <strong>■ 提出書類 同期（履歴書・職務経歴書など）</strong>
         <div class="file-controls">
-            <form action="/upload" method="POST" enctype="multipart/form-data" id="upload-form">
-                <input type="file" name="pdfFile" id="common-upload" style="display:none;" onchange="handleUpload(this)">
+            <form id="upload-form">
+                <input type="file" id="common-upload" style="display:none;" onchange="handleUpload(this)">
                 <button type="button" class="btn" onclick="document.getElementById('common-upload').click()">📤 ファイルをUP</button>
             </form>
             <select id="common-select" class="file-select">
@@ -78,31 +73,22 @@
 <script>
     window.onload = refreshFileList;
 
-    // ファイルアップロード処理
     async function handleUpload(input) {
         if (!input.files[0]) return;
-        
         const status = document.getElementById('status-msg');
-        status.innerText = "アップロード中...";
-        
+        status.innerHTML = "⌛ アップロード中...";
         const formData = new FormData();
         formData.append('pdfFile', input.files[0]);
 
         try {
-            const res = await fetch('/upload', {
-                method: 'POST',
-                body: formData
-            });
+            const res = await fetch('/upload', { method: 'POST', body: formData });
             if (res.ok) {
-                status.innerText = "✅ " + input.files[0].name + " のアップロードが完了しました";
-                refreshFileList(); // リストを更新
-            } else {
-                status.innerText = "❌ アップロードに失敗しました";
-            }
-        } catch (e) {
-            status.innerText = "❌ 接続エラーが発生しました";
-        }
-        input.value = ''; // 選択をリセット
+                status.innerHTML = "✅ " + input.files[0].name + " のアップロードが完了しました";
+                await refreshFileList();
+                document.getElementById('common-select').value = input.files[0].name;
+            } else { status.innerHTML = "❌ 失敗しました"; }
+        } catch (e) { status.innerHTML = "❌ 接続エラー"; }
+        input.value = '';
     }
 
     async function refreshFileList() {
@@ -110,13 +96,15 @@
             const res = await fetch('/api/files');
             const data = await res.json();
             const sel = document.getElementById('common-select');
+            const current = sel.value;
             sel.innerHTML = '<option value="">-- 保存済みファイルを選択 --</option>';
             data.forEach(name => {
                 const opt = document.createElement('option');
                 opt.value = name; opt.innerText = name;
                 sel.appendChild(opt);
             });
-        } catch (e) { console.error("Error fetching list"); }
+            if (current) sel.value = current;
+        } catch (e) { console.error("Error"); }
     }
 
     function handleDownload() {
