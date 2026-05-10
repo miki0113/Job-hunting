@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>就活メモ</title>
+    <style>
+        body { font-family: sans-serif; background-color: #f4f4f4; padding: 20px; margin: 0; }
+        .container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); width: 100%; max-width: 1000px; margin: auto; }
+        h2 { text-align: center; color: #333; font-size: 14px; margin-bottom: 20px; }
+        .table-scroll { width: 100%; overflow-x: auto; margin-bottom: 10px; border-bottom: 1px solid #ccc; }
+        table { width: 100%; min-width: 800px; border-collapse: collapse; background: #fff; }
+        th, td { border: 1px solid #999; padding: 8px; text-align: center; font-size: 12px; }
+        th { background-color: #eee; }
+        .footer-links { text-align: center; font-size: 12px; margin: 20px 0; color: #0000ee; }
+        .memo-area { border: 1px dashed #999; padding: 15px; font-size: 12px; margin-bottom: 40px; }
+        .sync-section { border-top: 1px solid #ccc; padding-top: 25px; text-align: center; }
+        .file-controls { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+        .btn { padding: 6px 12px; border: 1px solid #999; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 12px; background: #fff; }
+        .file-select { padding: 5px; font-size: 12px; min-width: 220px; border: 1px solid #999; }
+        .status-msg { font-size: 12px; margin-top: 5px; font-weight: bold; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>就活で気になった企業リスト</h2>
+    <div class="table-scroll">
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 10%;">番号</th>
+                    <th style="width: 30%;">企業名（サイト名）</th>
+                    <th style="width: 30%;">通勤時間（最寄り駅）</th>
+                    <th style="width: 30%;">メモ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>三郷市役所</td><td>三郷駅</td><td>終</td></tr>
+                <tr><td>2</td><td><a href="/PDF/MS&AD.pdf" target="_blank">MS&AD</a></td><td></td><td></td></tr>
+                <tr><td>3</td><td><a href="/PDF/tokyobiz.pdf" target="_blank">東京都ビジネスサービス</a></td><td></td><td>紹介期限：R8/5/31</td></tr>
+                </tbody>
+        </table>
+    </div>
+
+    <div class="footer-links">
+        atGP &nbsp;&nbsp; クローバーナビ &nbsp;&nbsp; dodaチャレンジ &nbsp;&nbsp; ハローワーク
+    </div>
+
+    <div class="memo-area">
+        <strong>■ 追記メモ</strong><br><br>
+        ・履歴書の添削依頼をスタッフさんに提出済み（4/23）
+    </div>
+
+    <div class="sync-section">
+        <strong>■ 提出書類 同期（履歴書・職務経歴書など）</strong>
+        <div class="file-controls">
+            <form action="/upload" method="POST" enctype="multipart/form-data" style="display: inline;">
+                <input type="file" name="pdfFile" id="common-upload" style="display:none;" onchange="this.form.submit()">
+                <button type="button" class="btn" onclick="document.getElementById('common-upload').click()">📤 ファイルをUP</button>
+            </form>
+
+            <select id="common-select" class="file-select">
+                <option value="">-- 保存済みファイルを選択 --</option>
+            </select>
+
+            <button class="btn" onclick="handleDownload()">📥 ダウンロード</button>
+        </div>
+        <div id="status-msg" class="status-msg"></div>
+    </div>
+</div>
+
+<script>
+    // ページが開いた時にファイル一覧を取得する
+    window.onload = async function() {
+        try {
+            const res = await fetch('/api/files');
+            const data = await res.json();
+            const sel = document.getElementById('common-select');
+            data.forEach(file => {
+                const opt = document.createElement('option');
+                opt.value = file;
+                opt.innerText = file;
+                sel.appendChild(opt);
+            });
+        } catch (e) { console.error("一覧取得失敗"); }
+    };
+
+    function handleDownload() {
+        const fileName = document.getElementById('common-select').value;
+        if (fileName) window.open('/PDF/' + fileName, '_blank');
+        else alert("書類を選択してください");
+    }
+</script>
+</body>
+</html>
