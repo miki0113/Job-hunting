@@ -18,7 +18,6 @@
         .file-controls { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
         .btn { padding: 6px 12px; border: 1px solid #999; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 12px; background: #fff; }
         .file-select { padding: 5px; font-size: 12px; min-width: 220px; border: 1px solid #999; }
-        .status-msg { font-size: 12px; margin-top: 5px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -35,13 +34,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr><td>1</td><td>三郷市役所</td><td>三郷駅</td><td>終</td></tr>
-                <tr><td>2</td><td><a href="/PDF/MS&AD.pdf" target="_blank">MS&ADグランアシスタンス株式会社</a></td><td></td><td></td></tr>
-                <tr><td>3</td><td><a href="/PDF/tokyobiz.pdf" target="_blank">東京都ビジネスサービス株式会社</a></td><td></td><td>紹介期限：令和8年5月31日</td></tr>
-                <tr><td>4</td><td><a href="/PDF/itakura.pdf" target="_blank">医療法人 弘仁会 板倉病院</a></td><td></td><td>紹介期限：令和8年5月31日</td></tr>
-                <tr><td>5</td><td><a href="/PDF/venture.pdf" target="_blank">ベンチャーサポート社会保険労務士法人</a></td><td></td><td>紹介期限：令和8年6月30日</td></tr>
-                <tr><td>6</td><td><a href="/PDF/nikkei.pdf" target="_blank">株式会社 日警保安 東京事業部</a></td><td></td><td>紹介期限：令和8年6月30日</td></tr>
-                <tr><td>7</td><td><a href="/PDF/handex.pdf" target="_blank">株式会社 ハンデックス 仙台支店</a></td><td></td><td>紹介期限：令和8年6月30日</td></tr>
+                <tr><td>1</td><td>三郷市役所</td><td>三郷駅（武蔵野線の場合）</td><td>終</td></tr>
+                <tr><td>2</td><td><a href="/PDF/RAFAA235010202604290932048538810908074250214855.pdf" target="_blank">MS&ADグランアシスタンス株式会社</a><br>イントラネット</td><td></td><td></td></tr>
+                <tr><td>3</td><td><a href="/PDF/RAFAA235010202604290932380861669092556543138702.pdf" target="_blank">東京都ビジネスサービス株式会社</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年5月31日</td></tr>
+                <tr><td>4</td><td><a href="/PDF/医療法人 弘仁会 板倉病院.pdf" target="_blank">医療法人 弘仁会 板倉病院</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年5月31日</td></tr>
+                <tr><td>5</td><td><a href="/PDF/RAFAA23501020260429093254877621008202362889814.pdf" target="_blank">ベンチャーサポート社会保険労務士法人</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年6月30日</td></tr>
+                <tr><td>6</td><td><a href="/PDF/株式会社 日警保安 東京事業部.pdf" target="_blank">株式会社 日警保安 東京事業部</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年6月30日</td></tr>
+                <tr><td>7</td><td><a href="/PDF/RAFAA235010202605061009399703247084278534433893.pdf" target="_blank">株式会社 ハンデックス 仙台支店</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年6月30日</td></tr>
                 <tr><td>8</td><td></td><td></td><td>紹介期限：令和8年6月30日</td></tr>
                 <tr><td>9</td><td></td><td></td><td>紹介期限：令和8年5月31日</td></tr>
             </tbody>
@@ -65,47 +64,33 @@
                 <input type="file" name="pdfFile" id="common-upload" style="display:none;" onchange="document.getElementById('upload-form').submit()">
                 <button type="button" class="btn" onclick="document.getElementById('common-upload').click()">📤 ファイルをUP</button>
             </form>
-
             <select id="common-select" class="file-select">
                 <option value="">-- 保存済みファイルを選択 --</option>
             </select>
-
             <button class="btn" onclick="handleDownload()">📥 ダウンロード</button>
         </div>
-        <div id="status-msg" class="status-msg"></div>
     </div>
 </div>
 
 <script>
-    // ページを読み込んだ時に、サーバーにあるファイル一覧を取得してセレクトボックスに入れる
     window.onload = refreshFileList;
-
     async function refreshFileList() {
         try {
             const res = await fetch('/api/files');
-            if (!res.ok) return;
             const data = await res.json();
             const sel = document.getElementById('common-select');
             sel.innerHTML = '<option value="">-- 保存済みファイルを選択 --</option>';
-            data.forEach(fileName => {
+            data.forEach(name => {
                 const opt = document.createElement('option');
-                opt.value = fileName;
-                opt.innerText = fileName;
+                opt.value = name; opt.innerText = name;
                 sel.appendChild(opt);
             });
-        } catch (e) {
-            console.error("一覧取得エラー");
-        }
+        } catch (e) { console.error("Error"); }
     }
-
-    // ダウンロードボタンが押された時の処理
     function handleDownload() {
-        const fileName = document.getElementById('common-select').value;
-        if (fileName) {
-            window.open('/PDF/' + fileName, '_blank');
-        } else {
-            alert("書類を選択してください");
-        }
+        const name = document.getElementById('common-select').value;
+        if (name) window.open('/PDF/' + name, '_blank');
+        else alert("書類を選択してください");
     }
 </script>
 </body>
