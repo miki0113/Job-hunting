@@ -1,41 +1,68 @@
 const express = require('express');
-const path = require('path');
-const fs = require('fs');
 const multer = require('multer');
+const fs = require('fs');
+const path = require('path');
 const app = express();
-const PORT = process.env.PORT || 3000;
 
-// 保存先フォルダ設定（エラー防止のためシンプルに）
-const uploadDir = path.join(__dirname, 'uploads');
-if (!fs.existsSync(uploadDir)) {
-    try { fs.mkdirSync(uploadDir); } catch (e) {}
+// 1. 保存先の決定（RenderのDisk "/PDF" を最優先、なければ "PDF" フォルダ）
+const saveDir = process.env.SAVE_DIR || path.join(__dirname, 'PDF');
+
+// 保存先フォルダがない場合は自動で作る
+if (!fs.existsSync(saveDir)) {
+    fs.mkdirSync(saveDir, { recursive: true });
 }
 
+// EJSを使う設定（もしHTMLをレンダリングしている場合）
+app.set('view engine', 'ejs');
+app.use(express.static('public'));
+
+// 2. アップロードの設定
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => cb(null, uploadDir),
+    destination: (req, file, cb) => {
+        cb(null, saveDir);
+    },
     filename: (req, file, cb) => {
-        const safeName = Buffer.from(file.originalname, 'latin1').toString('utf8');
-        cb(null, safeName);
+        cb(null, file.originalname);
     }
 });
 const upload = multer({ storage: storage });
 
-app.use(express.static(__dirname));
-app.use('/PDF', express.static(path.join(__dirname, 'PDF')));
-app.use('/uploads', express.static(uploadDir));
+// --- ここからが各ルート（命令） ---
 
-app.post('/api/upload', upload.single('file'), (req, res) => {
-    if (!req.file) return res.status(400).send('No file');
-    res.json({ name: req.file.filename, url: `/uploads/${req.file.filename}` });
+// メイン画面：ファイル一覧を取得して表示
+app.get('/', (req, res) => {
+    fs.readdir(saveDir, (err, files) => {
+        if (err) {
+            return res.status(500).send("フォルダが読み込めません");
+        }
+        // index.ejs（またはhtml）にファイルリストを渡す
+        res.render('index', { files: files });
+    });
 });
 
-app.get('/api/list', (req, res) => {
-    try {
-        const files = fs.readdirSync(uploadDir);
-        res.json(files.map(file => ({ name: file, url: `/uploads/${file}` })));
-    } catch (e) { res.json([]); }
+// 【アップロード機能】
+app.post('/upload', upload.single('pdfFile'), (req, res) => {
+    res.redirect('/');
 });
 
+// 【削除機能】★ここが今回追加したい「掃除機」の正体です
+app.delete('/delete/:filename', (req, res) => {
+    const fileName = req.params.filename;
+    const filePath = path.join(saveDir, fileName);
+
+    // 本当にDisk（金庫）からファイルを消す命令
+    fs.unlink(filePath, (err) => {
+        if (err) {
+            console.error("削除エラー:", err);
+            return res.status(500).send("ファイルが消せませんでした");
+        }
+        console.log(fileName + " を削除しました");
+        res.send("削除成功");
+    });
+});
+
+// サーバー起動の設定
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 });
