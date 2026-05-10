@@ -12,13 +12,11 @@
         table { width: 100%; min-width: 800px; border-collapse: collapse; background: #fff; }
         th, td { border: 1px solid #999; padding: 8px; text-align: center; font-size: 12px; }
         th { background-color: #eee; }
-        .footer-links { text-align: center; font-size: 12px; margin: 20px 0; color: #0000ee; }
         .memo-area { border: 1px dashed #999; padding: 15px; font-size: 12px; margin-bottom: 40px; }
         .sync-section { border-top: 1px solid #ccc; padding-top: 25px; text-align: center; }
-        .file-controls { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
         .btn { padding: 6px 12px; border: 1px solid #999; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 12px; background: #fff; }
         .file-select { padding: 5px; font-size: 12px; min-width: 220px; border: 1px solid #999; }
-        #status-msg { font-size: 11px; color: #d00; margin-top: 5px; min-height: 1.2em; font-weight: bold; }
+        #status-msg { font-size: 11px; color: #0000ee; margin-top: 10px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -27,44 +25,28 @@
     <div class="table-scroll">
         <table>
             <thead>
-                <tr>
-                    <th style="width: 10%;">番号</th>
-                    <th style="width: 30%;">企業名（サイト名）</th>
-                    <th style="width: 30%;">通勤時間（最寄り駅）</th>
-                    <th style="width: 30%;">メモ</th>
-                </tr>
+                <tr><th style="width: 10%;">番号</th><th style="width: 30%;">企業名（サイト名）</th><th style="width: 30%;">通勤時間（最寄り駅）</th><th style="width: 30%;">メモ</th></tr>
             </thead>
             <tbody>
-                <tr><td>1</td><td>三郷市役所</td><td>三郷駅（武蔵野線の場合）</td><td>終</td></tr>
-                <tr><td>2</td><td><a href="https://job-search.litalico.co.jp/companies/116?index=area" target="_blank">MS&ADグランアシスタンス株式会社</a><br>イントラネット</td><td></td><td></td></tr>
-                <tr><td>3</td><td><a href="/master_files/RAFAA235010202604290932380861669092556543138702.pdf" target="_blank">東京都ビジネスサービス株式会社</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年5月31日</td></tr>
-                <tr><td>4</td><td><a href="/master_files/医療法人 弘仁会 板倉病院.pdf" target="_blank">医療法人 弘仁会 板倉病院</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年5月31日</td></tr>
-                <tr><td>5</td><td><a href="/master_files/RAFAA23501020260429093254877621008202362889814.pdf" target="_blank">ベンチャーサポート社会保険労務士法人</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年6月30日</td></tr>
-                <tr><td>6</td><td><a href="/master_files/株式会社 日警保安 東京事業部.pdf" target="_blank">株式会社 日警保安 東京事業部</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年6月30日</td></tr>
-                <tr><td>7</td><td><a href="/master_files/RAFAA235010202605061009399703247084278534433893.pdf" target="_blank">株式会社 ハンデックス 仙台支店</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年6月30日</td></tr>
+                <tr><td>3</td><td><a href="/PDF/RAFAA235010202604290932380861669092556543138702.pdf" target="_blank">東京都ビジネスサービス株式会社</a></td><td></td><td></td></tr>
+                <tr><td>4</td><td><a href="/PDF/医療法人 弘仁会 板倉病院.pdf" target="_blank">医療法人 弘仁会 板倉病院</a></td><td></td><td></td></tr>
+                <tr><td>6</td><td><a href="/PDF/株式会社 日警保安 東京事業部.pdf" target="_blank">株式会社 日警保安 東京事業部</a></td><td></td><td></td></tr>
             </tbody>
         </table>
     </div>
 
-    <div class="footer-links">atGP &nbsp;&nbsp; クローバーナビ &nbsp;&nbsp; dodaチャレンジ &nbsp;&nbsp; ハローワーク</div>
-
     <div class="memo-area">
         <strong>■ 追記メモ</strong><br><br>
-        ・履歴書の添削依頼をスタッフさんに提出済み（4/23）<br>
-        ・今回のリストに関しては見つけたものを並べただけであり優先順位を付けたものではない
+        ・履歴書の添削依頼をスタッフさんに提出済み（4/23）
     </div>
 
     <div class="sync-section">
         <strong>■ 提出書類 同期（履歴書・職務経歴書など）</strong>
-        <div class="file-controls">
-            <form id="upload-form">
-                <input type="file" id="common-upload" style="display:none;" onchange="handleUpload(this)">
-                <button type="button" class="btn" onclick="document.getElementById('common-upload').click()">📤 ファイルをUP</button>
-            </form>
-            <select id="common-select" class="file-select">
-                <option value="">-- 保存済みファイルを選択 --</option>
-            </select>
-            <button class="btn" onclick="handleDownload()">📥 ダウンロード</button>
+        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 10px; flex-wrap: wrap;">
+            <input type="file" id="common-upload" style="display:none;" onchange="handleUpload(this)">
+            <button type="button" class="btn" onclick="document.getElementById('common-upload').click()">📤 ファイルをUP</button>
+            <select id="common-select" class="file-select"></select>
+            <button class="btn" onclick="handleDownload()">📥 ダウンロード/表示</button>
         </div>
         <div id="status-msg"></div>
     </div>
@@ -72,45 +54,37 @@
 
 <script>
     window.onload = refreshFileList;
-
     async function handleUpload(input) {
         if (!input.files[0]) return;
         const status = document.getElementById('status-msg');
         status.innerHTML = "⌛ アップロード中...";
         const formData = new FormData();
         formData.append('pdfFile', input.files[0]);
-
         try {
             const res = await fetch('/upload', { method: 'POST', body: formData });
             if (res.ok) {
-                status.innerHTML = "✅ " + input.files[0].name + " のアップロードが完了しました";
+                status.innerHTML = "アップロード成功！";
                 await refreshFileList();
                 document.getElementById('common-select').value = input.files[0].name;
-            } else { status.innerHTML = "❌ 失敗しました"; }
-        } catch (e) { status.innerHTML = "❌ 接続エラー"; }
-        input.value = '';
+            }
+        } catch (e) { status.innerHTML = "❌ エラー"; }
     }
-
     async function refreshFileList() {
-        try {
-            const res = await fetch('/api/files');
-            const data = await res.json();
-            const sel = document.getElementById('common-select');
-            const current = sel.value;
-            sel.innerHTML = '<option value="">-- 保存済みファイルを選択 --</option>';
-            data.forEach(name => {
-                const opt = document.createElement('option');
-                opt.value = name; opt.innerText = name;
-                sel.appendChild(opt);
-            });
-            if (current) sel.value = current;
-        } catch (e) { console.error("Error"); }
+        const res = await fetch('/api/files');
+        const data = await res.json();
+        const sel = document.getElementById('common-select');
+        const current = sel.value;
+        sel.innerHTML = '<option value="">-- 保存済みファイルを選択 --</option>';
+        data.forEach(name => {
+            const opt = document.createElement('option');
+            opt.value = name; opt.innerText = name;
+            sel.appendChild(opt);
+        });
+        if (current) sel.value = current;
     }
-
     function handleDownload() {
         const name = document.getElementById('common-select').value;
         if (name) window.open('/PDF/' + encodeURIComponent(name), '_blank');
-        else alert("書類を選択してください");
     }
 </script>
 </body>
