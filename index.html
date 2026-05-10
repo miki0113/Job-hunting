@@ -57,7 +57,7 @@
 
     <div class="sync-section">
         <strong>■ 提出書類 同期（履歴書・職務経歴書など）</strong>
-        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 10px; flex-wrap: wrap;">
+        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 10px;">
             <input type="file" id="common-upload" style="display:none;" onchange="handleUpload(this)">
             <button type="button" class="btn" onclick="document.getElementById('common-upload').click()">📤 ファイルをUP</button>
             <select id="common-select" class="file-select">
@@ -76,21 +76,19 @@
         if (!input.files[0]) return;
         const status = document.getElementById('status-msg');
         status.innerHTML = "⌛ アップロード中...";
+        
+        const file = input.files[0];
         const formData = new FormData();
-        formData.append('pdfFile', input.files[0]);
+        formData.append('pdfFile', file, file.name);
 
         try {
             const res = await fetch('/upload', { method: 'POST', body: formData });
             if (res.ok) {
                 status.innerHTML = "アップロード成功！";
                 await refreshFileList();
-                document.getElementById('common-select').value = input.files[0].name;
-            } else {
-                status.innerHTML = "❌ 失敗しました";
+                document.getElementById('common-select').value = file.name;
             }
-        } catch (e) {
-            status.innerHTML = "❌ エラー";
-        }
+        } catch (e) { status.innerHTML = "❌ エラー"; }
         input.value = '';
     }
 
@@ -102,11 +100,18 @@
             const current = sel.value;
             
             sel.innerHTML = '<option value="">-- 保存済みファイルを選択 --</option>';
+            
             data.forEach(name => {
-                const opt = document.createElement('option');
-                opt.value = name;
-                opt.innerText = name;
-                sel.appendChild(opt);
+                const n = name.toUpperCase();
+                // 徹底排除：.pdf 拡張子のものと、RAFAAや長い英数字のシステムファイルは表示しない
+                const isSystemFile = n.endsWith('.PDF') || n.startsWith('RAFAA') || /^[0-9A-Z]{15,}/.test(n);
+                
+                if (!isSystemFile && name !== '.gitkeep') {
+                    const opt = document.createElement('option');
+                    opt.value = name;
+                    opt.innerText = name;
+                    sel.appendChild(opt);
+                }
             });
             if (current) sel.value = current;
         } catch (e) { console.error("Error"); }
