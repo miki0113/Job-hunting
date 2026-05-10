@@ -36,9 +36,15 @@
             </thead>
             <tbody>
                 <tr><td>1</td><td>三郷市役所</td><td>三郷駅</td><td>終</td></tr>
-                <tr><td>2</td><td><a href="/PDF/MS&AD.pdf" target="_blank">MS&AD</a></td><td></td><td></td></tr>
-                <tr><td>3</td><td><a href="/PDF/tokyobiz.pdf" target="_blank">東京都ビジネスサービス</a></td><td></td><td>紹介期限：R8/5/31</td></tr>
-                </tbody>
+                <tr><td>2</td><td><a href="/PDF/MS&AD.pdf" target="_blank">MS&ADグランアシスタンス株式会社</a></td><td></td><td></td></tr>
+                <tr><td>3</td><td><a href="/PDF/tokyobiz.pdf" target="_blank">東京都ビジネスサービス株式会社</a></td><td></td><td>紹介期限：令和8年5月31日</td></tr>
+                <tr><td>4</td><td><a href="/PDF/itakura.pdf" target="_blank">医療法人 弘仁会 板倉病院</a></td><td></td><td>紹介期限：令和8年5月31日</td></tr>
+                <tr><td>5</td><td><a href="/PDF/venture.pdf" target="_blank">ベンチャーサポート社会保険労務士法人</a></td><td></td><td>紹介期限：令和8年6月30日</td></tr>
+                <tr><td>6</td><td><a href="/PDF/nikkei.pdf" target="_blank">株式会社 日警保安 東京事業部</a></td><td></td><td>紹介期限：令和8年6月30日</td></tr>
+                <tr><td>7</td><td><a href="/PDF/handex.pdf" target="_blank">株式会社 ハンデックス 仙台支店</a></td><td></td><td>紹介期限：令和8年6月30日</td></tr>
+                <tr><td>8</td><td></td><td></td><td>紹介期限：令和8年6月30日</td></tr>
+                <tr><td>9</td><td></td><td></td><td>紹介期限：令和8年5月31日</td></tr>
+            </tbody>
         </table>
     </div>
 
@@ -48,14 +54,15 @@
 
     <div class="memo-area">
         <strong>■ 追記メモ</strong><br><br>
-        ・履歴書の添削依頼をスタッフさんに提出済み（4/23）
+        ・履歴書の添削依頼をスタッフさんに提出済み（4/23）<br>
+        ・今回のリストに関しては見つけたものを並べただけであり優先順位を付けたものではない
     </div>
 
     <div class="sync-section">
         <strong>■ 提出書類 同期（履歴書・職務経歴書など）</strong>
         <div class="file-controls">
-            <form action="/upload" method="POST" enctype="multipart/form-data" style="display: inline;">
-                <input type="file" name="pdfFile" id="common-upload" style="display:none;" onchange="this.form.submit()">
+            <form action="/upload" method="POST" enctype="multipart/form-data" id="upload-form">
+                <input type="file" name="pdfFile" id="common-upload" style="display:none;" onchange="document.getElementById('upload-form').submit()">
                 <button type="button" class="btn" onclick="document.getElementById('common-upload').click()">📤 ファイルをUP</button>
             </form>
 
@@ -70,25 +77,35 @@
 </div>
 
 <script>
-    // ページが開いた時にファイル一覧を取得する
-    window.onload = async function() {
+    // ページを読み込んだ時に、サーバーにあるファイル一覧を取得してセレクトボックスに入れる
+    window.onload = refreshFileList;
+
+    async function refreshFileList() {
         try {
             const res = await fetch('/api/files');
+            if (!res.ok) return;
             const data = await res.json();
             const sel = document.getElementById('common-select');
-            data.forEach(file => {
+            sel.innerHTML = '<option value="">-- 保存済みファイルを選択 --</option>';
+            data.forEach(fileName => {
                 const opt = document.createElement('option');
-                opt.value = file;
-                opt.innerText = file;
+                opt.value = fileName;
+                opt.innerText = fileName;
                 sel.appendChild(opt);
             });
-        } catch (e) { console.error("一覧取得失敗"); }
-    };
+        } catch (e) {
+            console.error("一覧取得エラー");
+        }
+    }
 
+    // ダウンロードボタンが押された時の処理
     function handleDownload() {
         const fileName = document.getElementById('common-select').value;
-        if (fileName) window.open('/PDF/' + fileName, '_blank');
-        else alert("書類を選択してください");
+        if (fileName) {
+            window.open('/PDF/' + fileName, '_blank');
+        } else {
+            alert("書類を選択してください");
+        }
     }
 </script>
 </body>
