@@ -12,12 +12,11 @@
         table { width: 100%; min-width: 800px; border-collapse: collapse; background: #fff; }
         th, td { border: 1px solid #999; padding: 8px; text-align: center; font-size: 11px; }
         th { background-color: #eee; }
-        a { color: #0000ee; text-decoration: underline; font-weight: bold; }
+        a { color: #0000ee; text-decoration: underline; }
         .sync-section { border-top: 2px solid #333; padding-top: 25px; text-align: center; }
         .sync-controls { display: flex; flex-direction: column; align-items: center; gap: 12px; }
         .btn { padding: 12px 24px; border: 1px solid #999; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 13px; background: #fff; min-width: 240px; }
-        .btn-delete { color: #cc0000; border-color: #cc0000; }
-        .btn-danger { background-color: #fff0f0; color: #d00; border: 2px solid #d00; margin-top: 20px; }
+        .btn-delete { color: #cc0000; border: 2px solid #cc0000; background: #fff1f1; }
         .file-select { padding: 12px; font-size: 14px; width: 340px; border: 1px solid #999; border-radius: 4px; }
         #status-msg { font-size: 12px; color: #0000ee; margin-top: 10px; font-weight: bold; }
     </style>
@@ -27,31 +26,40 @@
     <h2>就活メモ</h2>
     <div class="table-scroll">
         <table>
-            <thead><tr><th style="width: 5%;">#</th><th style="width: 35%;">企業名</th><th style="width: 30%;">最寄り</th><th style="width: 30%;">メモ</th></tr></thead>
+            <thead>
+                <tr>
+                    <th style="width: 5%;">番号</th>
+                    <th style="width: 35%;">企業名</th>
+                    <th style="width: 30%;">最寄り</th>
+                    <th style="width: 30%;">メモ</th>
+                </tr>
+            </thead>
             <tbody>
                 <tr><td>1</td><td>三郷市役所</td><td>三郷駅</td><td>終</td></tr>
                 <tr><td>2</td><td>MS&ADグランアシスタンス</td><td></td><td></td></tr>
-                <tr><td>3</td><td><a href="https://www.tokyo-bs.co.jp/" target="_blank">東京都ビジネスサービス株式会社</a></td><td></td><td>紹介期限：R8/5/31</td></tr>
-                <tr><td>4</td><td><a href="https://www.itakura-hospital.jp/" target="_blank">医療法人 弘仁会 板倉病院</a></td><td></td><td>紹介期限：R8/5/31</td></tr>
-                <tr><td>5</td><td><a href="https://vs-group.jp/shakaihokenroumushi/" target="_blank">ベンチャーサポート社会保険労務士法人</a></td><td></td><td>紹介期限：R8/6/30</td></tr>
-                <tr><td>6</td><td><a href="https://www.nissei-hs.co.jp/" target="_blank">株式会社 日警保安 東京事業部</a></td><td></td><td>紹介期限：R8/6/30</td></tr>
-                <tr><td>7</td><td><a href="https://www.handex.co.jp/" target="_blank">株式会社 ハンデックス 仙台支店</a></td><td></td><td>紹介期限：R8/6/30</td></tr>
-                <tr><td>8</td><td></td><td></td><td></td></tr>
-                <tr><td>9</td><td></td><td></td><td></td></tr>
+                <tr><td>3</td><td><a href="https://www.tokyo-bs.co.jp/" target="_blank">東京都ビジネスサービス株式会社</a></td><td></td><td>紹介期限：令和8年5月31日</td></tr>
+                <tr><td>4</td><td><a href="https://www.itakura-hospital.jp/" target="_blank">医療法人 弘仁会 板倉病院</a></td><td></td><td>紹介期限：令和8年5月31日</td></tr>
+                <tr><td>5</td><td><a href="https://vs-group.jp/shakaihokenroumushi/" target="_blank">ベンチャーサポート社会保険労務士法人</a></td><td></td><td>紹介期限：令和8年6月30日</td></tr>
+                <tr><td>6</td><td><a href="https://www.nissei-hs.co.jp/" target="_blank">株式会社 日警保安 東京事業部</a></td><td></td><td>紹介期限：令和8年6月30日</td></tr>
+                <tr><td>7</td><td><a href="https://www.handex.co.jp/" target="_blank">株式会社 ハンデックス 仙台支店</a></td><td></td><td>紹介期限：令和8年6月30日</td></tr>
+                <tr><td>8</td><td></td><td></td><td>紹介期限：令和8年6月30日</td></tr>
+                <tr><td>9</td><td></td><td></td><td>紹介期限：令和8年5月31日</td></tr>
             </tbody>
         </table>
     </div>
 
     <div class="sync-section">
-        <strong>■ 提出書類 同期</strong>
+        <strong>■ 提出書類 同期（履歴書・職務経歴書など全形式対応）</strong>
         <div class="sync-controls">
             <input type="file" id="common-upload" style="display:none;" onchange="handleUpload(this)">
-            <button type="button" class="btn" onclick="document.getElementById('common-upload').click()">☁️ ファイルを新しくUP</button>
-            <select id="common-select" class="file-select"><option value="">-- 読込中 --</option></select>
-            <button class="btn" onclick="handleDownload()">📥 表示 / ダウンロード</button>
-            <button class="btn btn-delete" onclick="handleDelete()">🗑️ 選択したファイルを消す</button>
+            <button type="button" class="btn" onclick="document.getElementById('common-upload').click()">☁️ ファイルをUP</button>
             
-            <button class="btn btn-danger" onclick="handleClearAll()">🔥 サーバーの全ファイルを強制消去（緊急用）</button>
+            <select id="common-select" class="file-select">
+                <option value="">-- 保存済みファイルを選択 --</option>
+            </select>
+            
+            <button class="btn" onclick="handleDownload()">📥 表示 / ダウンロード</button>
+            <button class="btn btn-delete" onclick="handleDelete()">🗑️ 選択したファイルを完全に消す</button>
         </div>
         <div id="status-msg"></div>
     </div>
@@ -67,12 +75,10 @@
             const sel = document.getElementById('common-select');
             sel.innerHTML = '<option value="">-- 保存済みファイルを選択 --</option>';
             data.forEach(name => {
-                if (!name.startsWith('.') && name !== 'index.html' && name !== '.gitkeep') {
-                    const opt = document.createElement('option');
-                    opt.value = name;
-                    opt.innerText = name;
-                    sel.appendChild(opt);
-                }
+                const opt = document.createElement('option');
+                opt.value = name;
+                opt.innerText = name;
+                sel.appendChild(opt);
             });
         } catch (e) {}
     }
@@ -83,9 +89,11 @@
         const formData = new FormData();
         formData.append('pdfFile', input.files[0]);
         try {
-            await fetch('/upload', { method: 'POST', body: formData });
-            document.getElementById('status-msg').innerHTML = "✅ UP成功！";
-            refreshFileList();
+            const res = await fetch('/upload', { method: 'POST', body: formData });
+            if(res.ok) {
+                document.getElementById('status-msg').innerHTML = "✅ UP成功！";
+                refreshFileList();
+            }
         } catch (e) { alert("UP失敗"); }
         input.value = '';
     }
@@ -97,24 +105,15 @@
 
     async function handleDelete() {
         const name = document.getElementById('common-select').value;
-        if (!name || !confirm("消しますか？")) return;
-        await fetch('/delete?name=' + encodeURIComponent(name), { method: 'DELETE' });
-        refreshFileList();
-    }
-
-    // 【これが今回の目玉です】
-    async function handleClearAll() {
-        if (!confirm("サーバーにある「身に覚えのないファイル」をすべて強制削除しますか？")) return;
+        if (!name || !confirm(`「${name}」を完全に消しますか？`)) return;
+        
         try {
-            // サーバー側でPDFフォルダを空にする命令
-            const res = await fetch('/clear-all', { method: 'POST' });
+            const res = await fetch('/delete?name=' + encodeURIComponent(name), { method: 'DELETE' });
             if (res.ok) {
-                alert("一掃完了！リストが空になりました。");
+                document.getElementById('status-msg').innerHTML = "🗑️ 削除しました";
                 refreshFileList();
-            } else {
-                alert("サーバー側が対応していません。");
             }
-        } catch (e) { alert("エラーが発生しました。"); }
+        } catch (e) { alert("削除に失敗しました"); }
     }
 </script>
 </body>
