@@ -30,8 +30,8 @@
             <thead>
                 <tr>
                     <th style="width: 10%;">番号</th>
-                    <th style="width: 30%;">企業名（サイト名）</th>
-                    <th style="width: 30%;">通勤時間（最寄り駅）</th>
+                    <th style="width: 30%;">企業名</th>
+                    <th style="width: 30%;">通勤時間</th>
                     <th style="width: 30%;">メモ</th>
                 </tr>
             </thead>
@@ -88,6 +88,7 @@
             const res = await fetch('/upload', { method: 'POST', body: formData });
             if (res.ok) {
                 status.innerHTML = "アップロード成功！";
+                // アップロード直後に全端末でリストを更新
                 await refreshFileList();
                 document.getElementById('common-select').value = file.name;
             }
@@ -97,27 +98,27 @@
 
     async function refreshFileList() {
         try {
-            // 文字化けさせないため、サーバーが送ってきたファイル名を一切加工せず受け取る
+            // サーバーから「そのままのファイル名」のリストを取得
             const res = await fetch('/api/files');
             const data = await res.json();
             const sel = document.getElementById('common-select');
             
             sel.innerHTML = '<option value="">-- 保存済みファイルを選択 --</option>';
             data.forEach(name => {
-                if (!name.toLowerCase().endsWith('.pdf') && name !== '.gitkeep') {
+                // ドットから始まる管理用ファイル以外をすべて表示
+                if (!name.startsWith('.') && name !== 'index.html') {
                     const opt = document.createElement('option');
                     opt.value = name;
-                    opt.innerText = name; // そのまま表示
+                    opt.innerText = name; 
                     sel.appendChild(opt);
                 }
             });
-        } catch (e) { console.error("Error loading files"); }
+        } catch (e) { console.error("リスト読み込みエラー"); }
     }
 
     function handleDownload() {
         const name = document.getElementById('common-select').value;
         if (name) {
-            // ダウンロードURLだけエンコード。表示名はそのまま。
             window.open('/PDF/' + encodeURIComponent(name), '_blank');
         } else {
             alert("書類を選択してください");
@@ -130,7 +131,6 @@
 
         if (confirm(`「${name}」を完全に削除しますか？`)) {
             try {
-                // ファイル名に日本語が含まれても正しく送れるように修正
                 await fetch('/delete?name=' + encodeURIComponent(name), { method: 'DELETE' });
                 await refreshFileList();
                 document.getElementById('status-msg').innerHTML = "削除しました";
