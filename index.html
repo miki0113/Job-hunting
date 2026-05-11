@@ -97,18 +97,17 @@
 
     async function refreshFileList() {
         try {
-            // サーバーから直接ファイルリストを取得（これでPCとスマホが同期されます）
+            // 文字化けさせないため、サーバーが送ってきたファイル名を一切加工せず受け取る
             const res = await fetch('/api/files');
             const data = await res.json();
             const sel = document.getElementById('common-select');
             
             sel.innerHTML = '<option value="">-- 保存済みファイルを選択 --</option>';
             data.forEach(name => {
-                // PDF以外のファイルを表示（文字化けしない設定を維持）
                 if (!name.toLowerCase().endsWith('.pdf') && name !== '.gitkeep') {
                     const opt = document.createElement('option');
                     opt.value = name;
-                    opt.innerText = name;
+                    opt.innerText = name; // そのまま表示
                     sel.appendChild(opt);
                 }
             });
@@ -118,7 +117,8 @@
     function handleDownload() {
         const name = document.getElementById('common-select').value;
         if (name) {
-            window.open('/PDF/' + name, '_blank');
+            // ダウンロードURLだけエンコード。表示名はそのまま。
+            window.open('/PDF/' + encodeURIComponent(name), '_blank');
         } else {
             alert("書類を選択してください");
         }
@@ -130,6 +130,7 @@
 
         if (confirm(`「${name}」を完全に削除しますか？`)) {
             try {
+                // ファイル名に日本語が含まれても正しく送れるように修正
                 await fetch('/delete?name=' + encodeURIComponent(name), { method: 'DELETE' });
                 await refreshFileList();
                 document.getElementById('status-msg').innerHTML = "削除しました";
