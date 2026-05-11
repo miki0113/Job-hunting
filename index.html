@@ -15,15 +15,12 @@
         .footer-links { text-align: center; font-size: 12px; margin: 20px 0; color: #0000ee; }
         .memo-area { border: 1px dashed #999; padding: 15px; font-size: 12px; margin-bottom: 40px; }
         
-        /* 提出書類セクション */
         .sync-section { border-top: 1px solid #ccc; padding-top: 25px; text-align: center; }
-        .sync-section strong { display: block; margin-bottom: 15px; font-size: 14px; line-height: 1.4; }
-        
-        /* 画像通りの縦配置（中央揃え） */
+        /* 画像通りに縦に並べる設定 */
         .sync-controls { display: flex; flex-direction: column; align-items: center; gap: 12px; }
         
         .btn { padding: 8px 24px; border: 1px solid #999; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 12px; background: #fff; display: inline-flex; align-items: center; justify-content: center; min-width: 160px; color: #333; }
-        .file-select { padding: 8px; font-size: 12px; width: 300px; border: 1px solid #999; border-radius: 4px; background: #eee; }
+        .file-select { padding: 8px; font-size: 12px; width: 300px; border: 1px solid #999; border-radius: 4px; background: #fff; }
         #status-msg { font-size: 12px; color: #0000ee; margin-top: 10px; font-weight: bold; }
     </style>
 </head>
@@ -88,7 +85,7 @@
         
         const file = input.files[0];
         const formData = new FormData();
-        // 文字化け対策：名前を弄らずそのまま送信
+        // 文字化け対策：余計な引数を消し、ブラウザに任せる
         formData.append('pdfFile', file);
 
         try {
@@ -96,11 +93,10 @@
             if (res.ok) {
                 status.innerHTML = "アップロード成功！";
                 await refreshFileList();
+                // 選択をアップロードしたファイルに合わせる
                 document.getElementById('common-select').value = file.name;
-            } else {
-                status.innerHTML = "❌ アップロード失敗";
             }
-        } catch (e) { status.innerHTML = "❌ エラーが発生しました"; }
+        } catch (e) { status.innerHTML = "❌ エラー"; }
         input.value = '';
     }
 
@@ -114,7 +110,7 @@
             sel.innerHTML = '<option value="">-- 保存済みファイルを選択 --</option>';
             
             data.forEach(name => {
-                // PDF以外のファイル（履歴書など）だけを表示
+                // PDFは除外し、Mikiさんが上げた履歴書などだけを表示
                 if (!name.toLowerCase().endsWith('.pdf') && name !== '.gitkeep') {
                     const opt = document.createElement('option');
                     opt.value = name;
@@ -129,7 +125,6 @@
     function handleDownload() {
         const name = document.getElementById('common-select').value;
         if (name) {
-            // 文字化け・スペース対策
             window.open('/PDF/' + encodeURIComponent(name), '_blank');
         } else {
             alert("書類を選択してください");
