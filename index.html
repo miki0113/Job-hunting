@@ -14,12 +14,10 @@
         th { background-color: #eee; }
         .footer-links { text-align: center; font-size: 12px; margin: 20px 0; color: #0000ee; }
         .memo-area { border: 1px dashed #999; padding: 15px; font-size: 12px; margin-bottom: 40px; }
-        
-        /* 提出書類同期セクション（縦配置を固定） */
         .sync-section { border-top: 1px solid #ccc; padding-top: 25px; text-align: center; }
         .sync-controls { display: flex; flex-direction: column; align-items: center; gap: 12px; }
-        
         .btn { padding: 8px 24px; border: 1px solid #999; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 12px; background: #fff; display: inline-flex; align-items: center; justify-content: center; min-width: 160px; color: #333; }
+        .btn-delete { color: #cc0000; border-color: #cc0000; }
         .file-select { padding: 8px; font-size: 12px; width: 300px; border: 1px solid #999; border-radius: 4px; background: #fff; }
         #status-msg { font-size: 12px; color: #0000ee; margin-top: 10px; font-weight: bold; }
     </style>
@@ -65,18 +63,16 @@
             <input type="file" id="common-upload" style="display:none;" onchange="handleUpload(this)">
             <button type="button" class="btn" onclick="document.getElementById('common-upload').click()">☁️ ファイルをUP</button>
             <select id="common-select" class="file-select">
-                <option value="">-- 保存済みファイルを選択 --</option>
+                <option value="">-- 読み込み中 --</option>
             </select>
             <button class="btn" onclick="handleDownload()">📥 ダウンロード/表示</button>
+            <button class="btn btn-delete" onclick="handleDelete()">🗑️ 選択したファイルを消す</button>
         </div>
         <div id="status-msg"></div>
     </div>
 </div>
 
 <script>
-    // サーバーがリセットされてもプルダウンに名前を残す仕組み
-    let localFileList = JSON.parse(localStorage.getItem('myFiles') || '[]');
-
     window.onload = refreshFileList;
 
     async function handleUpload(input) {
@@ -86,17 +82,11 @@
         
         const file = input.files[0];
         const formData = new FormData();
-        
-        // ★文字化け修正の核心：以前問題なかった「そのまま送る」形に戻しました
-        formData.append('pdfFile', file); 
+        formData.append('pdfFile', file);
 
         try {
             const res = await fetch('/upload', { method: 'POST', body: formData });
             if (res.ok) {
-                if (!localFileList.includes(file.name)) {
-                    localFileList.push(file.name);
-                    localStorage.setItem('myFiles', JSON.stringify(localFileList));
-                }
                 status.innerHTML = "アップロード成功！";
                 await refreshFileList();
                 document.getElementById('common-select').value = file.name;
@@ -106,24 +96,44 @@
     }
 
     async function refreshFileList() {
-        const sel = document.getElementById('common-select');
-        sel.innerHTML = '<option value="">-- 保存済みファイルを選択 --</option>';
-        
-        localFileList.forEach(name => {
-            const opt = document.createElement('option');
-            opt.value = name;
-            opt.innerText = name;
-            sel.appendChild(opt);
-        });
+        try {
+            // サーバーから直接ファイルリストを取得（これでPCとスマホが同期されます）
+            const res = await fetch('/api/files');
+            const data = await res.json();
+            const sel = document.getElementById('common-select');
+            
+            sel.innerHTML = '<option value="">-- 保存済みファイルを選択 --</option>';
+            data.forEach(name => {
+                // PDF以外のファイルを表示（文字化けしない設定を維持）
+                if (!name.toLowerCase().endsWith('.pdf') && name !== '.gitkeep') {
+                    const opt = document.createElement('option');
+                    opt.value = name;
+                    opt.innerText = name;
+                    sel.appendChild(opt);
+                }
+            });
+        } catch (e) { console.error("Error loading files"); }
     }
 
     function handleDownload() {
         const name = document.getElementById('common-select').value;
         if (name) {
-            // ダウンロード時も、余計なエンコードをせずパスを繋ぐだけに修正
             window.open('/PDF/' + name, '_blank');
         } else {
             alert("書類を選択してください");
+        }
+    }
+
+    async function handleDelete() {
+        const name = document.getElementById('common-select').value;
+        if (!name) return alert("消したい書類を選んでください");
+
+        if (confirm(`「${name}」を完全に削除しますか？`)) {
+            try {
+                await fetch('/delete?name=' + encodeURIComponent(name), { method: 'DELETE' });
+                await refreshFileList();
+                document.getElementById('status-msg').innerHTML = "削除しました";
+            } catch (e) { alert("削除に失敗しました"); }
         }
     }
 </script>
