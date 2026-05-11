@@ -104,7 +104,7 @@
             sel.innerHTML = '<option value="">-- 保存済みファイルを選択 --</option>';
             
             data.forEach(name => {
-                // PDF以外の「自分がアップロードした書類」だけを表示
+                // PDF拡張子以外（履歴書.docxなど）だけをプルダウンに追加
                 if (!name.toLowerCase().endsWith('.pdf') && name !== '.gitkeep') {
                     const opt = document.createElement('option');
                     opt.value = name;
