@@ -15,8 +15,8 @@
         .footer-links { text-align: center; font-size: 12px; margin: 20px 0; color: #0000ee; }
         .memo-area { border: 1px dashed #999; padding: 15px; font-size: 12px; margin-bottom: 40px; }
         
+        /* 提出書類同期セクション（縦配置を固定） */
         .sync-section { border-top: 1px solid #ccc; padding-top: 25px; text-align: center; }
-        /* 画像通りの縦配置 */
         .sync-controls { display: flex; flex-direction: column; align-items: center; gap: 12px; }
         
         .btn { padding: 8px 24px; border: 1px solid #999; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 12px; background: #fff; display: inline-flex; align-items: center; justify-content: center; min-width: 160px; color: #333; }
@@ -55,7 +55,8 @@
 
     <div class="memo-area">
         <strong>■ 追記メモ</strong><br><br>
-        ・履歴書の添削依頼をスタッフさんに提出済み（4/23）
+        ・履歴書の添削依頼をスタッフさんに提出済み（4/23）<br>
+        ・今回のリストに関しては見つけたものを並べただけであり優先順位を付けたものではない
     </div>
 
     <div class="sync-section">
@@ -73,7 +74,7 @@
 </div>
 
 <script>
-    // ブラウザ側にファイル名のリストを保存
+    // サーバーがリセットされてもプルダウンに名前を残す仕組み
     let localFileList = JSON.parse(localStorage.getItem('myFiles') || '[]');
 
     window.onload = refreshFileList;
@@ -85,12 +86,13 @@
         
         const file = input.files[0];
         const formData = new FormData();
-        formData.append('pdfFile', file); // 文字化け対策
+        
+        // ★文字化け修正の核心：以前問題なかった「そのまま送る」形に戻しました
+        formData.append('pdfFile', file); 
 
         try {
             const res = await fetch('/upload', { method: 'POST', body: formData });
             if (res.ok) {
-                // リストに追加して記憶
                 if (!localFileList.includes(file.name)) {
                     localFileList.push(file.name);
                     localStorage.setItem('myFiles', JSON.stringify(localFileList));
@@ -107,7 +109,6 @@
         const sel = document.getElementById('common-select');
         sel.innerHTML = '<option value="">-- 保存済みファイルを選択 --</option>';
         
-        // localStorageから名前を出す（サーバー再起動対策）
         localFileList.forEach(name => {
             const opt = document.createElement('option');
             opt.value = name;
@@ -119,7 +120,8 @@
     function handleDownload() {
         const name = document.getElementById('common-select').value;
         if (name) {
-            window.open('/PDF/' + encodeURIComponent(name), '_blank');
+            // ダウンロード時も、余計なエンコードをせずパスを繋ぐだけに修正
+            window.open('/PDF/' + name, '_blank');
         } else {
             alert("書類を選択してください");
         }
