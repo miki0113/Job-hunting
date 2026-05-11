@@ -7,123 +7,114 @@
     <style>
         body { font-family: sans-serif; background-color: #f4f4f4; padding: 20px; margin: 0; }
         .container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); width: 100%; max-width: 1000px; margin: auto; }
-        h2 { text-align: center; color: #333; font-size: 14px; }
+        h2 { text-align: center; color: #333; font-size: 14px; margin-bottom: 20px; }
         .table-scroll { width: 100%; overflow-x: auto; margin-bottom: 20px; border-bottom: 1px solid #ccc; }
         table { width: 100%; min-width: 800px; border-collapse: collapse; background: #fff; }
         th, td { border: 1px solid #999; padding: 8px; text-align: center; font-size: 11px; }
         th { background-color: #eee; }
-        .sync-section { border-top: 2px solid #333; padding-top: 25px; text-align: center; background: #fff; }
-        .sync-controls { display: flex; flex-direction: column; align-items: center; gap: 15px; }
-        .btn { padding: 12px 24px; border: 1px solid #999; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 13px; background: #fff; min-width: 240px; color: #333; }
-        .btn-delete { color: #cc0000; border: 2px solid #cc0000; background: #fff1f1; }
-        .file-select { padding: 12px; font-size: 14px; width: 340px; border: 1px solid #999; border-radius: 4px; background: #fff; }
-        #status-msg { font-size: 13px; color: #d00; margin-top: 10px; font-weight: bold; min-height: 1.2em; }
+        a { color: #0000ee; text-decoration: underline; font-weight: bold; }
+        .sync-section { border-top: 2px solid #333; padding-top: 25px; text-align: center; }
+        .sync-controls { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+        .btn { padding: 12px 24px; border: 1px solid #999; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 13px; background: #fff; min-width: 240px; }
+        .btn-delete { color: #cc0000; border-color: #cc0000; }
+        .btn-danger { background-color: #fff0f0; color: #d00; border: 2px solid #d00; margin-top: 20px; }
+        .file-select { padding: 12px; font-size: 14px; width: 340px; border: 1px solid #999; border-radius: 4px; }
+        #status-msg { font-size: 12px; color: #0000ee; margin-top: 10px; font-weight: bold; }
     </style>
 </head>
 <body>
 <div class="container">
-    <h2>就活リスト</h2>
+    <h2>就活メモ</h2>
     <div class="table-scroll">
         <table>
-            <thead><tr><th>#</th><th>企業名</th><th>備考</th></tr></thead>
+            <thead><tr><th style="width: 5%;">#</th><th style="width: 35%;">企業名</th><th style="width: 30%;">最寄り</th><th style="width: 30%;">メモ</th></tr></thead>
             <tbody>
-                <tr><td>1</td><td>三郷市役所</td><td>終</td></tr>
-                <tr><td>2</td><td>MS&ADグランアシスタンス</td><td></td></tr>
-                <tr><td>3</td><td>東京都ビジネスサービス</td><td>紹介期限：R8/5/31</td></tr>
-                <tr><td>4</td><td>医療法人 弘仁会 板倉病院</td><td>紹介期限：R8/5/31</td></tr>
-                <tr><td>5</td><td>ベンチャーサポート社労士法人</td><td>紹介期限：R8/6/30</td></tr>
-                <tr><td>6</td><td>株式会社 日警保安 東京事業部</td><td>紹介期限：R8/6/30</td></tr>
-                <tr><td>7</td><td>株式会社 ハンデックス 仙台支店</td><td>紹介期限：R8/6/30</td></tr>
+                <tr><td>1</td><td>三郷市役所</td><td>三郷駅</td><td>終</td></tr>
+                <tr><td>2</td><td>MS&ADグランアシスタンス</td><td></td><td></td></tr>
+                <tr><td>3</td><td><a href="https://www.tokyo-bs.co.jp/" target="_blank">東京都ビジネスサービス株式会社</a></td><td></td><td>紹介期限：R8/5/31</td></tr>
+                <tr><td>4</td><td><a href="https://www.itakura-hospital.jp/" target="_blank">医療法人 弘仁会 板倉病院</a></td><td></td><td>紹介期限：R8/5/31</td></tr>
+                <tr><td>5</td><td><a href="https://vs-group.jp/shakaihokenroumushi/" target="_blank">ベンチャーサポート社会保険労務士法人</a></td><td></td><td>紹介期限：R8/6/30</td></tr>
+                <tr><td>6</td><td><a href="https://www.nissei-hs.co.jp/" target="_blank">株式会社 日警保安 東京事業部</a></td><td></td><td>紹介期限：R8/6/30</td></tr>
+                <tr><td>7</td><td><a href="https://www.handex.co.jp/" target="_blank">株式会社 ハンデックス 仙台支店</a></td><td></td><td>紹介期限：R8/6/30</td></tr>
+                <tr><td>8</td><td></td><td></td><td></td></tr>
+                <tr><td>9</td><td></td><td></td><td></td></tr>
             </tbody>
         </table>
     </div>
 
     <div class="sync-section">
+        <strong>■ 提出書類 同期</strong>
         <div class="sync-controls">
-            <strong>■ 提出書類（同期中）</strong>
             <input type="file" id="common-upload" style="display:none;" onchange="handleUpload(this)">
-            <button type="button" class="btn" onclick="document.getElementById('common-upload').click()">☁️ 新しくファイルをUP</button>
-            
-            <select id="common-select" class="file-select">
-                <option value="">-- リスト更新中 --</option>
-            </select>
-            
+            <button type="button" class="btn" onclick="document.getElementById('common-upload').click()">☁️ ファイルを新しくUP</button>
+            <select id="common-select" class="file-select"><option value="">-- 読込中 --</option></select>
             <button class="btn" onclick="handleDownload()">📥 表示 / ダウンロード</button>
-            <button class="btn btn-delete" onclick="handleDelete()">🗑️ 選択したファイルを完全に消す</button>
-            <div id="status-msg"></div>
+            <button class="btn btn-delete" onclick="handleDelete()">🗑️ 選択したファイルを消す</button>
+            
+            <button class="btn btn-danger" onclick="handleClearAll()">🔥 サーバーの全ファイルを強制消去（緊急用）</button>
         </div>
+        <div id="status-msg"></div>
     </div>
 </div>
 
 <script>
-    // 起動時にリストを取得
     window.onload = refreshFileList;
-
-    async function handleUpload(input) {
-        if (!input.files[0]) return;
-        const status = document.getElementById('status-msg');
-        status.style.color = "blue";
-        status.innerHTML = "⌛ アップロード中...";
-        
-        const formData = new FormData();
-        formData.append('pdfFile', input.files[0]);
-        
-        try {
-            const res = await fetch('/upload', { method: 'POST', body: formData });
-            if (res.ok) {
-                status.innerHTML = "✅ アップロード成功！";
-                await refreshFileList(); // リストを強制更新
-            }
-        } catch (e) { status.innerHTML = "❌ UP失敗"; }
-        input.value = '';
-    }
 
     async function refreshFileList() {
         try {
-            // URLに「毎回違う数字」を混ぜて、ブラウザの記憶を無理やり無視させる
-            const res = await fetch('/api/files?v=' + Date.now());
+            const res = await fetch('/api/files?t=' + Date.now());
             const data = await res.json();
             const sel = document.getElementById('common-select');
-            
             sel.innerHTML = '<option value="">-- 保存済みファイルを選択 --</option>';
             data.forEach(name => {
-                if (!name.startsWith('.') && name !== 'index.html') {
+                if (!name.startsWith('.') && name !== 'index.html' && name !== '.gitkeep') {
                     const opt = document.createElement('option');
                     opt.value = name;
                     opt.innerText = name;
                     sel.appendChild(opt);
                 }
             });
-        } catch (e) { console.error("Refresh Error"); }
+        } catch (e) {}
+    }
+
+    async function handleUpload(input) {
+        if (!input.files[0]) return;
+        document.getElementById('status-msg').innerHTML = "⌛ UP中...";
+        const formData = new FormData();
+        formData.append('pdfFile', input.files[0]);
+        try {
+            await fetch('/upload', { method: 'POST', body: formData });
+            document.getElementById('status-msg').innerHTML = "✅ UP成功！";
+            refreshFileList();
+        } catch (e) { alert("UP失敗"); }
+        input.value = '';
     }
 
     function handleDownload() {
         const name = document.getElementById('common-select').value;
-        if (!name) return;
-        // ダウンロード時も「?v=時間」を付けて、古いファイルを表示させない
-        const url = '/PDF/' + encodeURIComponent(name) + '?v=' + Date.now();
-        window.open(url, '_blank');
+        if (name) window.open('/PDF/' + encodeURIComponent(name) + '?v=' + Date.now(), '_blank');
     }
 
     async function handleDelete() {
         const name = document.getElementById('common-select').value;
-        if (!name || !confirm(`「${name}」を完全に削除しますか？`)) return;
-        
-        const status = document.getElementById('status-msg');
-        status.style.color = "red";
-        
+        if (!name || !confirm("消しますか？")) return;
+        await fetch('/delete?name=' + encodeURIComponent(name), { method: 'DELETE' });
+        refreshFileList();
+    }
+
+    // 【これが今回の目玉です】
+    async function handleClearAll() {
+        if (!confirm("サーバーにある「身に覚えのないファイル」をすべて強制削除しますか？")) return;
         try {
-            const res = await fetch('/delete?name=' + encodeURIComponent(name), { method: 'DELETE' });
+            // サーバー側でPDFフォルダを空にする命令
+            const res = await fetch('/clear-all', { method: 'POST' });
             if (res.ok) {
-                status.innerHTML = "🗑️ サーバーから削除しました";
-                // 削除後、選択肢を即座に空にする（ここが重要）
-                document.getElementById('common-select').innerHTML = '<option value="">-- 更新中 --</option>';
-                await refreshFileList(); // その後、正しい最新リストを再取得
+                alert("一掃完了！リストが空になりました。");
+                refreshFileList();
             } else {
-                const err = await res.json();
-                alert("削除失敗: " + err.error);
+                alert("サーバー側が対応していません。");
             }
-        } catch (e) { alert("通信エラー"); }
+        } catch (e) { alert("エラーが発生しました。"); }
     }
 </script>
 </body>
