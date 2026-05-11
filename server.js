@@ -3,37 +3,57 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const app = express();
+const port = process.env.PORT || 3000;
 
-const UPLOAD_DIR = './PDF/';
-if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR);
+// PDFを保存する場所を固定
+const pdfDir = path.join(__dirname, 'public', 'PDF');
+if (!fs.existsSync(pdfDir)) {
+    fs.mkdirSync(pdfDir, { recursive: true });
+}
 
-const storage = multer.diskStorage({
-    destination: UPLOAD_DIR,
-    filename: (req, file, cb) => { cb(null, file.originalname); }
-});
-const upload = multer({ storage: storage });
+app.use(express.static('public'));
 
-app.use(express.static(__dirname));
-app.use('/PDF', express.static(path.join(__dirname, 'PDF')));
-
-app.post('/upload', upload.single('pdfFile'), (req, res) => {
-    res.status(200).send('OK');
-});
-
-// 【復旧ポイント】Mikiさんの履歴書だけをプルダウンに出す
+// ファイル一覧をスマホに送る機能（キャッシュ防止付き）
 app.get('/api/files', (req, res) => {
-    fs.readdir(UPLOAD_DIR, (err, files) => {
+    fs.readdir(pdfDir, (err, files) => {
         if (err) return res.status(500).json([]);
-        
-        const filteredFiles = files.filter(file => {
-            const f = file.toUpperCase();
-            // RAFAA... や 謎の英数字だけのファイルはプルダウンに出さない
-            const isSystemFile = f.startsWith('RAFAA') || /^[0-9A-F]{20,}/.test(f);
-            return !isSystemFile && file !== '.gitkeep';
-        });
-        res.json(filteredFiles);
+        res.json(files);
     });
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// アップロード機能
+const storage = multer.diskStorage({
+    destination: pdfDir,
+    filename: (req, file, cb) => {
+        // 日本語ファイル名が壊れないようにデコードして保存
+        cb(null, Buffer.from(file.originalname, 'latin1').toString('utf8'));
+    }
+});
+const upload = multer({ storage: storage });
+
+app.post('/upload', upload.single('pdfFile'), (req, res) => {
+    res.send('Uploaded');
+});
+
+// 【重要】ゴミ箱ボタンを動かすための削除機能
+app.delete('/delete', (req, res) => {
+    const fileName = req.query.name;
+    const filePath = path.join(pdfDir, fileName);
+    if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+        res.send('Deleted');
+    } else {
+        res.status(404).send('Not Found');
+    }
+});
+
+// 【緊急用】一括削除ボタンを動かす機能
+app.post('/clear-all', (req, res) => {
+    const files = fs.readdirSync(pdfDir);
+    for (const file of files) {
+        if (file !== '.gitkeep') fs.unlinkSync(path.join(pdfDir, file));
+    }
+    res.send('Cleared');
+});
+
+app.listen(port, () => console.log(`Server running on port ${port}`));
