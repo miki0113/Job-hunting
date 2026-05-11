@@ -16,6 +16,7 @@
         .memo-area { border: 1px dashed #999; padding: 15px; font-size: 12px; margin-bottom: 40px; }
         
         .sync-section { border-top: 1px solid #ccc; padding-top: 25px; text-align: center; }
+        /* 画像通りの縦配置 */
         .sync-controls { display: flex; flex-direction: column; align-items: center; gap: 12px; }
         
         .btn { padding: 8px 24px; border: 1px solid #999; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 12px; background: #fff; display: inline-flex; align-items: center; justify-content: center; min-width: 160px; color: #333; }
@@ -44,6 +45,8 @@
                 <tr><td>5</td><td><a href="/PDF/RAFAA23501020260429093254877621008202362889814.pdf" target="_blank">ベンチャーサポート社会保険労務士法人</a></td><td></td><td>紹介期限：令和8年6月30日</td></tr>
                 <tr><td>6</td><td><a href="/PDF/株式会社 日警保安 東京事業部.pdf" target="_blank">株式会社 日警保安 東京事業部</a></td><td></td><td>紹介期限：令和8年6月30日</td></tr>
                 <tr><td>7</td><td><a href="/PDF/RAFAA235010202605061009399703247084278534433893.pdf" target="_blank">株式会社 ハンデックス 仙台支店</a></td><td></td><td>紹介期限：令和8年6月30日</td></tr>
+                <tr><td>8</td><td></td><td></td><td>紹介期限：令和8年6月30日</td></tr>
+                <tr><td>9</td><td></td><td></td><td>紹介期限：令和8年5月31日</td></tr>
             </tbody>
         </table>
     </div>
@@ -70,7 +73,7 @@
 </div>
 
 <script>
-    // ブラウザのメモリ（localStorage）にファイルリストを保持する仕組みを追加
+    // ブラウザ側にファイル名のリストを保存
     let localFileList = JSON.parse(localStorage.getItem('myFiles') || '[]');
 
     window.onload = refreshFileList;
@@ -82,12 +85,12 @@
         
         const file = input.files[0];
         const formData = new FormData();
-        formData.append('pdfFile', file); // 文字化け対策：名前指定なし
+        formData.append('pdfFile', file); // 文字化け対策
 
         try {
             const res = await fetch('/upload', { method: 'POST', body: formData });
             if (res.ok) {
-                // サーバーに上げた名前をブラウザ側でも記憶する
+                // リストに追加して記憶
                 if (!localFileList.includes(file.name)) {
                     localFileList.push(file.name);
                     localStorage.setItem('myFiles', JSON.stringify(localFileList));
@@ -104,7 +107,7 @@
         const sel = document.getElementById('common-select');
         sel.innerHTML = '<option value="">-- 保存済みファイルを選択 --</option>';
         
-        // ブラウザが覚えているリストを表示（サーバーがリセットされても名前が残る）
+        // localStorageから名前を出す（サーバー再起動対策）
         localFileList.forEach(name => {
             const opt = document.createElement('option');
             opt.value = name;
