@@ -10,138 +10,131 @@
         h2 { text-align: center; color: #333; font-size: 14px; margin-bottom: 20px; }
         .table-scroll { width: 100%; overflow-x: auto; margin-bottom: 10px; border-bottom: 1px solid #ccc; }
         table { width: 100%; min-width: 800px; border-collapse: collapse; background: #fff; }
-        th, td { border: 1px solid #999; padding: 8px; text-align: center; font-size: 12px; }
+        th, td { border: 1px solid #999; padding: 8px; text-align: center; font-size: 11px; }
         th { background-color: #eee; }
         .footer-links { text-align: center; font-size: 12px; margin: 20px 0; color: #0000ee; }
         .memo-area { border: 1px dashed #999; padding: 15px; font-size: 12px; margin-bottom: 40px; }
-        
-        /* ボタンなどの操作エリア */
         .sync-section { border-top: 1px solid #ccc; padding-top: 25px; text-align: center; }
         .sync-controls { display: flex; flex-direction: column; align-items: center; gap: 12px; }
-        .btn { padding: 8px 24px; border: 1px solid #999; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 12px; background: #fff; display: inline-flex; align-items: center; justify-content: center; min-width: 160px; color: #333; }
-        .btn-delete { color: #cc0000; border-color: #cc0000; margin-top: 5px; } /* ゴミ箱ボタン */
-        .file-select { padding: 8px; font-size: 12px; width: 320px; border: 1px solid #999; border-radius: 4px; background: #fff; }
-        #status-msg { font-size: 12px; color: #0000ee; margin-top: 10px; font-weight: bold; }
+        .btn { padding: 8px 24px; border: 1px solid #999; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 12px; background: #fff; display: inline-flex; align-items: center; justify-content: center; min-width: 200px; color: #333; }
+        .btn-delete { color: #cc0000; border-color: #cc0000; }
+        .file-select { padding: 10px; font-size: 13px; width: 340px; border: 1px solid #999; border-radius: 4px; background: #fff; }
+        #status-msg { font-size: 12px; color: #d00; margin-top: 10px; font-weight: bold; }
     </style>
 </head>
 <body>
 <div class="container">
-    <h2>就活で気になった企業リスト</h2>
+    <h2>就活リスト</h2>
     <div class="table-scroll">
         <table>
             <thead>
                 <tr>
-                    <th style="width: 10%;">番号</th>
-                    <th style="width: 30%;">企業名</th>
-                    <th style="width: 30%;">通勤時間</th>
+                    <th style="width: 5%;">#</th>
+                    <th style="width: 35%;">企業名</th>
+                    <th style="width: 30%;">最寄り</th>
                     <th style="width: 30%;">メモ</th>
                 </tr>
             </thead>
             <tbody>
-                <tr><td>1</td><td>三郷市役所</td><td>三郷駅（武蔵野線の場合）</td><td>終</td></tr>
-                <tr><td>2</td><td><a href="https://job-search.litalico.co.jp/companies/116?index=area" target="_blank">MS&ADグランアシスタンス株式会社</a></td><td></td><td></td></tr>
-                <tr><td>3</td><td><a href="/PDF/RAFAA235010202604290932380861669092556543138702.pdf" target="_blank">東京都ビジネスサービス株式会社</a></td><td></td><td>紹介期限：令和8年5月31日</td></tr>
-                <tr><td>4</td><td><a href="/PDF/医療法人 弘仁会 板倉病院.pdf" target="_blank">医療法人 弘仁会 板倉病院</a></td><td></td><td>紹介期限：令和8年5月31日</td></tr>
-                <tr><td>5</td><td><a href="/PDF/RAFAA23501020260429093254877621008202362889814.pdf" target="_blank">ベンチャーサポート社会保険労務士法人</a></td><td></td><td>紹介期限：令和8年6月30日</td></tr>
-                <tr><td>6</td><td><a href="/PDF/株式会社 日警保安 東京事業部.pdf" target="_blank">株式会社 日警保安 東京事業部</a></td><td></td><td>紹介期限：令和8年6月30日</td></tr>
-                <tr><td>7</td><td><a href="/PDF/RAFAA235010202605061009399703247084278534433893.pdf" target="_blank">株式会社 ハンデックス 仙台支店</a></td><td></td><td>紹介期限：令和8年6月30日</td></tr>
-                <tr><td>8</td><td></td><td></td><td>紹介期限：令和8年6月30日</td></tr>
-                <tr><td>9</td><td></td><td></td><td>紹介期限：令和8年5月31日</td></tr>
+                <tr><td>1</td><td>三郷市役所</td><td>三郷駅</td><td>終</td></tr>
+                <tr><td>2</td><td>MS&ADグランアシスタンス</td><td></td><td></td></tr>
+                <tr><td>3</td><td>東京都ビジネスサービス</td><td></td><td>紹介期限：R8/5/31</td></tr>
+                <tr><td>4</td><td>医療法人 弘仁会 板倉病院</td><td></td><td>紹介期限：R8/5/31</td></tr>
+                <tr><td>5</td><td>ベンチャーサポート社労士法人</td><td></td><td>紹介期限：R8/6/30</td></tr>
+                <tr><td>6</td><td>株式会社 日警保安 東京事業部</td><td></td><td>紹介期限：R8/6/30</td></tr>
+                <tr><td>7</td><td>株式会社 ハンデックス 仙台支店</td><td></td><td>紹介期限：R8/6/30</td></tr>
+                <tr><td>8</td><td></td><td></td><td>紹介期限：R8/6/30</td></tr>
+                <tr><td>9</td><td></td><td></td><td>紹介期限：R8/5/31</td></tr>
             </tbody>
         </table>
     </div>
 
-    <div class="footer-links">atGP &nbsp;&nbsp; クローバーナビ &nbsp;&nbsp; dodaチャレンジ &nbsp;&nbsp; ハローワーク</div>
-
-    <div class="memo-area">
-        <strong>■ 追記メモ</strong><br><br>
-        ・履歴書の添削依頼をスタッフさんに提出済み（4/23）<br>
-        ・今回のリストに関しては見つけたものを並べただけであり優先順位を付けたものではない
-    </div>
-
     <div class="sync-section">
-        <strong>■ 提出書類 同期（履歴書・職務経歴書など全形式対応）</strong>
+        <strong>■ 提出書類 同期（全端末共通リスト）</strong>
         <div class="sync-controls">
             <input type="file" id="common-upload" style="display:none;" onchange="handleUpload(this)">
-            <button type="button" class="btn" onclick="document.getElementById('common-upload').click()">☁️ ファイルをUP</button>
+            <button type="button" class="btn" onclick="document.getElementById('common-upload').click()">☁️ ファイルを新しくUP</button>
             
             <select id="common-select" class="file-select">
-                <option value="">-- 読み込み中 --</option>
+                <option value="">-- リスト更新中 --</option>
             </select>
             
-            <button class="btn" onclick="handleDownload()">📥 ダウンロード/表示</button>
-            <button class="btn btn-delete" onclick="handleDelete()">🗑️ 選択したファイルを消す</button>
+            <button class="btn" onclick="handleDownload()">📥 表示 / ダウンロード</button>
+            <button class="btn btn-delete" onclick="handleDelete()">🗑️ このファイルを完全に消す</button>
         </div>
         <div id="status-msg"></div>
     </div>
 </div>
 
 <script>
+    // ページを開いた時と、3秒ごとにリストを自動更新して同期を確実にします
     window.onload = refreshFileList;
+    setInterval(refreshFileList, 3000);
 
     async function handleUpload(input) {
         if (!input.files[0]) return;
         const status = document.getElementById('status-msg');
-        status.innerHTML = "⌛ アップロード中...";
+        status.style.color = "#00f";
+        status.innerHTML = "⌛ UP中...";
         
         const file = input.files[0];
         const formData = new FormData();
         formData.append('pdfFile', file);
 
         try {
-            // 文字コードUTF-8を維持して送信
             const res = await fetch('/upload', { method: 'POST', body: formData });
             if (res.ok) {
-                status.innerHTML = "アップロード成功！";
-                await refreshFileList();
-                document.getElementById('common-select').value = file.name;
+                status.innerHTML = "✅ UP成功！";
+                setTimeout(refreshFileList, 500); 
             }
-        } catch (e) { status.innerHTML = "❌ エラー"; }
+        } catch (e) { status.innerHTML = "❌ UP失敗"; }
         input.value = '';
     }
 
     async function refreshFileList() {
         try {
-            // サーバーから「生の日本語名」を正しく受け取る
-            const res = await fetch('/api/files');
+            // キャッシュを無視して最新のリストを強制取得
+            const res = await fetch('/api/files?t=' + Date.now());
             const data = await res.json();
             const sel = document.getElementById('common-select');
+            const currentVal = sel.value;
             
             sel.innerHTML = '<option value="">-- 保存済みファイルを選択 --</option>';
             data.forEach(name => {
-                if (!name.startsWith('.') && name !== 'index.html') {
+                if (!name.startsWith('.') && name !== 'index.html' && name !== '.gitkeep') {
                     const opt = document.createElement('option');
                     opt.value = name;
-                    opt.innerText = name; // 文字化けさせずそのまま表示
+                    opt.innerText = name; 
                     sel.appendChild(opt);
                 }
             });
-        } catch (e) { console.error("Error loading files"); }
+            if (currentVal) sel.value = currentVal;
+        } catch (e) { console.error("List update failed"); }
     }
 
     function handleDownload() {
         const name = document.getElementById('common-select').value;
-        if (name) {
-            // 日本語名を正しくURLとして扱えるように変換して開く
-            window.open('/PDF/' + encodeURIComponent(name), '_blank');
-        } else {
-            alert("書類を選択してください");
-        }
+        if (!name) return alert("ファイルを選んでください");
+        window.open('/PDF/' + encodeURIComponent(name), '_blank');
     }
 
     async function handleDelete() {
         const name = document.getElementById('common-select').value;
-        if (!name) return alert("消したい書類を選んでください");
+        if (!name) return alert("消したいファイルを選んでください");
 
-        if (confirm(`「${name}」を完全に消去しますか？`)) {
+        if (confirm(`「${name}」をサーバーから完全に消去しますか？\n(PC・スマホ両方から消えます)`)) {
+            const status = document.getElementById('status-msg');
             try {
-                // サーバー側のファイルを削除。日本語名も正しく処理。
-                await fetch('/delete?name=' + encodeURIComponent(name), { method: 'DELETE' });
-                await refreshFileList();
-                document.getElementById('status-msg').innerHTML = "削除しました";
-            } catch (e) { 
-                alert("削除に失敗しました。文字化けしたファイルの場合は一度リストを更新してください。"); 
-            }
+                // 確実にサーバーに届くように送信
+                const res = await fetch('/delete?name=' + encodeURIComponent(name), { method: 'DELETE' });
+                if (res.ok) {
+                    status.style.color = "#d00";
+                    status.innerHTML = "🗑️ 削除完了";
+                    await refreshFileList();
+                } else {
+                    alert("削除に失敗しました。ファイルが既にない可能性があります。");
+                }
+            } catch (e) { alert("エラーが発生しました"); }
         }
     }
 </script>
