@@ -73,6 +73,7 @@
 
 <script>
     window.onload = refreshFileList;
+
     async function refreshFileList() {
         try {
             const res = await fetch('/api/files?t=' + Date.now());
@@ -80,49 +81,56 @@
             const sel = document.getElementById('common-select');
             sel.innerHTML = '<option value="">-- 保存済みファイルを選択 --</option>';
             
-            // 指示にない「いらんファイル」をリストから除外する
-            const filteredData = data.filter(name => 
-                name !== "正6面体.png" && 
-                name !== "sample.pdf" &&
-                !name.startsWith("test-")
-            );
-
-            filteredData.forEach(name => {
+            data.forEach(name => {
                 const opt = document.createElement('option');
                 opt.value = name;
                 opt.innerText = name;
                 sel.appendChild(opt);
             });
-        } catch (e) {}
+        } catch (e) {
+            console.error("リスト取得失敗", e);
+        }
     }
+
     async function handleUpload(input) {
         if (!input.files[0]) return;
         document.getElementById('status-msg').innerHTML = "⌛ UP中...";
         const formData = new FormData();
-        formData.append('pdfFile', input.files[0]);
+        // ここを 'file' に修正しました。これでindex.jsと合致し、金庫に届きます。
+        formData.append('file', input.files[0]);
+
         try {
-            const res = await fetch('/upload', { method: 'POST', body: formData });
+            const res = await fetch('/api/upload', { method: 'POST', body: formData });
             if(res.ok) {
                 document.getElementById('status-msg').innerHTML = "✅ UP成功！";
                 refreshFileList();
+            } else {
+                throw new Error();
             }
-        } catch (e) { alert("UP失敗"); }
+        } catch (e) { 
+            document.getElementById('status-msg').innerHTML = "❌ UP失敗";
+            alert("UP失敗"); 
+        }
         input.value = '';
     }
+
     function handleDownload() {
         const name = document.getElementById('common-select').value;
         if (name) window.open('/PDF/' + encodeURIComponent(name) + '?v=' + Date.now(), '_blank');
     }
+
     async function handleDelete() {
         const name = document.getElementById('common-select').value;
         if (!name || !confirm(`「${name}」を完全に消しますか？`)) return;
         try {
-            const res = await fetch('/delete?name=' + encodeURIComponent(name), { method: 'DELETE' });
+            const res = await fetch(`/api/files/${encodeURIComponent(name)}`, { method: 'DELETE' });
             if (res.ok) {
                 document.getElementById('status-msg').innerHTML = "🗑️ 削除しました";
                 refreshFileList();
             }
-        } catch (e) { alert("削除に失敗しました"); }
+        } catch (e) { 
+            alert("削除に失敗しました"); 
+        }
     }
 </script>
 </body>
