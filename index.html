@@ -68,13 +68,10 @@
         <div class="sync-controls">
             <input type="file" id="common-upload" style="display:none;" onchange="handleUpload(this)">
             <button type="button" class="btn" onclick="document.getElementById('common-upload').click()">📥 アップロード</button>
-            
             <select id="common-select" class="file-select">
                 <option value="">-- 保存済みファイルを選択 --</option>
             </select>
-            
             <button class="btn" onclick="handleView()">📥 表示 / ダウンロード</button>
-            
             <button class="btn btn-delete" onclick="handleDelete()">🗑️ 選択したファイルを完全に消す</button>
         </div>
         <div id="status-msg"></div>
@@ -99,16 +96,17 @@
     }
     async function handleUpload(input) {
         if (!input.files[0]) return;
-        document.getElementById('status-msg').innerHTML = "⌛ UP中...";
+        document.getElementById('status-msg').innerHTML = "⌛ アップロード中";
         const formData = new FormData();
         formData.append('file', input.files[0]);
         try {
             const res = await fetch('/api/upload', { method: 'POST', body: formData });
             if(res.ok) {
-                document.getElementById('status-msg').innerHTML = "✅ UP成功！";
+                // 表記を「アップロード済」にしました
+                document.getElementById('status-msg').innerHTML = "✅ アップロード済";
                 refreshFileList();
             }
-        } catch (e) { alert("UP失敗"); }
+        } catch (e) { alert("アップロード失敗"); }
         input.value = '';
     }
     function handleView() {
