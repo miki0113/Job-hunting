@@ -14,9 +14,7 @@
         th { background-color: #eee; }
         a { color: #0000ee; text-decoration: underline; }
         .external-links { text-align: center; margin: 20px 0; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; font-size: 14px; }
-        
         .memo-box { border: 2px dotted #999; padding: 15px; margin: 20px 0; font-size: 13px; text-align: left; line-height: 1.6; }
-        
         .sync-section { border-top: 1px solid #ccc; padding-top: 25px; text-align: left; }
         .sync-controls { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 15px; }
         .btn { padding: 8px 20px; border: 1px solid #999; border-radius: 4px; cursor: pointer; font-size: 13px; background: #fff; min-width: 200px; display: flex; align-items: center; justify-content: center; gap: 5px; }
@@ -41,12 +39,12 @@
             <tbody>
                 <tr><td>1</td><td>三郷市役所</td><td>三郷駅</td><td>終</td></tr>
                 <tr><td>2</td><td><a href="https://job-search.litalico.co.jp/companies/116?index=area" target="_blank">MS&ADグランアシスタンス株式会社</a></td><td></td><td></td></tr>
-                <tr><td>3</td><td><a href="https://www.tokyo-bs.co.jp/" target="_blank">東京都ビジネスサービス株式会社</a></td><td></td><td>紹介期限：令和8年5月31日<br><a href="./PDF/RAFAA...pdf" target="_blank">まとめ資料はこちら</a></td></tr>
-                <tr><td>4</td><td><a href="./PDF/医療法人 弘仁会 板倉病院.pdf" target="_blank">医療法人 弘仁会 板倉病院</a></td><td></td><td>紹介期限：令和8年5月31日<br><a href="./PDF/RAFAA...pdf" target="_blank">まとめ資料はこちら</a></td></tr>
+                <tr><td>3</td><td><a href="https://www.tokyo-bs.co.jp/" target="_blank">東京都ビジネスサービス株式会社</a></td><td></td><td>紹介期限：令和8年5月31日<br><a href="./PDF/RAFAA...pdf" target="_blank" rel="noopener noreferrer">まとめ資料はこちら</a></td></tr>
+                <tr><td>4</td><td><a href="./PDF/医療法人 弘仁会 板倉病院.pdf" target="_blank" rel="noopener noreferrer">医療法人 弘仁会 板倉病院</a></td><td></td><td>紹介期限：令和8年5月31日<br><a href="./PDF/RAFAA...pdf" target="_blank" rel="noopener noreferrer">まとめ資料はこちら</a></td></tr>
                 <tr><td>5</td><td><a href="https://vs-group.jp/shakaihokenroumushi/" target="_blank">ベンチャーサポート社会保険労務士法人</a></td><td></td><td>紹介期限：令和8年6月30日</td></tr>
-                <tr><td>6</td><td><a href="./PDF/株式会社 日警保安 東京事業部.pdf" target="_blank">株式会社 日警保安 東京事業部</a></td><td></td><td>紹介期限：令和8年6月30日<br><a href="./PDF/RAFAA...pdf" target="_blank">まとめ資料はこちら</a></td></tr>
-                <tr><td>7</td><td><a href="https://www.handex.co.jp/" target="_blank">株式会社 ハンデックス 仙台支店</a></td><td></td><td>紹介期限：令和8年6月30日<br><a href="./PDF/RAFAA...pdf" target="_blank">まとめ資料はこちら</a></td></tr>
-                <tr><td>8</td><td></td><td></td><td>紹介期限：令和8年6月30日<br><a href="./PDF/RAFAA...pdf" target="_blank">追加メモはこちら</a></td></tr>
+                <tr><td>6</td><td><a href="./PDF/株式会社 日警保安 東京事業部.pdf" target="_blank" rel="noopener noreferrer">株式会社 日警保安 東京事業部</a></td><td></td><td>紹介期限：令和8年6月30日<br><a href="./PDF/RAFAA...pdf" target="_blank" rel="noopener noreferrer">まとめ資料はこちら</a></td></tr>
+                <tr><td>7</td><td><a href="https://www.handex.co.jp/" target="_blank">株式会社 ハンデックス 仙台支店</a></td><td></td><td>紹介期限：令和8年6月30日<br><a href="./PDF/RAFAA...pdf" target="_blank" rel="noopener noreferrer">まとめ資料はこちら</a></td></tr>
+                <tr><td>8</td><td></td><td></td><td>紹介期限：令和8年6月30日<br><a href="./PDF/RAFAA...pdf" target="_blank" rel="noopener noreferrer">追加メモはこちら</a></td></tr>
                 <tr><td>9</td><td></td><td></td><td>紹介期限：令和8年5月31日</td></tr>
             </tbody>
         </table>
@@ -62,7 +60,7 @@
     <div class="memo-box">
         <strong>■ 追記メモ</strong><br><br>
         ・履歴書の添削依頼をスタッフさんに提出済み(4/23)<br>
-        ・今回のリストに関しては見つけたものを並べただけであり優先順位を付けたものではない
+        ・今回のリストに関しては見つけたものを並べただけであり優先順位を付けたものでではない
     </div>
 
     <div class="sync-section">
@@ -75,7 +73,7 @@
                 <option value="">-- 保存済みファイルを選択 --</option>
             </select>
             
-            <button class="btn" onclick="handlePreview()">📥 表示 / ダウンロード</button>
+            <button class="btn" onclick="handleView()">📥 表示 / ダウンロード</button>
             
             <button class="btn btn-delete" onclick="handleDelete()">🗑️ 選択したファイルを完全に消す</button>
         </div>
@@ -116,16 +114,20 @@
         input.value = '';
     }
 
-    function handlePreview() {
+    // ダウンロードを強制せず「表示」させるための処理
+    function handleView() {
         const name = document.getElementById('common-select').value;
         if (!name) return;
         const fileUrl = '/PDF/' + encodeURIComponent(name);
-        const win = window.open(fileUrl, '_blank');
-        if (win) {
-            win.focus();
-        } else {
-            location.href = fileUrl;
-        }
+        
+        // aタグを一時的に作って、「download」属性をつけずに開く
+        const link = document.createElement('a');
+        link.href = fileUrl;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     }
 
     async function handleDelete() {
