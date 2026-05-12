@@ -4,25 +4,24 @@ const fs = require('fs');
 const path = require('path');
 const app = express();
 
-// 1. MikiさんのDisk（金庫）を保存先に指定
-const UPLOAD_DIR = '/opt/render/project/src/PDF';
+const UPLOAD_DIR = '/PDF';
 
-// フォルダ作成
 if (!fs.existsSync(UPLOAD_DIR)) {
     fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 }
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => { cb(null, UPLOAD_DIR); },
-    filename: (req, file, cb) => { cb(null, file.originalname); }
+    filename: (req, file, cb) => {
+        // 【重要】日本語の文字化けを直す魔法の1行
+        file.originalname = Buffer.from(file.originalname, 'latin1').toString('utf8');
+        cb(null, file.originalname);
+    }
 });
 const upload = multer({ storage: storage });
 
-// 2. Cannot GET / を直すための設定
-// index.htmlが置いてある場所（ルート）を読み込めるようにします
-app.use(express.static(__dirname)); 
+app.use(express.static(__dirname));
 
-// ファイル一覧取得
 app.get('/api/files', (req, res) => {
     fs.readdir(UPLOAD_DIR, (err, files) => {
         if (err) return res.json([]);
@@ -35,12 +34,16 @@ app.get('/api/files', (req, res) => {
     });
 });
 
-// アップロード
 app.post('/api/upload', upload.single('file'), (req, res) => {
     res.send('Uploaded');
 });
 
-// 削除
+// ファイル表示（ここも日本語対応に強化）
+app.get('/PDF/:name', (req, res) => {
+    const filePath = path.join(UPLOAD_DIR, req.params.name);
+    res.download(filePath, req.params.name);
+});
+
 app.delete('/api/files/:name', (req, res) => {
     const filePath = path.join(UPLOAD_DIR, req.params.name);
     if (fs.existsSync(filePath)) {
