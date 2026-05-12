@@ -8,12 +8,16 @@
         body { font-family: sans-serif; background-color: #f4f4f4; padding: 20px; margin: 0; }
         .container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); width: 100%; max-width: 1000px; margin: auto; }
         h2 { text-align: center; color: #333; font-size: 14px; margin-bottom: 20px; }
-        .table-scroll { width: 100%; overflow-x: auto; margin-bottom: 20px; }
+        .table-scroll { width: 100%; overflow-x: auto; margin-bottom: 20px; border-bottom: 1px solid #ccc; }
         table { width: 100%; min-width: 800px; border-collapse: collapse; background: #fff; }
         th, td { border: 1px solid #999; padding: 8px; text-align: center; font-size: 11px; }
         th { background-color: #eee; }
         a { color: #0000ee; text-decoration: underline; }
         .external-links { text-align: center; margin: 20px 0; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; font-size: 14px; }
+        .sync-section { border-top: 2px solid #333; padding-top: 25px; text-align: center; }
+        .sync-controls { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+        .btn { padding: 12px 24px; border: 1px solid #999; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 13px; background: #fff; min-width: 240px; }
+        #status-msg { font-size: 12px; color: #0000ee; margin-top: 10px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -31,13 +35,49 @@
             </thead>
             <tbody>
                 <tr><td>1</td><td>三郷市役所</td><td>三郷駅</td><td>終</td></tr>
-                
                 <tr><td>2</td><td><a href="https://job-search.litalico.co.jp/companies/116?index=area" target="_blank">MS&ADグランアシスタンス株式会社</a></td><td></td><td></td></tr>
-                
-                <tr><td>3</td><td><a href="https://www.tokyo-bs.co.jp/" target="_blank">東京都ビジネスサービス株式会社</a></td><td></td><td>紹介期限：令和8年5月31日</td></tr>
-                
-                <tr><td>4</td><td><a href="./PDF/医療法人 弘仁会 板倉病院.pdf" target="_blank">医療法人 弘仁会 板倉病院</a></td><td></td><td>紹介期限：令和8年5月31日</td></tr>
-                
+                <tr><td>3</td><td><a href="https://www.tokyo-bs.co.jp/" target="_blank">東京都ビジネスサービス株式会社</a></td><td></td><td>紹介期限：令和8年5月31日<br><a href="./PDF/RAFAA...pdf" target="_blank">まとめ資料はこちら</a></td></tr>
+                <tr><td>4</td><td><a href="./PDF/医療法人 弘仁会 板倉病院.pdf" target="_blank">医療法人 弘仁会 板倉病院</a></td><td></td><td>紹介期限：令和8年5月31日<br><a href="./PDF/RAFAA...pdf" target="_blank">まとめ資料はこちら</a></td></tr>
                 <tr><td>5</td><td><a href="https://vs-group.jp/shakaihokenroumushi/" target="_blank">ベンチャーサポート社会保険労務士法人</a></td><td></td><td>紹介期限：令和8年6月30日</td></tr>
-                
-                <tr><td>6</td><td><a href="./PDF/株式会社 日警保安 東京事業部.pdf" target="_blank">株式会社
+                <tr><td>6</td><td><a href="./PDF/株式会社 日警保安 東京事業部.pdf" target="_blank">株式会社 日警保安 東京事業部</a></td><td></td><td>紹介期限：令和8年6月30日<br><a href="./PDF/RAFAA...pdf" target="_blank">まとめ資料はこちら</a></td></tr>
+                <tr><td>7</td><td><a href="https://www.handex.co.jp/" target="_blank">株式会社 ハンデックス 仙台支店</a></td><td></td><td>紹介期限：令和8年6月30日<br><a href="./PDF/RAFAA...pdf" target="_blank">まとめ資料はこちら</a></td></tr>
+                <tr><td>8</td><td></td><td></td><td>紹介期限：令和8年6月30日<br><a href="./PDF/RAFAA...pdf" target="_blank">追加メモはこちら</a></td></tr>
+                <tr><td>9</td><td></td><td></td><td>紹介期限：令和8年5月31日</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="external-links">
+        <a href="https://www.atgp.jp/" target="_blank">atGP</a>
+        <a href="https://www.clover-navi.com/" target="_blank">クローバーナビ</a>
+        <a href="https://doda.jp/challenge/" target="_blank">dodaチャレンジ</a>
+        <a href="https://kyushoku.hellowork.mhlw.go.jp/kyushoku/GEAA040010.do?action=initDisp&screenId=GEAA040010" target="_blank">ハローワーク</a>
+    </div>
+
+    <div class="sync-section">
+        <strong>■ 書類アップロード</strong>
+        <div class="sync-controls">
+            <input type="file" id="common-upload" style="display:none;" onchange="handleUpload(this)">
+            <button type="button" class="btn" onclick="document.getElementById('common-upload').click()">☁️ ファイルをUP</button>
+        </div>
+        <div id="status-msg"></div>
+    </div>
+</div>
+
+<script>
+    async function handleUpload(input) {
+        if (!input.files[0]) return;
+        document.getElementById('status-msg').innerHTML = "⌛ UP中...";
+        const formData = new FormData();
+        formData.append('file', input.files[0]);
+        try {
+            const res = await fetch('/api/upload', { method: 'POST', body: formData });
+            if(res.ok) {
+                document.getElementById('status-msg').innerHTML = "✅ UP成功！";
+            }
+        } catch (e) { alert("UP失敗"); }
+        input.value = '';
+    }
+</script>
+</body>
+</html>
