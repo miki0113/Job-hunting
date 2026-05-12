@@ -75,7 +75,8 @@
                 <option value="">-- 保存済みファイルを選択 --</option>
             </select>
             
-            <button class="btn" onclick="handlePreview()">👁️ 表示 / ダウンロード</button>
+            <button class="btn" onclick="handlePreview()">📥 表示 / ダウンロード</button>
+            
             <button class="btn btn-delete" onclick="handleDelete()">🗑️ 選択したファイルを完全に消す</button>
         </div>
         <div id="status-msg"></div>
@@ -115,17 +116,14 @@
         input.value = '';
     }
 
-    // ダウンロードではなく、新しいタブで「表示」させる関数
     function handlePreview() {
         const name = document.getElementById('common-select').value;
         if (!name) return;
         const fileUrl = '/PDF/' + encodeURIComponent(name);
-        // 新しいタブで開く（ブラウザのPDFビューアーが起動します）
         const win = window.open(fileUrl, '_blank');
         if (win) {
             win.focus();
         } else {
-            // ポップアップブロック対策
             location.href = fileUrl;
         }
     }
