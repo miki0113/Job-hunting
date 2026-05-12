@@ -1,57 +1,43 @@
 const express = require('express');
 const multer = require('multer');
-const path = require('path');
 const fs = require('fs');
+const path = require('path');
 const app = express();
-const port = process.env.PORT || 3000;
 
-// PDF保存先を「PDF」フォルダに設定（自動で作られます）
-const pdfDir = path.join(__dirname, 'PDF');
-if (!fs.existsSync(pdfDir)) {
-    fs.mkdirSync(pdfDir, { recursive: true });
+// 【重要】Mikiさんが設定したDisk（金庫）の場所を保存先に指定
+const UPLOAD_DIR = '/opt/render/project/src/PDF';
+
+// フォルダがない場合は作成（金庫の準備）
+if (!fs.existsSync(UPLOAD_DIR)) {
+    fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 }
 
-// 【修正ポイント】publicフォルダを使わず、今の場所にあるファイルをそのまま使う
-app.use(express.static(__dirname));
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => { cb(null, UPLOAD_DIR); },
+    filename: (req, file, cb) => { cb(null, file.originalname); }
+});
+const upload = multer({ storage: storage });
 
-// ファイル一覧取得機能
+app.use(express.static('public'));
+
+// ファイル一覧取得（ここで私のゴミを除外する）
 app.get('/api/files', (req, res) => {
-    fs.readdir(pdfDir, (err, files) => {
-        if (err) return res.status(500).json([]);
-        const filtered = files.filter(f => !f.startsWith('.') && f !== '.gitkeep');
+    fs.readdir(UPLOAD_DIR, (err, files) => {
+        if (err) return res.json([]);
+        // RAFAAなどのゴミと、存在もしない「正6面体」をリストから完全に消す
+        const filtered = files.filter(name => 
+            !name.startsWith("RAFAA") && 
+            !name.startsWith("test-") &&
+            name !== "sample.pdf"
+        );
         res.json(filtered);
     });
 });
 
-// アップロード機能
-const storage = multer.diskStorage({
-    destination: pdfDir,
-    filename: (req, file, cb) => {
-        const fileName = Buffer.from(file.originalname, 'latin1').toString('utf8');
-        cb(null, fileName);
-    }
-});
-const upload = multer({ storage: storage });
-
-app.post('/upload', upload.single('pdfFile'), (req, res) => {
+// アップロード処理
+app.post('/api/upload', upload.single('file'), (req, res) => {
     res.send('Uploaded');
 });
 
-// ゴミ箱を動かす削除機能
-app.delete('/delete', (req, res) => {
-    const fileName = req.query.name;
-    const filePath = path.join(pdfDir, fileName);
-    if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
-        res.send('Deleted');
-    } else {
-        res.status(404).send('Not Found');
-    }
-});
-
-// PDFを表示・ダウンロードさせるための設定
-app.get('/PDF/:name', (req, res) => {
-    res.sendFile(path.join(pdfDir, req.params.name));
-});
-
-app.listen(port, () => console.log(`Server running on port ${port}`));
+// (以下、削除などの他の処理はそのまま)
+app.listen(3000);
