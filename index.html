@@ -102,6 +102,7 @@
         try {
             const res = await fetch('/api/upload', { method: 'POST', body: formData });
             if(res.ok) {
+                // Mikiさんの選んだ「完了」にしています
                 document.getElementById('status-msg').innerHTML = "✅ アップロード完了";
                 refreshFileList();
             }
@@ -112,7 +113,7 @@
         const name = document.getElementById('common-select').value;
         if (!name) return;
         const fileUrl = '/PDF/' + encodeURIComponent(name);
-        // 修正箇所：window.openで開くように変更
+        // ブラウザで直接開く修正
         window.open(fileUrl, '_blank');
     }
     async function handleDelete() {
