@@ -102,7 +102,7 @@
         try {
             const res = await fetch('/api/upload', { method: 'POST', body: formData });
             if(res.ok) {
-                document.getElementById('status-msg').innerHTML = "✅ アップロード済";
+                document.getElementById('status-msg').innerHTML = "✅ アップロード完了";
                 refreshFileList();
             }
         } catch (e) { alert("アップロード失敗"); }
@@ -112,13 +112,8 @@
         const name = document.getElementById('common-select').value;
         if (!name) return;
         const fileUrl = '/PDF/' + encodeURIComponent(name);
-        const link = document.createElement('a');
-        link.href = fileUrl;
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        // 修正箇所：window.openで開くように変更
+        window.open(fileUrl, '_blank');
     }
     async function handleDelete() {
         const name = document.getElementById('common-select').value;
