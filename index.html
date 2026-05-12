@@ -42,7 +42,7 @@
                 <tr><td>3</td><td><a href="PDF/RAFAA23501020260429093314595295115887684169088.pdf" target="_blank">東京都ビジネスサービス株式会社</a></td><td></td><td>紹介期限：令和8年5月31日<br><a href="./PDF/RAFAA...pdf" target="_blank" rel="noopener noreferrer">まとめ資料はこちら</a></td></tr>
                 <tr><td>4</td><td><a href="PDF/RAFAA23501020260429093254877621008202362889814.pdf" target="_blank" rel="noopener noreferrer">医療法人 弘仁会 板倉病院</a></td><td></td><td>紹介期限：令和8年5月31日<br><a href="PDF/医療法人 弘仁会 板倉病院.pdf" target="_blank" rel="noopener noreferrer">まとめ資料はこちら</a></td></tr>
                 <tr><td>5</td><td><a href="PDF/RAFAA235010202604290932380861669092556543138702.pdf" target="_blank">ベンチャーサポート社会保険労務士法人</a></td><td></td><td>紹介期限：令和8年6月30日</td></tr>
-                <tr><td>6</td><td><a href="PDF/RAFAA235010202604290932048538810908074250214855.pdf"_blank" rel="noopener noreferrer">株式会社 日警保安 東京事業部</a></td><td></td><td>紹介期限：令和8年6月30日<br><a href="PDF/株式会社 日警保安 東京事業部.pdf" target="_blank" rel="noopener noreferrer">まとめ資料はこちら</a></td></tr>
+                <tr><td>6</td><td><a href="PDF/RAFAA235010202604290932048538810908074250214855.pdf" target="_blank" rel="noopener noreferrer">株式会社 日警保安 東京事業部</a></td><td></td><td>紹介期限：令和8年6月30日<br><a href="PDF/株式会社 日警保安 東京事業部.pdf" target="_blank" rel="noopener noreferrer">まとめ資料はこちら</a></td></tr>
                 <tr><td>7</td><td><a href="PDF/RAFAA235010202605061009399703247084278534433893.pdf" target="_blank">株式会社 ハンデックス 仙台支店</a></td><td></td><td>紹介期限：令和8年6月30日<br><a href="./PDF/RAFAA...pdf" target="_blank" rel="noopener noreferrer">まとめ資料はこちら</a></td></tr>
                 <tr><td>8</td><td></td><td></td><td>紹介期限：令和8年6月30日<br><a href="./PDF/RAFAA...pdf" target="_blank" rel="noopener noreferrer">追加メモはこちら</a></td></tr>
                 <tr><td>9</td><td></td><td></td><td>紹介期限：令和8年5月31日</td></tr>
@@ -68,13 +68,10 @@
         <div class="sync-controls">
             <input type="file" id="common-upload" style="display:none;" onchange="handleUpload(this)">
             <button type="button" class="btn" onclick="document.getElementById('common-upload').click()">📥 ファイルをUP</button>
-            
             <select id="common-select" class="file-select">
                 <option value="">-- 保存済みファイルを選択 --</option>
             </select>
-            
             <button class="btn" onclick="handleView()">📥 表示 / ダウンロード</button>
-            
             <button class="btn btn-delete" onclick="handleDelete()">🗑️ 選択したファイルを完全に消す</button>
         </div>
         <div id="status-msg"></div>
@@ -83,7 +80,6 @@
 
 <script>
     window.onload = refreshFileList;
-
     async function refreshFileList() {
         try {
             const res = await fetch('/api/files?t=' + Date.now());
@@ -98,7 +94,6 @@
             });
         } catch (e) { console.error(e); }
     }
-
     async function handleUpload(input) {
         if (!input.files[0]) return;
         document.getElementById('status-msg').innerHTML = "⌛ UP中...";
@@ -113,14 +108,10 @@
         } catch (e) { alert("UP失敗"); }
         input.value = '';
     }
-
-    // ダウンロードを強制せず「表示」させるための処理
     function handleView() {
         const name = document.getElementById('common-select').value;
         if (!name) return;
         const fileUrl = '/PDF/' + encodeURIComponent(name);
-        
-        // aタグを一時的に作って、「download」属性をつけずに開く
         const link = document.createElement('a');
         link.href = fileUrl;
         link.target = '_blank';
@@ -129,7 +120,6 @@
         link.click();
         document.body.removeChild(link);
     }
-
     async function handleDelete() {
         const name = document.getElementById('common-select').value;
         if (!name || !confirm(`「${name}」を完全に消しますか？`)) return;
