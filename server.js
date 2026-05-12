@@ -13,7 +13,7 @@ if (!fs.existsSync(UPLOAD_DIR)) {
 const storage = multer.diskStorage({
     destination: (req, file, cb) => { cb(null, UPLOAD_DIR); },
     filename: (req, file, cb) => {
-        // 【重要】日本語の文字化けを直す魔法の1行
+        // 日本語の文字化け防止
         file.originalname = Buffer.from(file.originalname, 'latin1').toString('utf8');
         cb(null, file.originalname);
     }
@@ -22,6 +22,7 @@ const upload = multer({ storage: storage });
 
 app.use(express.static(__dirname));
 
+// ファイル一覧取得
 app.get('/api/files', (req, res) => {
     fs.readdir(UPLOAD_DIR, (err, files) => {
         if (err) return res.json([]);
@@ -38,10 +39,17 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
     res.send('Uploaded');
 });
 
-// ファイル表示（ここも日本語対応に強化）
+// 【ここを修正】ダウンロードではなく「表示」を優先する設定
 app.get('/PDF/:name', (req, res) => {
     const filePath = path.join(UPLOAD_DIR, req.params.name);
-    res.download(filePath, req.params.name);
+    
+    // ファイルが存在するかチェック
+    if (fs.existsSync(filePath)) {
+        // ブラウザに「これはPDF（または画像）だから画面に出してね」と教える
+        res.sendFile(filePath);
+    } else {
+        res.status(404).send('ファイルが見つかりません');
+    }
 });
 
 app.delete('/api/files/:name', (req, res) => {
