@@ -79,7 +79,15 @@
             const data = await res.json();
             const sel = document.getElementById('common-select');
             sel.innerHTML = '<option value="">-- 保存済みファイルを選択 --</option>';
-            data.forEach(name => {
+            
+            // 指示にない「いらんファイル」をリストから除外する
+            const filteredData = data.filter(name => 
+                name !== "正6面体.png" && 
+                name !== "sample.pdf" &&
+                !name.startsWith("test-")
+            );
+
+            filteredData.forEach(name => {
                 const opt = document.createElement('option');
                 opt.value = name;
                 opt.innerText = name;
