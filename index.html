@@ -13,6 +13,8 @@
         th, td { border: 1px solid #999; padding: 8px; text-align: center; font-size: 11px; }
         th { background-color: #eee; }
         a { color: #0000ee; text-decoration: underline; }
+        /* 復活させたリンク集のスタイル */
+        .external-links { text-align: center; margin: 20px 0; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; font-size: 14px; }
         .sync-section { border-top: 2px solid #333; padding-top: 25px; text-align: center; }
         .sync-controls { display: flex; flex-direction: column; align-items: center; gap: 12px; }
         .btn { padding: 12px 24px; border: 1px solid #999; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 13px; background: #fff; min-width: 240px; }
@@ -48,16 +50,21 @@
         </table>
     </div>
 
+    <div class="external-links">
+        <a href="https://www.atgp.jp/" target="_blank">atGP</a>
+        <a href="https://www.clover-navi.com/" target="_blank">クローバーナビ</a>
+        <a href="https://doda.jp/challenge/" target="_blank">dodaチャレンジ</a>
+        <a href="https://www.hellowork.mhlw.go.jp/" target="_blank">ハローワーク</a>
+    </div>
+
     <div class="sync-section">
         <strong>■ 提出書類 同期（履歴書・職務経歴書など全形式対応）</strong>
         <div class="sync-controls">
             <input type="file" id="common-upload" style="display:none;" onchange="handleUpload(this)">
             <button type="button" class="btn" onclick="document.getElementById('common-upload').click()">☁️ ファイルをUP</button>
-            
             <select id="common-select" class="file-select">
                 <option value="">-- 保存済みファイルを選択 --</option>
             </select>
-            
             <button class="btn" onclick="handleDownload()">📥 表示 / ダウンロード</button>
             <button class="btn btn-delete" onclick="handleDelete()">🗑️ 選択したファイルを完全に消す</button>
         </div>
@@ -67,7 +74,6 @@
 
 <script>
     window.onload = refreshFileList;
-
     async function refreshFileList() {
         try {
             const res = await fetch('/api/files?t=' + Date.now());
@@ -82,7 +88,6 @@
             });
         } catch (e) {}
     }
-
     async function handleUpload(input) {
         if (!input.files[0]) return;
         document.getElementById('status-msg').innerHTML = "⌛ UP中...";
@@ -97,16 +102,13 @@
         } catch (e) { alert("UP失敗"); }
         input.value = '';
     }
-
     function handleDownload() {
         const name = document.getElementById('common-select').value;
         if (name) window.open('/PDF/' + encodeURIComponent(name) + '?v=' + Date.now(), '_blank');
     }
-
     async function handleDelete() {
         const name = document.getElementById('common-select').value;
         if (!name || !confirm(`「${name}」を完全に消しますか？`)) return;
-        
         try {
             const res = await fetch('/delete?name=' + encodeURIComponent(name), { method: 'DELETE' });
             if (res.ok) {
