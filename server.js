@@ -4,10 +4,10 @@ const fs = require('fs');
 const path = require('path');
 const app = express();
 
-// 【重要】Mikiさんが設定したDisk（金庫）の場所を保存先に指定
+// 1. MikiさんのDisk（金庫）を保存先に指定
 const UPLOAD_DIR = '/opt/render/project/src/PDF';
 
-// フォルダがない場合は作成（金庫の準備）
+// フォルダ作成
 if (!fs.existsSync(UPLOAD_DIR)) {
     fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 }
@@ -18,13 +18,14 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-app.use(express.static('public'));
+// 2. Cannot GET / を直すための設定
+// index.htmlが置いてある場所（ルート）を読み込めるようにします
+app.use(express.static(__dirname)); 
 
-// ファイル一覧取得（ここで私のゴミを除外する）
+// ファイル一覧取得
 app.get('/api/files', (req, res) => {
     fs.readdir(UPLOAD_DIR, (err, files) => {
         if (err) return res.json([]);
-        // RAFAAなどのゴミと、存在もしない「正6面体」をリストから完全に消す
         const filtered = files.filter(name => 
             !name.startsWith("RAFAA") && 
             !name.startsWith("test-") &&
@@ -34,10 +35,23 @@ app.get('/api/files', (req, res) => {
     });
 });
 
-// アップロード処理
+// アップロード
 app.post('/api/upload', upload.single('file'), (req, res) => {
     res.send('Uploaded');
 });
 
-// (以下、削除などの他の処理はそのまま)
-app.listen(3000);
+// 削除
+app.delete('/api/files/:name', (req, res) => {
+    const filePath = path.join(UPLOAD_DIR, req.params.name);
+    if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+        res.send('Deleted');
+    } else {
+        res.status(404).send('Not found');
+    }
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
