@@ -44,7 +44,6 @@
                 <tr><td>5</td><td><a href="PDF/RAFAA235010202604290932380861669092556543138702.pdf" target="_blank">ベンチャーサポート社会保険労務士法人</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年6月30日</td></tr>
                 <tr><td>6</td><td><a href="PDF/RAFAA235010202604290932048538810908074250214855.pdf" target="_blank" rel="noopener noreferrer">株式会社 日警保安 東京事業部</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年6月30日<br><a href="PDF/株式会社 日警保安 東京事業部.pdf" target="_blank" rel="noopener noreferrer">まとめ資料はこちら</a></td></tr>
                 <tr><td>7</td><td><a href="PDF/RAFAA235010202605061009399703247084278534433893.pdf" target="_blank">株式会社 ハンデックス 仙台支店</a><br>ハローワーク</td><td></td><td>紹介期限：令和8年6月30日<br><a href="./PDF/RAFAA...pdf" target="_blank" rel="noopener noreferrer">まとめ資料はこちら</a></td></tr>
-                <tr><td>8</td><td><a hrdf="https://job-search.litalico.co.jp/companies/5118?index=area" target="_blank">ヤマト・スタッフ・サプライ株式会社　千葉支店</a><br>イントラネット</td><td></td><td></td></tr>
                 <tr><td>21</td><td></td><td></td><td>紹介期限：令和8年6月30日<br><a href="./PDF/RAFAA...pdf" target="_blank" rel="noopener noreferrer">追加メモはこちら</a></td></tr>
                 <tr><td>22</td><td></td><td></td><td>紹介期限：令和8年5月31日</td></tr>
             </tbody>
@@ -103,20 +102,36 @@
         try {
             const res = await fetch('/api/upload', { method: 'POST', body: formData });
             if(res.ok) {
-                // Mikiさんの選んだ「完了」に統一
                 document.getElementById('status-msg').innerHTML = "✅ アップロード完了";
                 refreshFileList();
             }
         } catch (e) { alert("アップロード失敗"); }
         input.value = '';
     }
-    function handleView() {
+
+    /* 強制ダウンロードを回避して新しいタブで開くための修正 */
+    async function handleView() {
         const name = document.getElementById('common-select').value;
         if (!name) return;
-        const fileUrl = '/PDF/' + encodeURIComponent(name);
-        // 強制ダウンロード防止修正
-        window.open(fileUrl, '_blank');
+        
+        document.getElementById('status-msg').innerHTML = "⌛ 読み込み中...";
+        try {
+            const res = await fetch('/PDF/' + encodeURIComponent(name));
+            if (!res.ok) throw new Error();
+            
+            const blob = await res.blob();
+            // ファイルのタイプをPDFとして明示的に指定
+            const pdfBlob = new Blob([blob], { type: 'application/pdf' });
+            const url = URL.createObjectURL(pdfBlob);
+            
+            window.open(url, '_blank');
+            document.getElementById('status-msg').innerHTML = "";
+        } catch (e) {
+            alert("表示に失敗しました");
+            document.getElementById('status-msg').innerHTML = "";
+        }
     }
+
     async function handleDelete() {
         const name = document.getElementById('common-select').value;
         if (!name || !confirm(`「${name}」を完全に消しますか？`)) return;
