@@ -4,7 +4,8 @@ const fs = require('fs');
 const path = require('path');
 const app = express();
 
-const UPLOAD_DIR = './PDF'; // 念のため相対パスに修正しています
+// 【ここが最重要】__dirname を使うことで、今の場所にある「PDF」フォルダを確実に見に行きます
+const UPLOAD_DIR = path.join(__dirname, 'PDF');
 
 if (!fs.existsSync(UPLOAD_DIR)) {
     fs.mkdirSync(UPLOAD_DIR, { recursive: true });
@@ -13,7 +14,6 @@ if (!fs.existsSync(UPLOAD_DIR)) {
 const storage = multer.diskStorage({
     destination: (req, file, cb) => { cb(null, UPLOAD_DIR); },
     filename: (req, file, cb) => {
-        // 日本語の文字化け防止
         file.originalname = Buffer.from(file.originalname, 'latin1').toString('utf8');
         cb(null, file.originalname);
     }
@@ -22,16 +22,12 @@ const upload = multer({ storage: storage });
 
 app.use(express.static(__dirname));
 
-// ファイル一覧取得
+// 全ファイルを表示
 app.get('/api/files', (req, res) => {
     fs.readdir(UPLOAD_DIR, (err, files) => {
         if (err) return res.json([]);
-        const filtered = files.filter(name => 
-            !name.startsWith("RAFAA") && 
-            !name.startsWith("test-") &&
-            name !== "sample.pdf"
-        );
-        res.json(filtered);
+        // 全てのファイルを表示
+        res.json(files);
     });
 });
 
@@ -39,15 +35,11 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
     res.send('Uploaded');
 });
 
-// 【★今度こそここを修正★】強制ダウンロードを阻止して表示させる設定
+// 表示（inline）設定
 app.get('/PDF/:name', (req, res) => {
-    const filePath = path.resolve(UPLOAD_DIR, req.params.name);
-    
+    const filePath = path.join(UPLOAD_DIR, req.params.name);
     if (fs.existsSync(filePath)) {
-        // ブラウザに「保存（attachment）」ではなく「表示（inline）」しろと命令を出す
         res.setHeader('Content-Disposition', 'inline; filename="' + encodeURIComponent(req.params.name) + '"');
-        
-        // ファイルを送る
         res.sendFile(filePath);
     } else {
         res.status(404).send('ファイルが見つかりません');
