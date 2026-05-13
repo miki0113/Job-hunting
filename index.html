@@ -110,6 +110,7 @@
         input.value = '';
     }
 
+    /* 直接ブラウザで開くための最終的な修正 */
     async function handleView() {
         const name = document.getElementById('common-select').value;
         if (!name) return;
@@ -120,8 +121,10 @@
             if (!res.ok) throw new Error();
             
             const blob = await res.blob();
+            // PDF以外のファイル（.docxなど）もブラウザにそのまま渡す
             const url = URL.createObjectURL(blob);
             
+            // 新しいタブで開く（ブラウザが対応していれば表示、非対応なら保存ダイアログが出る）
             window.open(url, '_blank');
             document.getElementById('status-msg').innerHTML = "";
         } catch (e) {
