@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const app = express();
 
-const UPLOAD_DIR = '/PDF';
+const UPLOAD_DIR = './PDF'; // 念のため相対パスに修正しています
 
 if (!fs.existsSync(UPLOAD_DIR)) {
     fs.mkdirSync(UPLOAD_DIR, { recursive: true });
@@ -39,13 +39,15 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
     res.send('Uploaded');
 });
 
-// 【ここを修正】ダウンロードではなく「表示」を優先する設定
+// 【★今度こそここを修正★】強制ダウンロードを阻止して表示させる設定
 app.get('/PDF/:name', (req, res) => {
-    const filePath = path.join(UPLOAD_DIR, req.params.name);
+    const filePath = path.resolve(UPLOAD_DIR, req.params.name);
     
-    // ファイルが存在するかチェック
     if (fs.existsSync(filePath)) {
-        // ブラウザに「これはPDF（または画像）だから画面に出してね」と教える
+        // ブラウザに「保存（attachment）」ではなく「表示（inline）」しろと命令を出す
+        res.setHeader('Content-Disposition', 'inline; filename="' + encodeURIComponent(req.params.name) + '"');
+        
+        // ファイルを送る
         res.sendFile(filePath);
     } else {
         res.status(404).send('ファイルが見つかりません');
