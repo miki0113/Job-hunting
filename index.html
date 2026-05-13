@@ -60,7 +60,8 @@
     <div class="memo-box">
         <strong>■ 追記メモ</strong><br><br>
         ・履歴書の添削依頼をスタッフさんに提出済み(4/23)<br>
-        ・今回のリストに関しては見つけたものを並べただけであり優先順位を付けたものでではない
+        ・今回のリストに関しては見つけたものを並べただけであり優先順位を付けたものでではない<br>
+        ・今の契約が固定給ではないので早く固定給のところへ行きたい
     </div>
 
     <div class="sync-section">
@@ -109,7 +110,6 @@
         input.value = '';
     }
 
-    /* 強制ダウンロードを回避して新しいタブで開くための修正 */
     async function handleView() {
         const name = document.getElementById('common-select').value;
         if (!name) return;
@@ -120,9 +120,7 @@
             if (!res.ok) throw new Error();
             
             const blob = await res.blob();
-            // ファイルのタイプをPDFとして明示的に指定
-            const pdfBlob = new Blob([blob], { type: 'application/pdf' });
-            const url = URL.createObjectURL(pdfBlob);
+            const url = URL.createObjectURL(blob);
             
             window.open(url, '_blank');
             document.getElementById('status-msg').innerHTML = "";
