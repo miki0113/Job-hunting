@@ -3,30 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>提出書類管理</title>
+    <title>就活メモ</title>
     <style>
-        body { font-family: sans-serif; margin: 20px; line-height: 1.6; }
-        .container { max-width: 600px; margin: auto; }
-        .section { margin-bottom: 30px; border: 1px solid #ccc; padding: 20px; border-radius: 8px; }
-        select, button { width: 100%; padding: 10px; margin-top: 10px; cursor: pointer; }
-        .delete-btn { background-color: #ffebee; color: #c62828; border: 1px solid #c62828; margin-top: 20px; }
+        body { font-family: sans-serif; margin: 20px; background-color: #f5f5f5; color: #333; }
+        .container { max-width: 1000px; margin: auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { text-align: center; font-size: 1.2em; margin-bottom: 20px; }
+        
+        /* 管理表テーブルのスタイル */
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 0.85em; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+        th { background-color: #f0f0f0; }
+        .company-name { text-align: left; color: #0066cc; }
+        .deadline { color: #555; }
+
+        /* 外部サイトリンク */
+        .external-links { text-align: center; margin: 20px 0; font-size: 0.9em; }
+        .external-links a { margin: 0 10px; color: #0066cc; text-decoration: underline; }
+
+        /* 追記メモ */
+        .memo-section { border: 1px dashed #bbb; padding: 15px; margin-bottom: 30px; border-radius: 4px; }
+        .memo-section h3 { margin-top: 0; font-size: 1em; }
+        .memo-section ul { padding-left: 20px; margin: 5px 0; list-style-type: "・"; }
+
+        /* 提出書類 同期セクション */
+        .sync-section { border-top: 2px solid #333; padding-top: 20px; margin-top: 40px; }
+        h2 { font-size: 1.1em; margin-bottom: 20px; }
+        .control-box { display: flex; flex-direction: column; align-items: center; gap: 10px; max-width: 400px; margin: auto; }
+        select, button { width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #ccc; cursor: pointer; }
+        button { background-color: #fff; }
+        button:hover { background-color: #f9f9f9; }
+        .delete-btn { color: #d32f2f; border-color: #ffcdd2; margin-top: 10px; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>■ 提出書類 同期（履歴書・職務経歴書など）</h2>
+        <h1>就活メモ</h1>
 
-        <div class="section">
-            <input type="file" id="file-input">
-            <button onclick="handleUpload()">📤 アップロード</button>
+        <!-- 管理表 -->
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 50px;">番号</th>
+                    <th>企業名</th>
+                    <th style="width: 150px;">最寄り</th>
+                    <th>メモ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td class="company-name">三郷市役所</td><td>三郷駅</td><td>終</td></tr>
+                <tr><td>2</td><td class="company-name">MS&ADグランアシスタンス株式会社<br><small>イントラ</small></td><td></td><td></td></tr>
+                <tr><td>3</td><td class="company-name">東京ビジネスサービス株式会社<br><small>ハローワーク</small></td><td></td><td class="deadline">紹介期限：令和8年5月31日<br><a href="#">まとめ資料はこちら</a></td></tr>
+                <tr><td>4</td><td class="company-name">医療法人 弘仁会 板倉病院<br><small>ハローワーク</small></td><td></td><td class="deadline">紹介期限：令和8年5月31日<br><a href="#">まとめ資料はこちら</a></td></tr>
+                <tr><td>5</td><td class="company-name">ベンチャーサポート社会保険労務士法人<br><small>ハローワーク</small></td><td></td><td class="deadline">紹介期限：令和8年6月30日</td></tr>
+                <tr><td>6</td><td class="company-name">株式会社 日警保安 東京事業部<br><small>ハローワーク</small></td><td></td><td class="deadline">紹介期限：令和8年6月30日<br><a href="#">まとめ資料はこちら</a></td></tr>
+                <tr><td>7</td><td class="company-name">株式会社 ハンデックス 仙台支店<br><small>ハローワーク</small></td><td></td><td class="deadline">紹介期限：令和8年6月30日<br><a href="#">まとめ資料はこちら</a></td></tr>
+                <tr><td>21</td><td></td><td></td><td class="deadline">紹介期限：令和8年6月30日<br><a href="#">追加メモはこちら</a></td></tr>
+                <tr><td>22</td><td></td><td></td><td class="deadline">紹介期限：令和8年5月31日</td></tr>
+            </tbody>
+        </table>
+
+        <div class="external-links">
+            <a href="#">atGP</a> <a href="#">クローバーナビ</a> <a href="#">dodaチャレンジ</a> <a href="#">ハローワーク</a>
         </div>
 
-        <div class="section">
-            <select id="common-select">
-                <option value="">-- 保存済みファイルを選択 --</option>
-            </select>
-            <button onclick="handleView()">📄 表示 / ダウンロード</button>
-            <button class="delete-btn" onclick="handleDelete()">🗑️ 選択したファイルを完全に消す</button>
+        <!-- 追記メモ -->
+        <div class="memo-section">
+            <h3>■ 追記メモ</h3>
+            <ul>
+                <li>履歴書の添削依頼をスタッフさんに提出済み(4/23)</li>
+                <li>今回のリストに関しては見つけたものを並べただけであり優先順位を付けたものでではない</li>
+                <li>なるべくは実習や見学に行ける求人が望ましい</li>
+            </ul>
+        </div>
+
+        <!-- 書類同期セクション -->
+        <div class="sync-section">
+            <h2>■ 提出書類 同期（履歴書・職務経歴書など）</h2>
+            <div class="control-box">
+                <input type="file" id="file-input" style="width: 100%;">
+                <button onclick="handleUpload()">📥 アップロード</button>
+                
+                <select id="common-select">
+                    <option value="">-- 保存済みファイルを選択 --</option>
+                </select>
+                
+                <button onclick="handleView()">📄 表示 / ダウンロード</button>
+                <button class="delete-btn" onclick="handleDelete()">🗑️ 選択したファイルを完全に消す</button>
+            </div>
         </div>
     </div>
 
@@ -47,10 +110,8 @@
         async function handleUpload() {
             const input = document.getElementById('file-input');
             if (!input.files[0]) return alert('ファイルを選択してください');
-            
             const formData = new FormData();
             formData.append('file', input.files[0]);
-
             await fetch('/api/upload', { method: 'POST', body: formData });
             input.value = '';
             loadFileList();
@@ -59,11 +120,8 @@
         async function handleView() {
             const name = document.getElementById('common-select').value;
             if (!name) return alert('ファイルを選択してください');
-
             const fileUrl = window.location.origin + '/PDF/' + encodeURIComponent(name);
-
-            // Wordファイルの場合はMicrosoftビューアー経由、それ以外は直接表示
-            if (name.endsWith('.docx') || name.endsWith('.doc')) {
+            if (name.toLowerCase().endsWith('.docx') || name.toLowerCase().endsWith('.doc')) {
                 const officeUrl = "https://view.officeapps.live.com/op/view.aspx?src=" + encodeURIComponent(fileUrl);
                 window.open(officeUrl, '_blank');
             } else {
@@ -73,13 +131,10 @@
 
         async function handleDelete() {
             const name = document.getElementById('common-select').value;
-            if (!name) return alert('ファイルを選択してください');
-            if (!confirm('本当に削除しますか？')) return;
-
+            if (!name || !confirm('削除しますか？')) return;
             await fetch('/api/files/' + encodeURIComponent(name), { method: 'DELETE' });
             loadFileList();
         }
-
         loadFileList();
     </script>
 </body>
