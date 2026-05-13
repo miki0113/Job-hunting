@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const app = express();
 
+// 今のフォルダにある「PDF」フォルダを確実に見に行きます
 const UPLOAD_DIR = path.join(__dirname, 'PDF');
 
 if (!fs.existsSync(UPLOAD_DIR)) {
@@ -21,18 +22,15 @@ const upload = multer({ storage: storage });
 
 app.use(express.static(__dirname));
 
-// ファイル一覧取得：ここで「いらないファイル」を徹底的に弾きます
+// ファイル一覧取得：いらないファイルを隠すフィルタ付き
 app.get('/api/files', (req, res) => {
     fs.readdir(UPLOAD_DIR, (err, files) => {
         if (err) return res.json([]);
-        
-        // 【修正】リストに出したくない名前をここで全てブロックします
         const filtered = files.filter(name => 
-            !name.startsWith("RAFAA") &&        // ハローワーク関連を隠す
-            !name.includes("板倉病院") &&       // 特定の応募先を隠す
-            !name.includes("日警保安") &&       // 特定の応募先を隠す
-            !name.startsWith("test-") &&        // テスト用を隠す
-            name !== "sample.pdf"               // サンプルを隠す
+            !name.startsWith("RAFAA") && 
+            !name.includes("板倉病院") && 
+            !name.includes("日警保安") && 
+            name !== "sample.pdf"
         );
         res.json(filtered);
     });
@@ -42,7 +40,7 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
     res.send('Uploaded');
 });
 
-// 表示（inline）優先
+// ファイルを返す設定（inlineにしてブラウザ表示を促す）
 app.get('/PDF/:name', (req, res) => {
     const filePath = path.join(UPLOAD_DIR, req.params.name);
     if (fs.existsSync(filePath)) {
