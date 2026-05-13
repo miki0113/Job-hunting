@@ -13,7 +13,6 @@
         th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
         th { background-color: #f0f0f0; }
         .company-name { text-align: left; }
-        /* リンク色と別タブ用の設定 */
         a { color: #0066cc; text-decoration: underline; cursor: pointer; }
         .deadline { color: #555; }
 
@@ -48,7 +47,7 @@
             </thead>
             <tbody>
                 <tr><td>1</td><td class="company-name">三郷市役所</td><td>三郷駅</td><td>終</td></tr>
-                <tr><td>2</td><td class="company-name"><a href="https://vs-group.jp/sharoshi/recruit/" target="_blank">MS&ADグランアシスタンス株式会社</a><br><small>イントラ</small></td><td></td><td></td></tr>
+                <tr><td>2</td><td class="company-name"><a href="https://job-search.litalico.co.jp/companies/5118?index=area" target="_blank">ヤマト・スタッフ株式会社</a></td><td></td><td></td></tr>
                 <tr><td>3</td><td class="company-name"><a href="https://www.tokyobs.co.jp/" target="_blank">東京ビジネスサービス株式会社</a><br><small>ハローワーク</small></td><td></td><td class="deadline">紹介期限：令和8年5月31日<br><a onclick="openFile('RAFAA23501020260429093314595295115887684169088.pdf')">まとめ資料はこちら</a></td></tr>
                 <tr><td>4</td><td class="company-name"><a href="http://www.itakura.or.jp" target="_blank">医療法人 弘仁会 板倉病院</a><br><small>ハローワーク</small></td><td></td><td class="deadline">紹介期限：令和8年5月31日<br><a onclick="openFile('医療法人 弘仁会 板倉病院.pdf')">まとめ資料はこちら</a></td></tr>
                 <tr><td>5</td><td class="company-name"><a href="https://vs-group.jp/sharoshi/recruit/" target="_blank">ベンチャーサポート社会保険労務士法人</a><br><small>ハローワーク</small></td><td></td><td class="deadline">紹介期限：令和8年6月30日<br><a onclick="openFile('RAFAA235010202604290932380861669092556543138702.pdf')">まとめ資料はこちら</a></td></tr>
@@ -69,9 +68,9 @@
         <div class="memo-section">
             <h3>■ 追記メモ</h3>
             <ul>
-                <li>履歴書の添削依頼をスタッフさんに提出済み(4/23)[cite: 3, 4]</li>
-                <li>今回のリストに関しては見つけたものを並べただけであり優先順位を付けたものでではない[cite: 3, 4]</li>
-                <li>なるべくは実習や見学に行ける求人が望ましい[cite: 3, 4]</li>
+                <li>履歴書の添削依頼をスタッフさんに提出済み(4/23)[span_0](start_span)[span_0](end_span)</li>
+                <li>今回のリストに関しては見つけたものを並べただけであり優先順位を付けたものでではない[span_1](start_span)[span_1](end_span)</li>
+                <li>なるべくは実習や見学に行ける求人が望ましい[span_2](start_span)[span_2](end_span)</li>
             </ul>
         </div>
 
@@ -88,28 +87,28 @@
     </div>
 
     <script>
-        // 別タブ(window.open)で確実に開くように設定
+        // 別タブ表示設定
         function openFile(name) {
             const fileUrl = window.location.origin + '/PDF/' + encodeURIComponent(name);
             if (name.toLowerCase().endsWith('.docx') || name.toLowerCase().endsWith('.doc')) {
-                // WordファイルはOffice Online経由で別タブ
                 window.open("https://view.officeapps.live.com/op/view.aspx?src=" + encodeURIComponent(fileUrl), '_blank');
             } else {
-                // PDF等はそのまま別タブ
                 window.open(fileUrl, '_blank');
             }
         }
 
         async function loadFileList() {
-            const res = await fetch('/api/files');
-            const files = await res.json();
-            const select = document.getElementById('common-select');
-            select.innerHTML = '<option value="">-- 保存済みファイルを選択 --</option>';
-            files.forEach(file => {
-                const opt = document.createElement('option');
-                opt.value = file; opt.textContent = file;
-                select.appendChild(opt);
-            });
+            try {
+                const res = await fetch('/api/files');
+                const files = await res.json();
+                const select = document.getElementById('common-select');
+                select.innerHTML = '<option value="">-- 保存済みファイルを選択 --</option>';
+                files.forEach(file => {
+                    const opt = document.createElement('option');
+                    opt.value = file; opt.textContent = file;
+                    select.appendChild(opt);
+                });
+            } catch (e) { console.log("ファイルリストの読み込みに失敗しました"); }
         }
 
         async function handleUpload() {
