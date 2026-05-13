@@ -13,11 +13,12 @@
         th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
         th { background-color: #f0f0f0; }
         .company-name { text-align: left; }
-        .company-name a, .deadline a { color: #0066cc; text-decoration: underline; cursor: pointer; }
+        /* リンク色と別タブ用の設定 */
+        a { color: #0066cc; text-decoration: underline; cursor: pointer; }
         .deadline { color: #555; }
 
         .external-links { text-align: center; margin: 20px 0; font-size: 0.9em; }
-        .external-links a { margin: 0 10px; color: #0066cc; text-decoration: underline; }
+        .external-links a { margin: 0 10px; }
 
         .memo-section { border: 1px dashed #bbb; padding: 15px; margin-bottom: 30px; border-radius: 4px; }
         .memo-section h3 { margin-top: 0; font-size: 1em; }
@@ -36,7 +37,6 @@
     <div class="container">
         <h1>就活メモ</h1>
 
-        <!-- 管理表：ハイパーリンクを画像通りに復元 -->
         <table>
             <thead>
                 <tr>
@@ -48,12 +48,12 @@
             </thead>
             <tbody>
                 <tr><td>1</td><td class="company-name">三郷市役所</td><td>三郷駅</td><td>終</td></tr>
-                <tr><td>2</td><td class="company-name"><a href="#">MS&ADグランアシスタンス株式会社</a><br><small>イントラ</small></td><td></td><td></td></tr>
-                <tr><td>3</td><td class="company-name"><a href="#">東京ビジネスサービス株式会社</a><br><small>ハローワーク</small></td><td></td><td class="deadline">紹介期限：令和8年5月31日<br><a onclick="openFile('東京ビジネスサービス_まとめ.pdf')">まとめ資料はこちら</a></td></tr>
-                <tr><td>4</td><td class="company-name"><a href="#">医療法人 弘仁会 板倉病院</a><br><small>ハローワーク</small></td><td></td><td class="deadline">紹介期限：令和8年5月31日<br><a onclick="openFile('板倉病院_まとめ.pdf')">まとめ資料はこちら</a></td></tr>
-                <tr><td>5</td><td class="company-name"><a href="PDF/RAFAA235010202604290932380861669092556543138702.pdf">ベンチャーサポート社会保険労務士法人<br><small>ハローワーク</small></td><td></td><td class="deadline">紹介期限：令和8年6月30日</td></tr>
-                <tr><td>6</td><td class="company-name"><a href="PDF/RAFAA235010202604290932048538810908074250214855.pdf">株式会社 日警保安 東京事業部</a><br><small>ハローワーク</small></td><td></td><td class="deadline">紹介期限：令和8年6月30日<br><a onclick="openFile('日警保安_まとめ.pdf')">まとめ資料はこちら</a></td></tr>
-                <tr><td>7</td><td class="company-name"><a href="#">株式会社 ハンデックス 仙台支店</a><br><small>ハローワーク</small></td><td></td><td class="deadline">紹介期限：令和8年6月30日<br><a onclick="openFile('ハンデックス_まとめ.pdf')">まとめはこちら</a></td></tr>
+                <tr><td>2</td><td class="company-name"><a href="https://vs-group.jp/sharoshi/recruit/" target="_blank">MS&ADグランアシスタンス株式会社</a><br><small>イントラ</small></td><td></td><td></td></tr>
+                <tr><td>3</td><td class="company-name"><a href="https://www.tokyobs.co.jp/" target="_blank">東京ビジネスサービス株式会社</a><br><small>ハローワーク</small></td><td></td><td class="deadline">紹介期限：令和8年5月31日<br><a onclick="openFile('RAFAA23501020260429093314595295115887684169088.pdf')">まとめ資料はこちら</a></td></tr>
+                <tr><td>4</td><td class="company-name"><a href="http://www.itakura.or.jp" target="_blank">医療法人 弘仁会 板倉病院</a><br><small>ハローワーク</small></td><td></td><td class="deadline">紹介期限：令和8年5月31日<br><a onclick="openFile('医療法人 弘仁会 板倉病院.pdf')">まとめ資料はこちら</a></td></tr>
+                <tr><td>5</td><td class="company-name"><a href="https://vs-group.jp/sharoshi/recruit/" target="_blank">ベンチャーサポート社会保険労務士法人</a><br><small>ハローワーク</small></td><td></td><td class="deadline">紹介期限：令和8年6月30日<br><a onclick="openFile('RAFAA235010202604290932380861669092556543138702.pdf')">まとめ資料はこちら</a></td></tr>
+                <tr><td>6</td><td class="company-name"><a href="http://www.nikkeihon.co.jp" target="_blank">株式会社 日警保安 東京事業部</a><br><small>ハローワーク</small></td><td></td><td class="deadline">紹介期限：令和8年6月30日<br><a onclick="openFile('株式会社 日警保安 東京事業部.pdf')">まとめ資料はこちら</a></td></tr>
+                <tr><td>7</td><td class="company-name"><a href="https://www.handex.co.jp/" target="_blank">株式会社 ハンデックス 仙台支店</a><br><small>ハローワーク</small></td><td></td><td class="deadline">紹介期限：令和8年6月30日<br><a onclick="openFile('RAFAA235010202605061009399703247084278534433893.pdf')">まとめはこちら</a></td></tr>
                 <tr><td>21</td><td></td><td></td><td class="deadline">紹介期限：令和8年6月30日<br><a onclick="openFile('追加メモ.docx')">追加メモはこちら</a></td></tr>
                 <tr><td>22</td><td></td><td></td><td class="deadline">紹介期限：令和8年5月31日</td></tr>
             </tbody>
@@ -69,7 +69,7 @@
         <div class="memo-section">
             <h3>■ 追記メモ</h3>
             <ul>
-                <li>履歴書の添削依頼をスタッフさんに提出済み(4/23)</li>
+                <li>履歴書の添削依頼をスタッフさんに提出済み(4/23)[cite: 3, 4]</li>
                 <li>今回のリストに関しては見つけたものを並べただけであり優先順位を付けたものでではない[cite: 3, 4]</li>
                 <li>なるべくは実習や見学に行ける求人が望ましい[cite: 3, 4]</li>
             </ul>
@@ -88,12 +88,14 @@
     </div>
 
     <script>
-        // 表の中の「まとめはこちら」等からファイルを開くための共通関数
+        // 別タブ(window.open)で確実に開くように設定
         function openFile(name) {
             const fileUrl = window.location.origin + '/PDF/' + encodeURIComponent(name);
             if (name.toLowerCase().endsWith('.docx') || name.toLowerCase().endsWith('.doc')) {
+                // WordファイルはOffice Online経由で別タブ
                 window.open("https://view.officeapps.live.com/op/view.aspx?src=" + encodeURIComponent(fileUrl), '_blank');
             } else {
+                // PDF等はそのまま別タブ
                 window.open(fileUrl, '_blank');
             }
         }
