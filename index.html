@@ -25,23 +25,24 @@
         .memo-section { border: 1px dashed #bbb; padding: 15px; margin-bottom: 30px; border-radius: 4px; }
         .memo-section ul { padding-left: 20px; margin: 5px 0; list-style-type: "・"; }
         
-        /* 同期セクション */
+        /* 同期セクション：元通りの綺麗なボタンデザインを復元 */
         .sync-section { border-top: 2px solid #333; padding-top: 20px; margin-top: 40px; text-align: center; }
         .sync-section h2 { font-size: 1.1em; margin-bottom: 20px; }
-        .control-box { display: flex; flex-direction: column; align-items: center; gap: 15px; max-width: 400px; margin: auto; }
+        .control-box { display: flex; flex-direction: column; align-items: center; gap: 10px; max-width: 400px; margin: auto; }
         
-        .control-box select { 
-            padding: 4px 8px; 
-            font-size: 0.95em; 
+        /* 元の綺麗なグレー枠の四角いボタンデザイン */
+        .control-box select, .control-box input[type="file"] { 
+            width: 100%; 
+            padding: 10px; 
             border-radius: 4px; 
-            border: 1px solid #767676; 
+            border: 1px solid #ccc; 
+            cursor: pointer;
+            box-sizing: border-box;
             background-color: #fff;
-            max-width: 300px;
-            width: 100%;
+            font-size: 0.9em;
         }
-        .control-box input[type="file"] { 
-            font-size: 0.9em; 
-            cursor: pointer; 
+        .control-box input[type="file"] {
+            background-color: #fff;
         }
     </style>
 </head>
@@ -145,21 +146,18 @@
             }
         }
         
-        // ファイルリストの読み込み処理を修正（セレクトボックスが正しく更新されるように復元）
         async function loadFileList() {
             try {
                 const res = await fetch('/api/files');
                 const files = await res.json();
                 const select = document.getElementById('common-select');
-                select.innerHTML = ''; // 一度クリア
+                select.innerHTML = ''; 
                 
-                // 選択用のデフォルトの案内行を追加
                 const defaultOpt = document.createElement('option');
                 defaultOpt.value = '';
                 defaultOpt.textContent = '-- 保存済みファイルを選択 --';
                 select.appendChild(defaultOpt);
 
-                // アップロード済みのファイルをプルダウンに追加
                 files.forEach(file => {
                     const opt = document.createElement('option');
                     opt.value = file; 
@@ -179,7 +177,7 @@
             try {
                 await fetch('/api/upload', { method: 'POST', body: formData });
                 input.value = ''; 
-                await loadFileList(); // アップロード完了後にリストを再読み込み
+                await loadFileList(); 
             } catch (e) {
                 alert('アップロードに失敗しました');
             }
@@ -190,7 +188,6 @@
             if (name) openFile(name);
         }
 
-        // ページを開いた瞬間にファイルリストを読み込む
         loadFileList();
     </script>
 </body>
