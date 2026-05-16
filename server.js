@@ -4,8 +4,8 @@ const fs = require('fs');
 const path = require('path');
 const app = express();
 
-// 今のフォルダにある「PDF」フォルダを確実に見に行きます
-const UPLOAD_DIR = path.join(__dirname, 'PDF');
+// 【最重要】Renderの課金ディスク（/PDF）があればそこを使い、なければパソコンのフォルダを使います
+const UPLOAD_DIR = fs.existsSync('/PDF') ? '/PDF' : path.join(__dirname, 'PDF');
 
 if (!fs.existsSync(UPLOAD_DIR)) {
     fs.mkdirSync(UPLOAD_DIR, { recursive: true });
@@ -22,7 +22,7 @@ const upload = multer({ storage: storage });
 
 app.use(express.static(__dirname));
 
-// ファイル一覧取得：いらないファイルを隠すフィルタ付き
+// ファイル一覧取得：元のフィルター条件をそのまま引き継いでいます
 app.get('/api/files', (req, res) => {
     fs.readdir(UPLOAD_DIR, (err, files) => {
         if (err) return res.json([]);
@@ -30,7 +30,8 @@ app.get('/api/files', (req, res) => {
             !name.startsWith("RAFAA") && 
             !name.includes("板倉病院") && 
             !name.includes("日警保安") && 
-            name !== "sample.pdf"
+            name !== "sample.pdf" &&
+            !name.startsWith(".") // .keepなどの隠しファイルを除外
         );
         res.json(filtered);
     });
@@ -40,7 +41,7 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
     res.send('Uploaded');
 });
 
-// ファイルを返す設定（inlineにしてブラウザ表示を促す）
+// ファイルを返す設定（保存先フォルダから正しく取得します）
 app.get('/PDF/:name', (req, res) => {
     const filePath = path.join(UPLOAD_DIR, req.params.name);
     if (fs.existsSync(filePath)) {
@@ -64,4 +65,5 @@ app.delete('/api/files/:name', (req, res) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
+    console.log(`Using directory: ${UPLOAD_DIR}`);
 });
