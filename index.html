@@ -140,10 +140,12 @@
             <div class="control-box">
                 <input type="file" id="file-input" onchange="handleUpload()">
                 
-                <button onclick="document.getElementById('file-input').click()"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAn0lEQVQ4T2NkoBAwUqifYf9/Sg0wNTH+f/To8X+S7GBkYgRJMzIwgEwAsYmBkWEnVsXv378HWTBv3gKshvz+9YvYwI8fP8A0V65cj9WQXz//gGlSg9wwhgHbtu/Eavj7959gGlUgN0xiwPbtO7Aa/v37L5hGFcgN0xiwY+dOrIZ//v4TZgDcbpCAnmU0DUDuD6VpAFInS9MEDAwwAABm3lhS99X4bAAAAABJRU5ErkJggg==" alt="">アップロード</button>
+                <button onclick="document.getElementById('file-input').click()">📤 アップロード</button>
                 
                 <select id="common-select"><option value="">-- 保存済みファイルを選択 --</option></select>
-                <button onclick="handleView()"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAn0lEQVQ4T2NkoBAwUqifYf9/Sg0wNTH+f/To8X+S7GBkYgRJMzIwgEwAsYmBkWEnVsXv378HWTBv3gKshvz+9YvYwI8fP8A0V65cj9WQXz//gGlSg9wwhgHbtu/Eavj7959gGlUgN0xiwPbtO7Aa/v37L5hGFcgN0xiwY+dOrIZ//v4TZgDcbpCAnmU0DUDuD6VpAFInS9MEDAwwAABm3lhS99X4bAAAAABJRU5ErkJggg==" alt="">ダウンロード/表示</button>
+                
+                <button onclick="handleView()">📥 ダウンロード/表示</button>
+                
                 <button class="delete-btn" onclick="handleDelete()">🗑️ 削除</button>
             </div>
         </div>
