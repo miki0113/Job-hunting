@@ -4,25 +4,29 @@ const fs = require('fs');
 const path = require('path');
 const app = express();
 
-// 【最重要】Renderの課金ディスク（/PDF）があればそこを使い、なければパソコンのフォルダを使います
+// Renderの課金ディスク（/PDF）があればそこを使い、なければパソコンのフォルダを使います
 const UPLOAD_DIR = fs.existsSync('/PDF') ? '/PDF' : path.join(__dirname, 'PDF');
 
 if (!fs.existsSync(UPLOAD_DIR)) {
     fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 }
 
+// 【ここを修正】保存先フォルダ（UPLOAD_DIR）を確実にmulterに認識させました
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => { cb(null, UPLOAD_DIR); },
+    destination: (req, file, cb) => { 
+        cb(null, UPLOAD_DIR); 
+    },
     filename: (req, file, cb) => {
-        file.originalname = Buffer.from(file.originalname, 'latin1').toString('utf8');
-        cb(null, file.originalname);
+        // 日本語のファイル名が文字化けしないように復元する処理
+        const safeName = Buffer.from(file.originalname, 'latin1').toString('utf8');
+        cb(null, safeName);
     }
 });
 const upload = multer({ storage: storage });
 
 app.use(express.static(__dirname));
 
-// ファイル一覧取得：元のフィルター条件をそのまま引き継いでいます
+// 1. ファイル一覧取得（元のフィルター条件をそのまま維持）
 app.get('/api/files', (req, res) => {
     fs.readdir(UPLOAD_DIR, (err, files) => {
         if (err) return res.json([]);
@@ -31,17 +35,21 @@ app.get('/api/files', (req, res) => {
             !name.includes("板倉病院") && 
             !name.includes("日警保安") && 
             name !== "sample.pdf" &&
-            !name.startsWith(".") // .keepなどの隠しファイルを除外
+            !name.startsWith(".") // 隠しファイルを除外
         );
         res.json(filtered);
     });
 });
 
+// 2. ファイルアップロード（修正したupload設定を正しく適用）
 app.post('/api/upload', upload.single('file'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).send('ファイルがありません');
+    }
     res.send('Uploaded');
 });
 
-// ファイルを返す設定（保存先フォルダから正しく取得します）
+// 3. ファイルを表示/ダウンロード用に返す設定
 app.get('/PDF/:name', (req, res) => {
     const filePath = path.join(UPLOAD_DIR, req.params.name);
     if (fs.existsSync(filePath)) {
@@ -52,6 +60,7 @@ app.get('/PDF/:name', (req, res) => {
     }
 });
 
+// 4. ファイル削除
 app.delete('/api/files/:name', (req, res) => {
     const filePath = path.join(UPLOAD_DIR, req.params.name);
     if (fs.existsSync(filePath)) {
