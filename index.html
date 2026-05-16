@@ -25,19 +25,14 @@
         .memo-section { border: 1px dashed #bbb; padding: 15px; margin-bottom: 30px; border-radius: 4px; }
         .memo-section ul { padding-left: 20px; margin: 5px 0; list-style-type: "・"; }
         
-        /* 同期セクション全体のレイアウト */
         .sync-section { border-top: 2px solid #333; padding-top: 20px; margin-top: 40px; text-align: center; }
         .sync-section h2 { font-size: 1.1em; margin-bottom: 20px; }
         
-        /* コントロール全体の配置調整 */
         .control-box { display: flex; flex-direction: column; align-items: center; gap: 12px; max-width: 400px; margin: auto; }
-        
-        /* スマホの誤タップを防ぐため、1行ずつのブロックにして独立性を高める */
         .file-upload-row { display: block; width: 100%; margin-bottom: 5px; }
         .file-upload-row input[type="file"] { margin-bottom: 8px; display: inline-block; font-size: 0.85em; }
         .file-upload-row button { display: flex; margin: auto; }
 
-        /* ボタンとセレクトボックスはブラウザ標準（スクショ通り）の装飾に */
         .control-box button, .control-box select { 
             padding: 3px 10px; 
             cursor: pointer; 
@@ -135,10 +130,10 @@
         <div class="sync-section">
             <h2>■ 提出書類 同期（履歴書・職務経歴書など全形式対応）</h2>
             <div class="control-box">
-                <div class="file-upload-row">
+                <form id="upload-form" class="file-upload-row" onsubmit="event.preventDefault(); handleUpload();">
                     <input type="file" id="file-input"><br>
-                    <button onclick="handleUpload()"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAn0lEQVQ4T2NkoBAwUqifYf9/Sg0wNTH+f/To8X+S7GBkYgRJMzIwgEwAsYmBkWEnVsXv378HWTBv3gKshvz+9YvYwI8fP8A0V65cj9WQXz//gGlSg9wwhgHbtu/Eavj7959gGlUgN0xiwPbtO7Aa/v37L5hGFcgN0xiwY+dOrIZ//v4TZgDcbpCAnmU0DUDuD6VpAFInS9MEDAwwAABm3lhS99X4bAAAAABJRU5ErkJggg==" alt="">ファイルをUP</button>
-                </div>
+                    <button type="submit"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAn0lEQVQ4T2NkoBAwUqifYf9/Sg0wNTH+f/To8X+S7GBkYgRJMzIwgEwAsYmBkWEnVsXv378HWTBv3gKshvz+9YvYwI8fP8A0V65cj9WQXz//gGlSg9wwhgHbtu/Eavj7959gGlUgN0xiwPbtO7Aa/v37L5hGFcgN0xiwY+dOrIZ//v4TZgDcbpCAnmU0DUDuD6VpAFInS9MEDAwwAABm3lhS99X4bAAAAABJRU5ErkJggg==" alt="">ファイルをUP</button>
+                </form>
                 <select id="common-select"><option value="">-- 保存済みファイルを選択 --</option></select>
                 <button onclick="handleView()"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAn0lEQVQ4T2NkoBAwUqifYf9/Sg0wNTH+f/To8X+S7GBkYgRJMzIwgEwAsYmBkWEnVsXv378HWTBv3gKshvz+9YvYwI8fP8A0V65cj9WQXz//gGlSg9wwhgHbtu/Eavj7959gGlUgN0xiwPbtO7Aa/v37L5hGFcgN0xiwY+dOrIZ//v4TZgDcbpCAnmU0DUDuD6VpAFInS9MEDAwwAABm3lhS99X4bAAAAABJRU5ErkJggg==" alt="">ダウンロード/表示</button>
                 <button class="delete-btn" onclick="handleDelete()">🗑️ 削除</button>
