@@ -8,6 +8,11 @@
         body { font-family: sans-serif; margin: 20px; background-color: #f5f5f5; color: #333; }
         .container { max-width: 1000px; margin: auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         h1 { text-align: center; font-size: 1.2em; margin-bottom: 20px; }
+        
+        h2.table-title { font-size: 1.05em; margin: 30px 0 10px 0; padding-left: 8px; border-left: 4px solid #0066cc; color: #333; }
+        h2.table-title.ended { border-left-color: #666; }
+        h2.table-title.canceled { border-left-color: #d32f2f; }
+
         .table-wrapper { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; margin-bottom: 20px; }
         table { width: 100%; border-collapse: collapse; font-size: 0.85em; min-width: 650px; }
         th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
@@ -30,6 +35,31 @@
     <div class="container">
         <h1>就活メモ</h1>
 
+        <h2 class="table-title">■ 検討中の企業</h2>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 50px;">番号</th>
+                        <th>企業名</th>
+                        <th style="width: 150px;">最寄り</th>
+                        <th>メモ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>2</td><td class="company-name"><a href="https://job-search.litalico.co.jp/companies/116?index=area" target="_blank">MS&ADグランアシスタンス株式会社</a><br><small>イントラ</small></td><td></td><td></td></tr>
+                    <tr><td>3</td><td class="company-name"><a href="https://www.tokyobs.co.jp/" target="_blank">東京ビジネスサービス株式会社</a><br><small>ハローワーク</small></td><td></td><td class="deadline">紹介期限：令和8年5月31日<br><a onclick="openFile('RAFAA23501020260429093314595295115887684169088.pdf')">まとめ資料はこちら</a></td></tr>
+                    <tr><td>4</td><td class="company-name"><a href="http://www.itakura.or.jp" target="_blank">医療法人 弘仁会 板倉病院</a><br><small>ハローワーク</small></td><td></td><td class="deadline">紹介期限：令和8年5月31日<br><a onclick="openFile('医療法人 弘仁会 板倉病院.pdf')">まとめ資料はこちら</a></td></tr>
+                    <tr><td>5</td><td class="company-name"><a href="https://vs-group.jp/sharoshi/recruit/" target="_blank">ベンチャーサポート社会保険労務士法人</a><br><small>ハローワーク</small></td><td></td><td class="deadline">紹介期限：令和8年6月30日<br><a onclick="openFile('RAFAA235010202604290932380861669092556543138702.pdf')">まとめ資料はこちら</a></td></tr>
+                    <tr><td>6</td><td class="company-name"><a href="PDF/RAFAA235010202604290932048538810908074250214855.pdf" target="_blank">株式会社 日警保安 東京事業部</a><br><small>ハローワーク</small></td><td></td><td class="deadline">紹介期限：令和8年6月30日<br><a onclick="openFile('株式会社 日警保安 東京事業部.pdf')">まとめ資料はこちら</a></td></tr>
+                    <tr><td>8</td><td class="company-name"><a href="https://job-search.litalico.co.jp/companies/5118?index=area" target="_blank">ヤマト・スタッフ株式会社</a><br><small>イントラ</small></td><td></td><td></td></tr>
+                    <tr><td>21</td><td></td><td></td><td class="deadline">紹介期限：令和8年6月30日<br><a href="index2.html">追加メモはこちら</a></td></tr>
+                    <tr><td>22</td><td></td><td></td><td class="deadline">紹介期限：令和8年5月31日</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2 class="table-title ended">■ 終わった企業</h2>
         <div class="table-wrapper">
             <table>
                 <thead>
@@ -42,18 +72,23 @@
                 </thead>
                 <tbody>
                     <tr><td>1</td><td class="company-name">三郷市役所</td><td>三郷駅</td><td>終</td></tr>
-                    <tr><td>2</td><td class="company-name"><a href="https://job-search.litalico.co.jp/companies/116?index=area" target="_blank">MS&ADグランアシスタンス株式会社</a><br><small>イントラ</small></td><td></td><td></td></tr>
-                    <tr><td>3</td><td class="company-name"><a href="https://www.tokyobs.co.jp/" target="_blank">東京ビジネスサービス株式会社</a><br><small>ハローワーク</small></td><td></td><td class="deadline">紹介期限：令和8年5月31日<br><a onclick="openFile('RAFAA23501020260429093314595295115887684169088.pdf')">まとめ資料はこちら</a></td></tr>
-                    <tr><td>4</td><td class="company-name"><a href="http://www.itakura.or.jp" target="_blank">医療法人 弘仁会 板倉病院</a><br><small>ハローワーク</small></td><td></td><td class="deadline">紹介期限：令和8年5月31日<br><a onclick="openFile('医療法人 弘仁会 板倉病院.pdf')">まとめ資料はこちら</a></td></tr>
-                    <tr><td>5</td><td class="company-name"><a href="https://vs-group.jp/sharoshi/recruit/" target="_blank">ベンチャーサポート社会保険労務士法人</a><br><small>ハローワーク</small></td><td></td><td class="deadline">紹介期限：令和8年6月30日<br><a onclick="openFile('RAFAA235010202604290932380861669092556543138702.pdf')">まとめ資料はこちら</a></td></tr>
-                    <tr><td>6</td><td class="company-name"><a href="PDF/RAFAA235010202604290932048538810908074250214855.pdf" target="_blank">株式会社 日警保安 東京事業部</a><br><small>ハローワーク</small></td><td></td><td class="deadline">紹介期限：令和8年6月30日<br><a onclick="openFile('株式会社 日警保安 東京事業部.pdf')">まとめ資料はこちら</a></td></tr>
-                    
-                    <tr><td>7</td><td class="company-name"><a href="https://www.handex.co.jp/" target="_blank">株式会社 ハンデックス 仙台支店</a><br><small>ハローワーク</small></td><td></td><td class="deadline">紹介期限：令和8年6月30日<br>電話応対がメインの業務につきほかの条件は良かったものの、<br>リタリコのスタッフに相談の上断念</td></tr>
-                    
-                    <tr><td>8</td><td class="company-name"><a href="https://job-search.litalico.co.jp/companies/5118?index=area" target="_blank">ヤマト・スタッフ株式会社</a><br><small>イントラ</small></td><td></td><td></td></tr>
+                </tbody>
+            </table>
+        </div>
 
-                    <tr><td>21</td><td></td><td></td><td class="deadline">紹介期限：令和8年6月30日<br><a href="index2.html">追加メモはこちら</a></td></tr>
-                    <tr><td>22</td><td></td><td></td><td class="deadline">紹介期限：令和8年5月31日</td></tr>
+        <h2 class="table-title canceled">■ やめた企業</h2>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 50px;">番号</th>
+                        <th>企業名</th>
+                        <th style="width: 150px;">最寄り</th>
+                        <th>メモ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>7</td><td class="company-name"><a href="https://www.handex.co.jp/" target="_blank">株式会社 ハンデックス 仙台支店</a><br><small>ハローワーク</small></td><td></td><td class="deadline">紹介期限：令和8年6月30日<br>電話応対がメインの業務につきほかの条件は良かったものの、<br>リタリコのスタッフに相談の上断念</td></tr>
                 </tbody>
             </table>
         </div>
