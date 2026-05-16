@@ -22,13 +22,16 @@
         .deadline { color: #555; }
         .external-links { text-align: center; margin: 20px 0; font-size: 0.9em; }
         .external-links a { margin: 0 10px; }
+        
         .memo-section { border: 1px dashed #bbb; padding: 15px; margin-bottom: 30px; border-radius: 4px; }
         .memo-section ul { padding-left: 20px; margin: 5px 0; list-style-type: "・"; }
+        
+        /* 提出書類 同期：スクショ通りの完璧な縦並びスタイル */
         .sync-section { border-top: 2px solid #333; padding-top: 20px; margin-top: 40px; }
         .control-box { display: flex; flex-direction: column; align-items: center; gap: 10px; max-width: 400px; margin: auto; }
-        select, button { width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #ccc; cursor: pointer; }
-        button { background-color: #fff; }
-        .delete-btn { color: #d32f2f; border-color: #ffcdd2; margin-top: 10px; }
+        select, button, input[type="file"] { width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #ccc; cursor: pointer; font-size: 0.95em; box-sizing: border-box; }
+        button { background-color: #fff; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .delete-btn { color: #d32f2f; border-color: #ffcdd2; margin-top: 10px; background-color: #fff; }
     </style>
 </head>
 <body>
@@ -53,7 +56,7 @@
                     <tr><td>4</td><td class="company-name"><a href="http://www.itakura.or.jp" target="_blank">医療法人 弘仁会 板倉病院</a><br><small>ハローワーク</small></td><td></td><td class="deadline">紹介期限：令和8年5月31日<br><a onclick="openFile('医療法人 弘仁会 板倉病院.pdf')">まとめ資料はこちら</a></td></tr>
                     <tr><td>5</td><td class="company-name"><a href="https://vs-group.jp/sharoshi/recruit/" target="_blank">ベンチャーサポート社会保険労務士法人</a><br><small>ハローワーク</small></td><td></td><td class="deadline">紹介期限：令和8年6月30日<br><a onclick="openFile('RAFAA235010202604290932380861669092556543138702.pdf')">まとめ資料はこちら</a></td></tr>
                     <tr><td>6</td><td class="company-name"><a href="PDF/RAFAA235010202604290932048538810908074250214855.pdf" target="_blank">株式会社 日警保安 東京事業部</a><br><small>ハローワーク</small></td><td></td><td class="deadline">紹介期限：令和8年6月30日<br><a onclick="openFile('株式会社 日警保安 東京事業部.pdf')">まとめ資料はこちら</a></td></tr>
-                    <tr><td>7</td><td class="company-name"><a href="https://www.handex.co.jp/" target="_blank">株式会社 ハンデックス 仙台支店</a><br><small>ハローワーク</small></td><td></td><td class="deadline">紹介期限：令和8年6月30日<br>電話応対がメインの業務につきほかの条件は良かったものの、<br>リタリコのスタッフに相談の上断念</td></tr>
+                    <tr><td>7</td><td class="company-name"><a href="https://www.handex.co.jp/" target="_blank">株式会社 ハンデックス 仙台支店</a><br><small>ハローワーク</small></td><td></td><td class="deadline">紹介期限：令和8年6月30日<br>電話応対応がメインの業務につきほかの条件は良かったものの、<br>リタリコのスタッフに相談の上断念</td></tr>
                     <tr><td>8</td><td class="company-name"><a href="https://job-search.litalico.co.jp/companies/5118?index=area" target="_blank">ヤマト・スタッフ株式会社</a><br><small>イントラ</small></td><td></td><td></td></tr>
                     <tr><td>21</td><td></td><td></td><td class="deadline">紹介期限：令和8年6月30日<br><a href="index2.html">追加メモはこちら</a></td></tr>
                     <tr><td>22</td><td></td><td></td><td class="deadline">紹介期限：令和8年5月31日</td></tr>
@@ -115,7 +118,7 @@
             <h2>■ 提出書類 同期</h2>
             <div class="control-box">
                 <input type="file" id="file-input">
-                <button onclick="handleUpload()">📤 アップロード</button>
+                <button onclick="handleUpload()">🔮 アップロード</button>
                 <select id="common-select"><option value="">-- 保存済みファイルを選択 --</option></select>
                 <button onclick="handleView()">📄 表示 / ダウンロード</button>
                 <button class="delete-btn" onclick="handleDelete()">🗑️ 削除</button>
