@@ -31,9 +31,13 @@
         
         /* コントロール全体の配置調整 */
         .control-box { display: flex; flex-direction: column; align-items: center; gap: 12px; max-width: 400px; margin: auto; }
-        .file-upload-row { display: inline-flex; align-items: center; gap: 10px; }
         
-        /* ボタンとセレクトボックスはブラウザ標準（スクショ通りのグレー枠線）の装飾に */
+        /* スマホの誤タップを防ぐため、1行ずつのブロックにして独立性を高める */
+        .file-upload-row { display: block; width: 100%; margin-bottom: 5px; }
+        .file-upload-row input[type="file"] { margin-bottom: 8px; display: inline-block; font-size: 0.85em; }
+        .file-upload-row button { display: flex; margin: auto; }
+
+        /* ボタンとセレクトボックスはブラウザ標準（スクショ通り）の装飾に */
         .control-box button, .control-box select { 
             padding: 3px 10px; 
             cursor: pointer; 
@@ -44,7 +48,6 @@
             gap: 5px;
         }
         .control-box select { padding: 5px; width: 100%; max-width: 250px; }
-        .control-box input[type="file"] { font-size: 0.85em; }
         
         .delete-btn { margin-top: 5px; color: #d32f2f; }
     </style>
@@ -133,7 +136,7 @@
             <h2>■ 提出書類 同期（履歴書・職務経歴書など全形式対応）</h2>
             <div class="control-box">
                 <div class="file-upload-row">
-                    <input type="file" id="file-input">
+                    <input type="file" id="file-input"><br>
                     <button onclick="handleUpload()"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAn0lEQVQ4T2NkoBAwUqifYf9/Sg0wNTH+f/To8X+S7GBkYgRJMzIwgEwAsYmBkWEnVsXv378HWTBv3gKshvz+9YvYwI8fP8A0V65cj9WQXz//gGlSg9wwhgHbtu/Eavj7959gGlUgN0xiwPbtO7Aa/v37L5hGFcgN0xiwY+dOrIZ//v4TZgDcbpCAnmU0DUDuD6VpAFInS9MEDAwwAABm3lhS99X4bAAAAABJRU5ErkJggg==" alt="">ファイルをUP</button>
                 </div>
                 <select id="common-select"><option value="">-- 保存済みファイルを選択 --</option></select>
