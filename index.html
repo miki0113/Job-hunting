@@ -25,13 +25,13 @@
         .memo-section { border: 1px dashed #bbb; padding: 15px; margin-bottom: 30px; border-radius: 4px; }
         .memo-section ul { padding-left: 20px; margin: 5px 0; list-style-type: "・"; }
         
-        /* 同期セクション：元通りの綺麗なボタンデザインを復元 */
+        /* 同期セクション */
         .sync-section { border-top: 2px solid #333; padding-top: 20px; margin-top: 40px; text-align: center; }
         .sync-section h2 { font-size: 1.1em; margin-bottom: 20px; }
         .control-box { display: flex; flex-direction: column; align-items: center; gap: 10px; max-width: 400px; margin: auto; }
         
-        /* 元の綺麗なグレー枠の四角いボタンデザイン */
-        .control-box select, .control-box input[type="file"] { 
+        /* グレー枠の四角い幅広ボタンとプルダウンのデザイン */
+        .control-box select, .control-box button { 
             width: 100%; 
             padding: 10px; 
             border-radius: 4px; 
@@ -39,9 +39,17 @@
             cursor: pointer;
             box-sizing: border-box;
             background-color: #fff;
-            font-size: 0.9em;
+            font-size: 0.95em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: #333;
         }
-        .control-box input[type="file"] {
+        /* 削除ボタンのデザイン */
+        .control-box .delete-btn { 
+            color: #d32f2f; 
+            border-color: #ffcdd2; 
             background-color: #fff;
         }
     </style>
@@ -129,9 +137,15 @@
         <div class="sync-section">
             <h2>■ 提出書類 同期（履歴書・職務経歴書など全形式対応）</h2>
             <div class="control-box">
-                <input type="file" id="file-input" onchange="handleUpload()">
-                <select id="common-select" onchange="handleView()">
-                    </select>
+                <button onclick="handleUpload()">📤 アップロード</button>
+                
+                <select id="common-select">
+                    <option value="">-- 保存済みファイルを選択 --</option>
+                </select>
+                
+                <button onclick="handleView()">📄 表示 / ダウンロード</button>
+                
+                <button class="delete-btn" onclick="handleDelete()">🗑️ 削除</button>
             </div>
         </div>
     </div>
@@ -169,23 +183,39 @@
             }
         }
 
+        // 画面上には出さない「不可視のinput」を動的に生成し、PCのファイル選択画面を開く仕組み
         async function handleUpload() {
-            const input = document.getElementById('file-input');
-            if (!input.files[0]) return;
-            const formData = new FormData();
-            formData.append('file', input.files[0]);
-            try {
-                await fetch('/api/upload', { method: 'POST', body: formData });
-                input.value = ''; 
-                await loadFileList(); 
-            } catch (e) {
-                alert('アップロードに失敗しました');
-            }
+            const tempInput = document.createElement('input');
+            tempInput.type = 'file';
+            tempInput.onchange = async () => {
+                if (!tempInput.files[0]) return;
+                const formData = new FormData();
+                formData.append('file', tempInput.files[0]);
+                try {
+                    await fetch('/api/upload', { method: 'POST', body: formData });
+                    await loadFileList(); // 完了後にリストを再読み込み
+                } catch (e) {
+                    alert('アップロードに失敗しました');
+                }
+            };
+            tempInput.click(); // これでPCのエクスプローラー等が開きます
         }
 
         function handleView() {
             const name = document.getElementById('common-select').value;
-            if (name) openFile(name);
+            if (!name) return alert('ファイルを選択してください');
+            openFile(name);
+        }
+
+        async function handleDelete() {
+            const name = document.getElementById('common-select').value;
+            if (!name || !confirm('消しますか？')) return;
+            try {
+                await fetch('/api/files/' + encodeURIComponent(name), { method: 'DELETE' });
+                await loadFileList();
+            } catch (e) {
+                alert('削除に失敗しました');
+            }
         }
 
         loadFileList();
