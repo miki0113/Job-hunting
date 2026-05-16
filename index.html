@@ -45,11 +45,23 @@
             gap: 8px;
             color: #333;
         }
+        /* 削除ボタンを赤枠・赤文字のデザインに統一 */
         .control-box .delete-btn { 
             color: #d32f2f; 
             border-color: #ffcdd2; 
             background-color: #fff;
+            font-weight: bold;
         }
+
+        /* 【ここを追加】ボタンの下に出るメッセージの見た目 */
+        .status-message {
+            font-size: 1em;
+            font-weight: bold;
+            margin-top: 5px;
+            display: none; /* 最初は隠しておく */
+        }
+        .status-message.success { color: #00cc00; } /* 緑文字 */
+        .status-message.error { color: #ff0000; }   /* 赤文字 */
     </style>
 </head>
 <body>
@@ -135,7 +147,7 @@
         <div class="sync-section">
             <h2>■ 提出書類 同期（履歴書・職務経歴書など全形式対応）</h2>
             <div class="control-box">
-                <button onclick="handleUpload()">📤 アップロード</button>
+                <button onclick="handleUpload()">📥 アップロード</button>
                 
                 <select id="common-select">
                     <option value="">-- 保存済みファイルを選択 --</option>
@@ -143,7 +155,9 @@
                 
                 <button onclick="handleView()">📥 表示 / ダウンロード</button>
                 
-                <button class="delete-btn" onclick="handleDelete()">🗑️ 削除</button>
+                <button class="delete-btn" onclick="handleDelete()">🗑️ このファイルを完全に消す</button>
+
+                <div id="status-msg" class="status-message"></div>
             </div>
         </div>
     </div>
@@ -181,7 +195,20 @@
             }
         }
 
-        // 【ここを100%確実に修正】サーバーの応答テキスト（Uploaded）を正しく判定して、アラートが出るように直しました
+        // メッセージを表示する補助関数
+        function showMessage(text, isSuccess) {
+            const msgEl = document.getElementById('status-msg');
+            msgEl.textContent = text;
+            msgEl.className = 'status-message ' + (isSuccess ? 'success' : 'error');
+            msgEl.style.display = 'block';
+            
+            // 5秒後に自動で消す
+            setTimeout(() => {
+                msgEl.style.display = 'none';
+            }, 5000);
+        }
+
+        // アップロード処理（ボタンの下に「✅ UP成功！」を出すように再現）
         async function handleUpload() {
             const tempInput = document.createElement('input');
             tempInput.type = 'file';
@@ -192,41 +219,16 @@
                 try {
                     const res = await fetch('/api/upload', { method: 'POST', body: formData });
                     if (res.ok) {
-                        alert('アップロードに成功しました');
+                        showMessage('✅ UP成功！', true);
                         await loadFileList(); 
                     } else {
-                        alert('アップロードに失敗しました');
+                        showMessage('❌ UP失敗…', false);
                     }
                 } catch (e) {
-                    alert('アップロードに失敗しました');
+                    showMessage('❌ UP失敗…', false);
                 }
             };
             tempInput.click(); 
         }
 
-        function handleView() {
-            const name = document.getElementById('common-select').value;
-            if (!name) return alert('ファイルを選択してください');
-            openFile(name);
-        }
-
-        async function handleDelete() {
-            const name = document.getElementById('common-select').value;
-            if (!name || !confirm('消しますか？')) return;
-            try {
-                const res = await fetch('/api/files/' + encodeURIComponent(name), { method: 'DELETE' });
-                if (res.ok) {
-                    alert('削除しました');
-                    await loadFileList();
-                } else {
-                    alert('削除に失敗しました');
-                }
-            } catch (e) {
-                alert('削除に失敗しました');
-            }
-        }
-
-        loadFileList();
-    </script>
-</body>
-</html>
+        function handleView
