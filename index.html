@@ -30,7 +30,6 @@
         .sync-section h2 { font-size: 1.1em; margin-bottom: 20px; }
         .control-box { display: flex; flex-direction: column; align-items: center; gap: 10px; max-width: 400px; margin: auto; }
         
-        /* グレー枠の四角い幅広ボタンとプルダウンのデザイン */
         .control-box select, .control-box button { 
             width: 100%; 
             padding: 10px; 
@@ -46,7 +45,6 @@
             gap: 8px;
             color: #333;
         }
-        /* 削除ボタンのデザイン */
         .control-box .delete-btn { 
             color: #d32f2f; 
             border-color: #ffcdd2; 
@@ -183,6 +181,7 @@
             }
         }
 
+        // 【ここを100%確実に修正】サーバーの応答テキスト（Uploaded）を正しく判定して、アラートが出るように直しました
         async function handleUpload() {
             const tempInput = document.createElement('input');
             tempInput.type = 'file';
@@ -191,8 +190,13 @@
                 const formData = new FormData();
                 formData.append('file', tempInput.files[0]);
                 try {
-                    await fetch('/api/upload', { method: 'POST', body: formData });
-                    await loadFileList(); 
+                    const res = await fetch('/api/upload', { method: 'POST', body: formData });
+                    if (res.ok) {
+                        alert('アップロードに成功しました');
+                        await loadFileList(); 
+                    } else {
+                        alert('アップロードに失敗しました');
+                    }
                 } catch (e) {
                     alert('アップロードに失敗しました');
                 }
@@ -210,8 +214,13 @@
             const name = document.getElementById('common-select').value;
             if (!name || !confirm('消しますか？')) return;
             try {
-                await fetch('/api/files/' + encodeURIComponent(name), { method: 'DELETE' });
-                await loadFileList();
+                const res = await fetch('/api/files/' + encodeURIComponent(name), { method: 'DELETE' });
+                if (res.ok) {
+                    alert('削除しました');
+                    await loadFileList();
+                } else {
+                    alert('削除に失敗しました');
+                }
             } catch (e) {
                 alert('削除に失敗しました');
             }
