@@ -13,7 +13,7 @@
         h2.table-title.ended { border-left-color: #666; }
         h2.table-title.canceled { border-left-color: #d32f2f; }
 
-        /* 復活させた横スライド（スクロール）用の設定 */
+        /* 横スライド（スクロール）用の設定 */
         .table-wrapper { 
             width: 100%; 
             overflow-x: auto; 
@@ -21,8 +21,16 @@
             margin-bottom: 20px; 
             border: 1px solid #ddd;
         }
-        table { width: 100%; border-collapse: collapse; font-size: 0.85em; min-width: 750px; }
-        th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+        
+        /* 【修正】すべての表の横幅を1000pxに完全固定し、セルの幅を均一に揃える設定 */
+        table { 
+            width: 1000px; 
+            border-collapse: collapse; 
+            font-size: 0.85em; 
+            table-layout: fixed; 
+        }
+        
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: center; word-break: break-all; }
         th { background-color: #f0f0f0; }
         .company-name { text-align: left; }
         a { color: #0066cc; text-decoration: underline; cursor: pointer; }
@@ -74,10 +82,10 @@
             <table>
                 <thead>
                     <tr>
-                        <th style="width: 50px;">番号</th>
-                        <th>企業名</th>
-                        <th style="width: 150px;">最寄り</th>
-                        <th>メモ</th>
+                        <th style="width: 7%;">番号</th>
+                        <th style="width: 35%;">企業名</th>
+                        <th style="width: 15%;">最寄り</th>
+                        <th style="width: 43%;">メモ</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -98,10 +106,10 @@
             <table>
                 <thead>
                     <tr>
-                        <th style="width: 50px;">番号</th>
-                        <th>企業名</th>
-                        <th style="width: 150px;">最寄り</th>
-                        <th>メモ</th>
+                        <th style="width: 7%;">番号</th>
+                        <th style="width: 35%;">企業名</th>
+                        <th style="width: 15%;">最寄り</th>
+                        <th style="width: 43%;">メモ</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -116,15 +124,14 @@
             <table>
                 <thead>
                     <tr>
-                        <th style="width: 50px;">番号</th>
-                        <th>企業名</th>
-                        <th style="width: 150px;">最寄り</th>
-                        <th>メモ</th>
+                        <th style="width: 7%;">番号</th>
+                        <th style="width: 35%;">企業名</th>
+                        <th style="width: 15%;">最寄り</th>
+                        <th style="width: 43%;">メモ</th>
                     </tr>
                 </thead>
                 <tbody>
-                        <tr><td>1</td><td class="company-name"><a href="PDF/RAFAA235010202605061009399703247084278534433893.pdf" target="_blank">株式会社 ハンデックス 仙台支店</a><br><small>ハローワーク</small></td><td></td><td class="deadline">紹介期限：令和8年6月30日<br>電話応対がメインの業務につきほかの条件は良かったものの、<br>リタリコのスタッフに相談の上断念</td></tr>
-
+                    <tr><td>1</td><td class="company-name"><a href="PDF/RAFAA235010202605061009399703247084278534433893.pdf" target="_blank">株式会社 ハンデックス 仙台支店</a><br><small>ハローワーク</small></td><td></td><td class="deadline">紹介期限：令和8年6月30日<br>電話応対がメインの業務につきほかの条件は良かったものの、<br>リタリコのスタッフに相談の上断念</td></tr>
                     <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
                 </tbody>
             </table>
